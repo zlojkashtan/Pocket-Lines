@@ -30,7 +30,7 @@
 
 					<ul ng-hide="buscar.texto.length > 0">
 
-						<li ng-repeat="reciente in recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}');" ng-class="{paradaVistas: (reciente.isTIB === true)}">
+						<li ng-repeat="reciente in recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}', reciente);" ng-class="{paradaVistas: (reciente.isTIB === true)}">
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{reciente.id}}</span>
 							<p class="nombre-parada">{{reciente.nombre}}</p>

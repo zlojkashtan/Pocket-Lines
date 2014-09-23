@@ -1,3 +1,15 @@
+//=================================================================
+//
+//	██████╗  ██████╗ ███╗   ██╗██████╗  █████╗    ███████╗███████╗
+//	██╔══██╗██╔═══██╗████╗  ██║██╔══██╗██╔══██╗   ██╔════╝██╔════╝
+//	██████╔╝██║   ██║██╔██╗ ██║██║  ██║███████║   █████╗  ███████╗
+//	██╔══██╗██║   ██║██║╚██╗██║██║  ██║██╔══██║   ██╔══╝  ╚════██║
+//	██████╔╝╚██████╔╝██║ ╚████║██████╔╝██║  ██║██╗███████╗███████║
+//	╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝
+//
+//	http://bonda.es - FROM MALLORCA WITH LOVE
+//=================================================================
+
 angular.module('PL.controllers', []);
 angular.module('PL.controllers')
 
@@ -55,22 +67,6 @@ angular.module('PL.controllers')
 			}
 		});
 	});
-
-	// Function ontimeout, para el contador de segundos
-	// de última parada vista.
-	//=================================================
-	/*
-	$scope.onTimeout = function(){
-		$scope.counter++;
-		mytimeout = $timeout($scope.onTimeout,1000);
-	};
-
-	var mytimeout = $timeout($scope.onTimeout,1000);
-
-	$scope.stop = function(){
-		$timeout.cancel(mytimeout);
-	};
- //*/
 
 	// Check de publicidad inicial
 	//=================================================
@@ -180,6 +176,7 @@ angular.module('PL.controllers')
 
 		}
 
+		// Reset estados
 		$scope.busqueda = true;
 		$scope.respuesta = false;
 		$scope.verMapa = false;

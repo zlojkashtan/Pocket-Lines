@@ -1654,6 +1654,7 @@ angular.module('PL.factories', [])
 		return colores[parseInt(text)];
 	}
 })
+
 .filter('diaSiguiente', function(){
 	return function(text){
 
@@ -1738,7 +1739,7 @@ angular.module('PL.factories', [])
 
 .filter('estimacionTIB', function($rootScope){
 	return function(text){
-
+		console.log(text);
 		var today = new Date();
 		var festivo, last, hora = "";
 		if($rootScope.server && ($rootScope.server.es_festivo == 1)){ festivo = true; }else{ festivo = false; }
@@ -1761,32 +1762,41 @@ angular.module('PL.factories', [])
 				frecuencia = parseInt(text.frecuencia);
 			}
 		}
+
 		h = hora.split(":");
 		d = new Date( today.getFullYear(), today.getMonth(), today.getDate(), h[0], h[1], '00'); // Hora del primer Tren
 
 		hLast = horaLast.split(":");
-
 		// Si la hora pertenece a la madrugada, ponemos un dia mas en  la variable 'dia'
-		if (hLast[0] < "05"){
-			var dia = today.getDate() +1;
-		}else{
-			var dia = today.getDate();
-		}
-
+		if (hLast[0] < "05"){ var dia = today.getDate() +1; }else{ var dia = today.getDate(); }
 		dLast = new Date( today.getFullYear(), today.getMonth(), dia, hLast[0], hLast[1], '00'); // Fecha del ultmio tren
 
-		for (i = d; i <= today; i.setMinutes(i.getMinutes() + frecuencia)) {
+		
+		//Si ahora es de madrugada, se resta un dia al primer tren, y al último tren
+		if(today.getHours() < "05"){
+			d.setDate(d.getDate() - 1);
+			dLast.setDate(dLast.getDate() - 1);
+		}
+
+		last = 0; // <- Puntero necesario en caso de que no haya bucle
+		//Cálculo del siguiente tren desde el primero hasta llegar al último
+		console.log("primero",d);
+		console.log("now",today);
+		console.log("last",dLast);
+
+		for (i = d; ((i <= today)&&(today<=dLast)); i.setMinutes(i.getMinutes() + frecuencia)) {
 			last = i;
 		}
 
 		d = new Date( today.getFullYear(), today.getMonth(), today.getDate(), h[0], h[1], '00'); //Restauramos la variable 'd' para tener el primer tren
 		/* SE MODIFICA EN El BUCLE(punteros) */
 
-		// Tren mayor que el ultimo y menor que el primero
-		if (dLast < last || last < d) {
+		// No ha entrado en bucle porque no hay trenes a esa hora
+		if (last == 0) { 
 			prev = "Sin tráfico hasta las "+ hora;
 		}else{
 			//next = next.getHours()+":"+next.getMinutes();
+			// Resta un tren para calcular la última salida
 			last.setMinutes(last.getMinutes() - frecuencia);
 			prev = last;
 			prev = "Última salida de "+text.nombre+": " + prev.getHours()+":"+(prev.getMinutes()<10?'0':'') + prev.getMinutes();
