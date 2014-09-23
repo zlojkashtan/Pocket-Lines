@@ -17,7 +17,7 @@ angular.module('PL.controllers')
 // Gestiona la llamada de API para mostrar los 
 // avisos de la EMT en tiempo real
 //=================================================
-.controller('Avisos', function($scope, $rootScope, $ionicPlatform, $ionicViewService, InfoItinerario){
+.controller('Avisos', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, InfoItinerario){
 
 	// Backbutton a home
 	//=================================================

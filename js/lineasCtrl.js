@@ -17,7 +17,7 @@ angular.module('PL.controllers')
 // Muestra un listado de todas las lineas de la EMT
 // y muestra el itinerario e info de la linea on click
 //=================================================
-.controller('Lineas', function($scope, $rootScope, $ionicPlatform, EMT){
+.controller('Lineas', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, EMT){
 	$scope.lineas = EMT.lineas;
 	$scope.empresa = "emt";
 
@@ -32,7 +32,7 @@ angular.module('PL.controllers')
 	}
 })
 
-.controller('Linea', function($scope, $rootScope, $stateParams, $ionicPlatform, EMT, InfoItinerario){
+.controller('Linea', function($scope, $rootScope, $stateParams, $ionicPlatform, $state, $ionicViewService, EMT, InfoItinerario){
 
 
 	// Backbutton a home
