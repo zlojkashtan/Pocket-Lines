@@ -1,0 +1,56 @@
+<ion-view title="Paradas cercanas">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas cercanas</h1>
+		<a href="#/favoritos" class="button icon ion-android-star"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="false" overflow-scroll="true" scroll="false">
+
+		<div class="card alerta-zoom" ng-if="detalles.marcadores">
+			<div class="item item-text-wrap item-icon-right">
+				Las paradas se ocultan cuando alejas el mapa, para que puedas ver mejor.
+				<i class="icon ion-qr-scanner"></i>
+			</div>
+		</div>
+
+		<div class="card alerta-zoom" ng-if="detalles.noGeo" ng-click="detalles.noGeo = false">
+			<div class="item item-text-wrap item-icon-right">
+				Parece que no podemos detectar donde estás. Quizás tienes el GPS desactivado
+				<i class="icon ion-location"></i>
+				<p style="font-size: 13px; color: #7C7C7C; border-top: 1px solid rgb(228, 228, 228); margin-top: 5px; padding-top: 5px;">Toca para ocultar</p>
+			</div>
+		</div>
+
+		<div ng-if="!map" class="msg">
+			<i class="ion ion-map"></i>
+			<h1>Un momento</h1>
+			<p>Estamos cargando el mapa de paradas</p>
+		</div>
+
+		<div id="map" data-tap-disabled="true"></div>
+
+
+		<div class="mapa-detalles" ng-if="detalles.abierto">
+			<div class="card about-contact">
+				<div class="item item-text-wrap">
+					<span class="numero">{{detalles.numeroParada}}<i class="icon ion-location"></i></span>
+					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px; font-size: 18px;">{{detalles.nombreParada}}</p>
+					<p><span ng-repeat="linea in detalles.lineas" style="background-color: {{color(linea)}};" class="linea">{{linea}}</span></p>
+					<div class="row">
+						<div class="col" style="padding-left: 0;"><a href="#/parada/{{detalles.numeroParada}}" class="button button-block button-small button-positive" style="margin-top: 3px;">Consultar parada</a></div>
+						<div class="col" style="padding-rigth: 0;"><button class="button button-block button-small button-dark" ng-click="detalles.abierto = false" style="margin-top: 3px;">Cerrar</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,261 @@
+<ion-view title="Pocket Lines">
+
+	<ion-nav-buttons side="right">
+		<a href="#/favoritos" class="button icon ion-android-star"></a>
+	</ion-nav-buttons>
+
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">EMT Palma</h1>
+		<a href="#/favoritos" class="button icon ion-android-star"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+		<form name="formQueNoSirveParaNadaMasQueUnNgSubmit" ng-submit="buscarParada(false)">
+		<div class="card buscador-header">
+			<div class="item item-text-wrap item-icon-right" ng-class="{offline: appOffline}">
+				<i class="icon ion-search" ng-if="buscar.texto.length === 0"></i>
+				<input id="inputBusqueda" type="text" placeholder="Buscar número o nombre de parada" ng-model="buscar.texto" ng-change="resetBusqueda('input')" ng-if="!appOffline" />
+				<span ng-if="appOffline">No tienes internet</span>
+				<i class="icon ion-close-round" ng-if="buscar.texto.length > 0" ng-click="resetBusqueda('cross')"></i>
+			</div>
+		</div>
+		</form>
+
+		<div ng-if="!appOffline" style="padding-bottom: 20px;">
+			<div class="card buscador-sugerencias" ng-hide="busqueda">
+				<div class="item item-text-wrap">
+
+					<ul ng-hide="buscar.texto.length > 0">
+
+						<li ng-repeat="reciente in recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}');" ng-class="{paradaVistas: (reciente.isTIB === true)}">
+							<i class="icon ion-location"></i>
+							<span class="num-parada">{{reciente.id}}</span>
+							<p class="nombre-parada">{{reciente.nombre}}</p>
+							<span class="vistas-parada" ng-if="reciente.isTIB" style="color: #A55050;">Transporte TIB</span>
+						</li>
+
+						<li ng-if="recientes.length === 0" class="aviso">
+							<span>Empieza a buscar una parada escribiendo el nombre de la calle en la que se encuentra</span>
+						</li>
+
+					</ul>
+
+					<ul ng-hide="buscar.texto.length === 0">
+						<li class="item-icon-right" style="position:relative;" ng-repeat="parada in paradas | buscar:buscar.texto | orderBy:'clicks':true | limitTo: 7" ng-click="buscarParada('{{parada.id}}', parada);" ng-class="{paradaVistas: ((parada.clicks >= 1) || parada.isTIB === true)}">
+							<i class="icon ion-location"></i>
+							<span class="num-parada">{{parada.id}}</span>
+							<p class="nombre-parada">{{parada.nombre}}</p>
+							<span class="vistas-parada" ng-if="parada.clicks >= 1">Parada vista {{parada.clicks}} veces</span>
+							<span class="vistas-parada" ng-if="parada.isTIB" style="color: #A55050;">Transporte TIB</span>
+						</li>
+					</ul>
+
+					<ul ng-if="(((paradas | buscar:buscar.texto).length) === 0)">
+						<li class="item-icon-right" style="position:relative;">
+							<span class="assertive">No hay paradas por <strong>{{buscar.texto}}</strong></span>
+						</li>
+						<li class="item-icon-right ver-cercanas">
+							<a href="#/cercanas">Toca para ver paradas cercanas a tí</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="card extras" ng-if="busqueda && respuesta" style="margin-top: -2px; margin-top: 10px;">
+				<div class="item item-text-wrap row">
+
+					<div class="col extra-num-parada">
+						<i class="icon ion-location"></i>
+						<span class="num-parada">{{infoParada.id}}</span>
+					</div>
+
+					<div class="col extra-mapa" ng-click="mostrarMapa()">
+						<i class="icon ion-map"></i>
+					</div>
+
+					<div class="col extra-favoritos">
+						<div class="seccion-favoritos add-favoritos" ng-click="addFavorito()">
+							<span ng-if="!paradaFav"><i class="icon ion-android-star"></i></span>
+							<span ng-if="paradaFav"><i class="icon ion-android-star favorito"></i></span>
+						</div>
+					</div>
+
+					<div class="col extra-mapa" ng-click="alarma()">
+						<i class="icon ion-ios7-bell"></i>
+					</div>
+
+					<div class="col extra-alarma" ng-click="buscarParada()" ng-if="!isTIB">
+						<i class="icon ion-looping"></i>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="card extra-mapa" ng-if="verMapa">
+				<div class="item item-text-wrap">
+					<i class="icon ion-loading-c"></i>
+					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">Situación en el mapa</p>
+					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{infoParada.lat}},{{infoParada.lng}}&markers=color:blue%7Clabel:*%7C{{infoParada.lat}},{{infoParada.lng}}&zoom=16&sensor=true&size=600x300&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI" />
+				</div>
+			</div>
+
+			<div ng-if="error" class="msg">
+				<i class="ion ion-link"></i>
+				<!-- <h1>Vaya</h1> -->
+				<p>Lo sentimos, pero no ha sido posible establecer una conexión con la EMT en este momento.</p><p><button class="button button-block button-positive" ng-click="buscarParada()">Reintentar</button><a class="button button-block button-positive" href="tel:{{num_taxi}}" style="display:none;">Llama a un Taxi</a></p>
+			</div>
+
+			<div ng-if="respuesta.estimaciones.length === 0" class="msg">
+				<i class="ion ion-sad"></i>
+				<h1>Aquí no hay nadie</h1>
+				<p>Parece que en este momento no hay ningún bus disponible para esta parada <a class="button button-block button-positive" href="tel:{{num_taxi}}" style="display:none;">Puede que quieras llamar a un Taxi</a></p>
+			</div>
+
+			<div ng-repeat="linea in respuesta.estimaciones" ng-if="busqueda" class="card buscador-resultados">
+				<div class="item item-text-wrap">
+					<ul>
+						<li class="item-icon-right" style="position:relative;" ng-click="detalles(linea.vh_first.destino)">
+							<div class="num-linea" style="background-color: #{{linea.color}}; ">{{linea.line}}</div>
+							<h2>{{linea.vh_first.destino}}</h2>
+							<i class="ion ion-flag avisos-linea-icon" ng-hide="numIncidencias(linea.line) <= 0"></i>
+						</li>
+						<li class="item-icon-right" ng-click="detalles(linea.vh_first.destino)">
+							<span class="primer-bus" ng-class="{llegando: (linea.vh_first.seconds < 60 )}">Próximo: {{linea.vh_first.seconds | tiempoParada}} </span>
+							<span class="segundo-bus">Siguiente: {{linea.vh_second.seconds | tiempoParada}} </span>
+						</li>
+						<li class="detalles-linea" ng-if="detalls===true" ng-click="detalles(linea.vh_first.destino)">
+							<i class="icon ion-clock"></i> {{infoLinea}}
+						</li>
+						<li class="avisos-linea" ng-if="detalls===true && numIncidencias(linea.line) > 0" ng-click="verAvisos(linea.line)">
+							<i class="icon ion-alert"></i> Esta línea tiene {{numIncidencias(linea.line)}} avisos abiertos.
+						</li>
+						<li class="itinerario-linea" ng-if="detalls===true">
+							<a href="#/linea/{{linea.line}}"><i class="icon ion-map"></i> Ver itinerario línea {{linea.line}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div ng-if="isTIB">
+
+				<div class="card buscador-resultados" ng-repeat="linea in infoLineas">
+					<div class="item item-text-wrap">
+						<ul>
+							<li class="item-icon-right" style="position:relative;" ng-click="detalles()">
+								<div class="num-linea" style="background-color: {{linea.color}}; ">{{(linea.id).substring(0, linea.id.length - 1)}}</div>
+								<h2>{{(linea.id).substring(0, linea.id.length - 1)}} <i class="ion-arrow-right-c"></i> {{linea.destino}}</h2>
+							</li>
+							<li class="item-icon-right" ng-click="detalles()">
+								<span class="primer-bus">{{linea | estimacionTIB:linea.nombre}} </span>
+
+							</li>
+							<li class="detalles-linea" ng-if="detalls===true" ng-click="detalles(linea.vh_first.destino)">
+								<span class="segundo-bus"><i class="icon ion-clock"></i> Frecuencia de {{linea.frecuencia}}min</span>
+							</li>
+							<li class="itinerario-linea" ng-if="detalls===true">
+								<a href="#/tib_tren_linea/{{(linea.id).substring(0, linea.id.length - 1)}}"><i class="icon ion-map"></i> Ver itinerario línea {{(linea.id).substring(0, linea.id.length - 1)}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="respuesta && publicidad.parada">
+				<div class="card publicidad linea" ng-repeat="publicidad in publicidad.parada">
+					<div class="item item-text-wrap">
+						<i class="icon ion-loading-c"></i>
+						<a href="#/publicidad/{{publicidad.id}}"><img ng-src="{{publicidad.img}}"></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="card publicidad" ng-if="publicidad.home && (buscar.texto.length <= 0) && (!busqueda) && (version >= server.version)">
+				<div class="item item-text-wrap">
+					<i class="icon ion-loading-c"></i>
+					<a href="#/publicidad/{{publicidad.home.id}}"><img ng-src="{{publicidad.home.img}}"></a>
+				</div>
+			</div>
+
+			<div ng-if="(buscar.texto.length <= 0) && (!busqueda)" class="msg msg-feedback" style="text-align: left; padding-top: 20px;">
+				<a href="#/about/contacto">
+					<h6 style="display: inline-block; font-size: 16px; margin: 0;">Beta</h6>
+					<i class="ion ion-settings" style="font-size: 15px;"></i>
+					<p>Ayuda a mejorar la aplicación con tus ideas!</p>
+				</a>
+			</div>
+
+			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda)">
+				<div class="col temperatura">{{tiempo.list[0].temp.min | number:0}}° C</div>
+				<div class="col" ng-repeat="dia in tiempo.list"><i class="c{{dia.weather[0].icon}}"></i>{{$index | diaSiguiente}}</div>
+			</div>
+
+		</div>
+
+		<div ng-if="appOffline" class="msg msg-offline">
+			<i class="ion ion-code-download"></i>
+			<h1>No estás conectado</h1>
+			<p>Activa internet en tu teléfono para poder consultar las paradas</p>
+		</div>
+
+		<div ng-if="version < server.version && buscar.texto.length <= 0" class="msg msg-offline">
+			<i class="ion ion-radio-waves"></i>
+			<h1>¡Buenas noticias!</h1>
+			<p>Hay una nueva versión ({{server.version}}) de la app disponible para descargar.</p>
+			<p><a href="market://details?id=es.bonda.pocketlines">Toca aquí para conseguir las novedades.</a></p>
+		</div>
+
+		<div style="position: absolute; bottom: 5px; width: auto; right: 5px;" ng-if="!tiempo">
+			<!-- Cargar google maps, server y el tiempo -->
+			<i class="ion ion-loading-c"></i>
+		</div>
+
+	</ion-content>
+	<!--
+	<ion-footer-bar align-title="left" class="barra-aviso bar-positive" ng-show="busqueda" ng-if="!error">
+		<h1 class="title"><i class="icon ion-ios7-alarm"></i> Establecer alarma</h1>
+		<div class="buttons" ng-click="doSomething()">
+			<button class="button" ng-click="alarma()">Nueva alarma</button>
+		</div>
+	</ion-footer-bar>
+	-->
+</ion-view>
+
+<script id="modal.html" type="text/ng-template">
+	<div class="modal modal-avisos" ng-controller="Avisos">
+		<ion-header-bar class="bar bar-header bar-royal">
+			<h1 class="title">Avisos</h1>
+			<button class="button button-clear button-primary" ng-click="modal.hide()"> </button>
+		</ion-header-bar>
+		<ion-content overflow-scroll="true">
+			<div class="padding">
+
+				<h4>Avisos abiertos línea {{linea}}</h4>
+
+				<div class="card avisos" ng-repeat="incidencia in incidencias">
+					<div class="item item-text-wrap">
+						<p class="header">{{incidencia.motivo}}</p>
+						<p>{{incidencia.texto}}</p>
+					</div>
+
+					<div class="item tabs tabs-secondary tabs-icon-left item-divider">
+						<span class="tab-item">
+							<i class="icon ion-calendar"></i>
+							{{incidencia.inicio}}
+						</span>
+						<span class="tab-item">
+							<i class="icon ion-calendar"></i>
+							{{incidencia.fin}}
+						</span>
+					</div>
+				</div>
+
+				<button class="button button-block button-dark icon ion-checkmark" ng-click="modal.hide()"> Entendido</button>
+
+			</div>
+		</ion-content>
+	</div>
+</script>

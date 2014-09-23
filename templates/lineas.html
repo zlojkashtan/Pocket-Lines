@@ -1,0 +1,30 @@
+<ion-view title="Líneas de transporte">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+		<div ng-repeat="linea in lineas" class="card lineas" ng-if="linea.nombre !== '--'">
+			<div class="item item-text-wrap" backImg="img/background.jpg">
+				<div ng-if="empresa == 'emt'">
+					<a href="#/linea/{{linea.id}}" class="nombre">{{linea.nombre}}</a>
+					<a href="#/linea/{{linea.id}}" class="num" style="background-color: {{linea.color}}">{{linea.id}}</a>
+				</div>
+				<div ng-if="empresa == 'tib'">
+					<a href="#/tib_tren_linea/{{linea.id}}" class="nombre">{{linea.nombre}}</a>
+					<a href="#/tib_tren_linea/{{linea.id}}" class="num" style="font-size:14px; background-color: {{linea.color}}">{{linea.id}}</a>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

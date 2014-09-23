@@ -1,0 +1,48 @@
+<ion-view title="Avisos abiertos">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header modal-avisos" padding="true" overflow-scroll="true">
+
+		<div class="card avisos" ng-repeat="incidencia in server.incidencias" ng-if="incidencia.texto.length > 1">
+			<div class="item item-text-wrap">
+				<p class="header">{{incidencia.motivo}}</p>
+				<p>{{incidencia.texto}}</p>
+			</div>
+
+			<div class="item tabs tabs-secondary tabs-icon-left item-divider">
+				<span class="tab-item">
+					<i class="icon ion-calendar"></i>
+					{{incidencia.inicio}}
+				</span>
+				<span class="tab-item">
+					<i class="icon ion-calendar"></i>
+					{{incidencia.fin}}
+				</span>
+			</div>
+		</div>
+
+		<div class="card about-contact" ng-if="server.incidencias.length >= 1">
+			<div class="item item-text-wrap">
+				<p class="header">Información acerca de los avisos</p>
+				<p>Los avisos proporcionados se recogen de forma automática de la página web de la <a href="javascript:void(0);" ng-click="verEMT()">EMT de Palma</a></p>
+			</div>
+		</div>
+
+		<div ng-if="!server || (server.incidencias.length < 1)" class="msg">
+			<i class="ion ion-checkmark-circled"></i>
+			<h1>Sin avisos</h1>
+			<p>Parece que no hay ningún aviso en este momento</p>
+		</div>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,113 @@
+<ion-view title="Mis paradas">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+	<div class="row tabs-lista">
+		<div class="col tab" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-star"></i> Guardadas</div>
+		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-heart"></i> Más vistas</div>
+		<div class="col tab" ng-click="tab = 2" ng-class="{'active': tab == 2}"><i class="icon ion-refresh"></i> Recientes</div>
+	</div>
+
+	<div ng-show="(tab == 0) || (tab == 10)">
+
+		<ion-list show-delete="data.showDelete" class="lista-favoritos">
+
+			<ion-item ng-repeat="item in favoritos | orderBy:'alias':false" item="item" class="item-icon-right" ng-class="{favoritoAlias: item.alias || (item.isTIB === true)}">
+				<!-- Link de Parada para favoritos EMT -->
+				<a class="item-content" href="#/parada/{{item.id}}" ng-if="!item.isTIB">
+					<span class="nombre-parada" ng-if="!item.alias">{{item.nombre}}</span>
+					<span class="nombre-parada" ng-if="item.alias">{{item.alias}}</span>
+					<span class="vistas-parada" ng-if="item.alias">{{item.nombre}}</span>
+				</a>
+
+				<!-- Link de parada para favoritos TIB -->
+				<a class="item-content" href="#/parada/{{item.id}}/tib" ng-if="item.isTIB">
+					<span class="nombre-parada" ng-if="!item.alias">{{item.nombre}}</span>
+					<span class="nombre-parada" ng-if="item.alias">{{item.alias}}</span>
+					<span class="vistas-parada" ng-if="item.alias">{{item.nombre}} <span style="color: #A55050;">TIB</span></span>
+					<span class="vistas-parada" ng-if="!item.alias"><span style="color: #A55050;">TIB</span></span>
+				</a>
+				<ion-delete-button class="ion-minus-circled" ng-click="borrarParada(item, 'favoritos')"></ion-delete-button>
+				<ion-option-button class="button-royal" ng-click="showPrompt(item)">Renombrar</ion-option-button>
+				<i class="icon ion-more" ng-click="showPrompt(item)"></i>
+			</ion-item>
+
+		</ion-list>
+
+		<div ng-if="favoritos.length === 0" class="msg">
+			<i class="ion ion-android-star"></i>
+			<h1>Nada guardado</h1>
+			<p>Añade paradas a favoritos para acceder a ellas rápidamente</p>
+		</div>
+
+	</div>
+
+	<div ng-show="tab == 1">
+
+		<div ng-if="top.length >=20" class="msg msg-top" ng-click="editarGuardar()">
+			<i class="ion ion-heart-broken"></i>
+			<h3>¿Demasiadas paradas?</h3>
+			<p>Actualmente tienes <strong>{{top.length}} registros</strong> en el listado de paradas vistas. Para evitar que la aplicación se ralentice demasiado, recomendamos que elimines algunas. </p>
+		</div>
+
+		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos">
+
+			<ion-item ng-repeat="item in top | orderBy:'clicks':true" class="item-icon-right favoritoAlias" item="item">
+				<a class="item-content" href="#/parada/{{item.id}}">
+					<span class="nombre-parada">{{item.nombre}}</span>
+					<span class="vistas-parada">Parada vista {{item.clicks}} veces</span>
+				</a>
+				<ion-delete-button class="ion-minus-circled" ng-click="borrarParada(item, 'top')"></ion-delete-button>
+				<i class="icon ion-chevron-right"></i>
+			</ion-item>
+
+		</ion-list>
+
+		<div ng-if="top.length === 0" class="msg">
+			<i class="ion ion-heart"></i>
+			<h1>Sin registros</h1>
+			<p>Aquí aparecerán las paradas que más consultes</p>
+		</div>
+	</div>
+
+	<div ng-show="tab == 2">
+		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos">
+
+			<ion-item ng-repeat="item in recientes" class="item-icon-right" item="item">
+				<a class="item-content" href="#/parada/{{item.id}}">
+					<span class="nombre-parada">{{item.nombre}}</span>
+				</a>
+				<ion-delete-button class="ion-minus-circled" ng-click="borrarParada(item, 'recientes')"></ion-delete-button>
+				<i class="icon ion-chevron-right"></i>
+			</ion-item>
+
+		</ion-list>
+
+		<div ng-if="recientes.length === 0" class="msg">
+			<i class="ion ion-refresh"></i>
+			<h1>Nada por aquí</h1>
+			<p>Parece que últimamente no has utilizado el autobús</p>
+		</div>
+	</div>
+
+	<div class="card herramientas" ng-click="editarGuardar()">
+		<div class="item item-text-wrap" style="text-align: center;">
+			<i class="icon ion-gear-a"></i> Toca para eliminar paradas
+			<span ng-show="data.showDelete"><i class="icon ion-looping"></i> Guardar cambios</span>
+		</div>
+	</div>
+
+
+	</ion-content>
+</ion-view>

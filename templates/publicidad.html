@@ -1,0 +1,50 @@
+<ion-view title="Destacados">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+		<div class="list card publi">
+
+			<div class="item item-avatar">
+				<img src="mcfly.jpg">
+				<h2>{{data.anunciante}}</h2>
+				<p>{{data.dir_anunciante}}</p>
+			</div>
+
+			<div class="item item-body">
+				<div class="header-img">
+					<img src="img/fira.jpg">
+				</div>
+				<p ng-bind-html="data.texto">
+				</p>
+			</div>
+
+			<div class="item tabs tabs-secondary tabs-icon-left">
+		    <a class="tab-item" ng-click="verWeb()">
+		      <i class="icon ion-android-earth"></i>
+		      Ver Web
+		    </a>
+		    <a class="tab-item" href="tel:{{data.telefono}}">
+		      <i class="icon ion-ios7-telephone"></i>
+		      Llamar
+		    </a>
+		    <a class="tab-item" ng-click="share()">
+		      <i class="icon ion-share"></i>
+		      Compartir
+		    </a>
+		  </div>
+
+		</div>
+
+	</ion-content>
+</ion-view>

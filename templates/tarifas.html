@@ -1,0 +1,105 @@
+<ion-view title="Acerca de la app">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+	<div class="row tabs-lista">
+				<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-card"></i> Tarifas</div>
+		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-clipboard"></i> Normativas</div>
+	</div>
+
+	<div ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px;">
+
+		<div class="msg msg-tarifas">
+			<h3>Tarifas habituales</h3>
+			<p>Tarifas habituales para todas las líneas de bús excepto líneas <span style="background-color: {{'1' | colorLinea}};" class="linea">1</span><span style="background-color: {{'21' | colorLinea}};" class="linea">21</span><span style="background-color: {{'41' | colorLinea}};" class="linea">41</span><span style="background-color: {{'52' | colorLinea}};" class="linea">52</span></p>
+		</div>
+
+
+		<div class="card herramientas">
+			<div class="item item-text-wrap">
+
+				<div class="tarifa"><div class="precio">1.50 €</div><div class="nombre">Billete sencillo</div></div>
+
+				<div class="tarifa"><div class="precio">Gratuito</div><div class="nombre">Menores de 5 años</div></div>
+				<div class="tarifa"><div class="precio">Gratuito</div><div class="nombre">Carnet Gran A residentes con tarjeta</div></div>
+				<div class="tarifa"><div class="precio">0.30 €</div><div class="nombre">Carnet Gran B y verd residentes con tarjeta</div></div>
+				<div class="tarifa"><div class="precio">0.30 €</div><div class="nombre">Familia numerosa residente con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">0.30 €</div><div class="nombre">Menores entre 5 y 16 años residentes con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">0.45 €</div><div class="nombre">Estudiantes y universitarios residentes con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">0.80 €</div><div class="nombre">Residentes con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">1.15 €</div><div class="nombre">No residentes con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">10.00 €</div><div class="nombre">Tarjeta turística 10 viajes no recargable</div></div>
+				
+				<div class="tarifa"><div class="precio">13.00 €</div><div class="nombre">T/20 viajes / 30 días</div></div>
+				<div class="tarifa"><div class="precio">29.00 €</div><div class="nombre">T/50 viajes / 30 días</div></div>
+				<div class="tarifa"><div class="precio">7.00 €</div><div class="nombre">T/Viajes ilimitados 30 días menores de 17 años</div></div>
+				<div class="tarifa"><div class="precio">7.00 €</div><div class="nombre">T/Viajes ilimitados 30 días pensionistas</div></div>
+				<div class="tarifa"><div class="precio">10.00 €</div><div class="nombre">T/Viajes ilimitados 30 días familia numerosa</div></div>
+				<div class="tarifa"><div class="precio">20.00 €</div><div class="nombre">T/viajes ilimitados / 30 días para estudiantes y universitarios residentes</div></div>
+				<div class="tarifa"><div class="precio">37.00 €</div><div class="nombre">T/viajes ilimitados / 30 días</div></div>
+				
+				<div class="tarifa" style="display:none;"><div class="precio">5.00 €</div><div class="nombre">RECARGA MÍNIMA MONEDERO TARJETA CIUDADANA</div></div>
+				<div class="tarifa nota"><div class="precio">Nota</div><div class="nombre">1 trasbordo gratuito con tarjeta ciudadana entre líneas urbanas diferentes, hasta 90 minutos después de la 1ª validación. Si su destino final es el aeropuerto, antes de aproximar la tarjeta pulse el 2 en la validadora de la 1ª línea.</div></div>
+			</div>
+		</div>
+		
+
+
+		<div class="msg msg-tarifas">
+			<h3>Tarifas Especiales</h3>
+			<p>Tarifas especiales para las líneas <span style="background-color: {{'1' | colorLinea}};" class="linea">1</span><span style="background-color: {{'21' | colorLinea}};" class="linea">21</span></p>
+		</div>
+
+		<div class="card herramientas">
+			<div class="item item-text-wrap">
+
+				<div class="tarifa"><div class="precio">3.00 €</div><div class="nombre">Billete sencillo</div></div>
+				<div class="tarifa"><div class="precio">Gratuito</div><div class="nombre">Menores de 5 años</div></div>
+				<div class="tarifa"><div class="precio">1.00 €</div><div class="nombre">Carnet Gran y familia numerosa con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">1.00 €</div><div class="nombre">Estudiantes y universitarios residentes con tarjeta ciudadana</div></div>
+				
+				<div class="tarifa"><div class="precio">1.50 €</div><div class="nombre">Residentes con tarjeta ciudadana</div></div>
+				<div class="tarifa"><div class="precio">37.00 €</div><div class="nombre">T/viajes ilimitados / 30 días</div></div>
+				<div class="tarifa nota"><div class="precio">Nota</div><div class="nombre">Linea con tarifa de aeropuerto. El pago del trayecto con tarjeta ciudadana da derecho a trasbordo. El resto de bonos mensuales y la tarjeta de 10 viajes no son válidos en estas líneas.</div></div>
+			</div>
+		</div>
+
+		<div class="msg msg-tarifas">
+			<h3>Tarifas Bus de Nit</h3>
+			<p>Tarifas especiales para la línea <span style="background-color: {{'41' | colorLinea}};" class="linea">41</span></p>
+		</div>
+
+		<div class="card herramientas">
+			<div class="item item-text-wrap">
+
+				<div class="tarifa"><div class="precio">1.50 €</div><div class="nombre">Billete bus de nit</div></div>
+				<div class="tarifa nota"><div class="precio">Nota</div><div class="nombre">Billete válido para toda la noche</div></div>
+			</div>
+		</div>
+
+		<div class="msg msg-tarifas">
+			<h3>Tarifas Tren turístico</h3>
+			<p>Tarifas especiales para la línea <span style="background-color: {{'52' | colorLinea}};" class="linea">52</span></p>
+		</div>
+
+		<div class="card herramientas">
+			<div class="item item-text-wrap">
+
+				<div class="tarifa"><div class="precio">4.50 €</div><div class="nombre">Billete de tren turístico</div></div>
+				<div class="tarifa nota"><div class="precio">Nota</div><div class="nombre">Precio de ida y vuelta</div></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div ng-show="tab == 1" style="margin-bottom: 20px;">
+		
+	</div>
+
+
+	</ion-content>
+</ion-view>

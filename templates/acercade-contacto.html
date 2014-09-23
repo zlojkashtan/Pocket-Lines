@@ -1,0 +1,92 @@
+<ion-view title="Acerca de la app">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+	<div class="row tabs-lista">
+		<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-contact"></i> Sobre la app</div>
+		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-paper-airplane"></i> Contacto</div>
+		<div class="col tab" ng-click="tab = 2" ng-class="{'active': tab == 2}" style="display:none;"><i class="icon ion-paper-airplane"></i> Publicidad</div>
+	</div>
+
+	<div ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px;">
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<p class="header">Acerca de Pocket Lines</p>
+				<p>Esta aplicación independiente se ha desarrollado con el objetivo de facilitar a los residentes y visitantes de Palma de Mallorca el transporte por la isla.</p>
+				<p>La aplicación se encuentra actualmente en fase Beta, y algunos de los cambios programados son la publicación en iOS, traducción a diferentes idiomas y mejoras en los sistemas actuales.</p>
+			</div>
+		</div>
+
+		<div class="card about-contact" style="display:none;">
+			<div class="item item-text-wrap">
+				<p class="header">Sobre el autor</p>
+				<p>Bonda <strong style="font-size: 12px;">- www.bonda.es -</strong> es un estudio de diseño gráfico, web y comunicación en Palma de Mallorca. En Bonda estamos interesados por el , inte</p>
+			</div>
+		</div>
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<p class="header">Horarios y versiones</p>
+				<p>Si la EMT o el TIB cambian el itinerario o los horario de alguna línea, es posible que no se vea reflejado en la aplicación hasta que se actualice mediante la tienda de aplicaciones.</p>
+				<p>Última actualización: 11 Julio 2014<br>Versión actual: 0.8 - Beta</p>
+			</div>
+		</div>
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<p class="header">Compartir</p>
+				<p>Si te gusta Pocket Lines y crees que la app puede ser útil para un amigo o familiar tuyo, comparte la aplicación con esta persona.</p>
+				<p style="text-align: center;"><button class="button button-small button-positive" style="height: 35px; width: 50%; font-size: 15px;" ng-click="compartir()"><i class="icon ion-android-share" style="padding-right: 5px;"></i> Compartir</button></p>
+			</div>
+		</div>
+
+	</div>
+
+	<div ng-show="tab == 1" style="margin-bottom: 20px;">
+		<div ng-if="!enviado">
+			<div class="card form-contacto">
+				<div class="item item-text-wrap">
+					<div class="list">
+						<form name="formContacto" novalidate >
+					  <label class="item item-input">
+					    <input type="text" name="uNombre" placeholder="Tu nombre" ng-model="nombre" required>
+					  </label>
+					  <label class="item item-input">
+					    <input type="email" name="uEmail" placeholder="Tu dirección de email" ng-model="email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+					  </label>
+					  <label class="item item-input">
+					    <textarea placeholder="Comentario" ng-model="comentario" required></textarea>
+					  </label>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<button ng-if="!enviando" ng-disabled="formContacto.$invalid" ng-click="contacto(nombre,email,comentario)" class="button button-block button-positive enviar-contacto" style="width: 97%;">Enviar</button>
+			<i ng-if="enviando" class="ion icon ion-loading-c" style=" position: absolute; right: 50%; margin-top: 10px; font-size: 17px;"></i>
+		</div>
+
+		<div ng-if="enviado" class="msg">
+			<i class="ion ion-chatboxes"></i>
+			<h1>¡Gracias!</h1>
+			<p>Tu mensaje ha sido enviado correctamente. Nos tomamos muy en serio cualquier fallo o sugerencia, y nos pondremos en contacto contigo si es necesario. </p>
+		</div>
+
+	</div>
+
+
+	</ion-content>
+</ion-view>

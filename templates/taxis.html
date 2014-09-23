@@ -1,0 +1,37 @@
+<ion-view title="Taxis">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+	<div style="margin-bottom: 20px;">
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">Empresas de Taxis en Mallorca</p>
+				<p>A continuación podrás encontrar una relación de empresas de Taxis en Palma de Mallorca separadas por zonas. Creemos que te va a ser muy útil.</p>
+			</div>
+		</div>
+
+		<div class="card about-contact" ng-repeat="taxi in taxis">
+			<div class="item item-text-wrap" style="background-color: rgba(235, 246, 150, 0.14);">
+				<p class="header" style="border: 0; padding-bottom: 0px; margin-bottom: 5px;">{{taxi.nombre}} ({{taxi.zona}})</p>
+				<p class="numero" style="padding-bottom: 0px; margin-bottom: -5px; color: #979797;">{{taxi.numero}}</p>
+				<i class="icon ion-ios7-telephone" style="position: absolute; right: 25px; top: 50%; margin-top: -12px; font-size: 25px; display:none;"></i>
+			</div>
+		</div>
+
+	</div>
+
+
+	</ion-content>
+</ion-view>

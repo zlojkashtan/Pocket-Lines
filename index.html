@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+		<title>Pocket Lines</title>
+
+		<link href="lib/css/ionic.css" rel="stylesheet">
+		<link href="css/app.css" rel="stylesheet">
+
+		<!-- ionic/angularjs scripts -->
+		<script src="lib/js/ionic.bundle.min.js"></script>
+
+		<script src="js/app.js"></script>
+		<script src="js/services.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/controllers_TIB.js"></script>
+		<script src="cordova.js"></script>
+
+	</head>
+
+	<body ng-app="starter" style="background-color: black;">
+
+		<ion-side-menus>
+			<!-- Center content -->
+			<ion-pane ion-side-menu-content edge-drag-threshold="30" style="background-color: #efefef;">
+				<ion-nav-bar class="bar-positive nav-title-slide-ios7">
+				<ion-nav-back-button class="button-icon ion-arrow-left-c"></ion-nav-back-button>
+				</ion-nav-bar>
+				<ion-nav-buttons side="left">
+					<button class="button icon ion-navicon" menu-toggle="left"></button>
+				</ion-nav-buttons>
+				<ion-nav-view animation="no-animation"></ion-nav-view> <!-- animation="slide-left-right-ios7" -->
+
+			</ion-pane>
+
+			<!-- Left menu -->
+			<ion-side-menu side="left" is-enabled="true" class="menu" ng-controller="LeftMenuCtrl">
+				<div class="bar bar-header bar-dark">
+					<h1 class="title">Pocket Lines</h1>
+				</div>
+				<ion-content class="has-header" overflow-scroll="true">
+
+					<ion-list>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/home" ng-class="{active: isItemActive('/home')}">
+							<i class="icon ion-location" style="font-size: 17px; margin-left: 3px;"></i>
+							Buscar paradas
+						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/favoritos" ng-class="{active: isItemActive('/favoritos')}">
+							<i class="icon ion-heart"></i>
+							Paradas guardadas
+						</ion-item>
+
+						<div class="item item-divider">
+							EMT PALMA
+						</div>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/cercanas" ng-class="{active: isItemActive('/cercanas')}">
+							<i class="icon ion-navigate"></i>
+							Paradas cercanas
+						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/lineas" ng-class="{active: isItemActive('/lineas')}">
+							<i class="icon ion-network"></i>
+							Informacion de líneas
+						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/tarifas">
+							<i class="icon ion-card"></i>
+							Tarifas y normativas
+						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/avisos" ng-class="{active: isItemActive('/avisos')}">
+							<i class="icon ion-flag"></i>
+							Avisos
+							<span class="badge badge-assertive">{{server.avisos}}</span>
+						</ion-item>
+
+						<div class="item item-divider">
+							TIB
+						</div>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/tib_tren_lineas" ng-class="{active: isItemActive('/tib_tren_lineas')}">
+							<i class="icon ion-merge"></i>
+								Líneas de Tren y Metro
+						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/home" style="display:none;">
+							<i class="icon ion-location"></i>
+							<s>TIB info precio billete</s>
+						</ion-item>
+
+						<div class="item item-divider">
+							TAXIS
+						</div>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/taxis" ng-class="{active: isItemActive('/taxis')}">
+							<i class="icon ion-location"></i>
+							taxis
+						</ion-item>
+
+						<div class="item item-divider">
+							ACERCA DE NOSOTROS
+						</div>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/about" ng-class="{active: isItemActive('/about')}">
+							<i class="icon ion-grid"></i>
+							Acerca de la app
+						</ion-item>
+
+					</ion-list>
+
+				</ion-content>
+			</ion-side-menu>
+
+		</ion-side-menus>
+	</body>
+</html>

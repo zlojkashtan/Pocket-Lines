@@ -1,0 +1,4 @@
+*.keystore
+*.sw*
+platforms/^.*
+sftp-config.json

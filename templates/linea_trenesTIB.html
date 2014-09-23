@@ -1,0 +1,84 @@
+<ion-view title="Itinerario" style="background-color: #efefef" hide-nav-bar="true">
+
+	<ion-content padding="false" overflow-scroll="true">
+
+		<div class="botones" style="height: 44px; position: absolute; width: 100%; overflow: hidden; font-size: 18px;  color: white; text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.5);" menu-toggle="left">
+			<i class="icon ion-navicon" style="font-size: 28px; padding-top: 9px; color: white; margin-left: -5px;"></i>
+		</div>
+		<div class="linea-header" style="padding-top: 30px;">
+			<span class="numero-linea" style="background-color: {{linea.color}};">{{linea.nombre}}</span>
+			<h2 class="nombre">{{linea.ruta}}</h2>
+		</div>
+
+		<div ng-show="verItinerario" class="row tabs-lista" style="margin-top: 45px; padding: 0 7px; margin-bottom: -10px;">
+			<div class="col tab" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-location"></i> Itinerario</div>
+			<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-android-data"></i> Horarios</div>
+		</div>
+
+		<div ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px; margin-top: 45px;" ng-if="!verItinerario">
+
+			<div ng-repeat="i in linea.itinerarios">
+
+				<h2 class="header-itinerario">Itinerario {{i.n}}</h2>
+				<div class="card itinerario"  ng-click="tab = 2">
+					<div class="item item-text-wrap" ng-repeat="d in i.i" style="padding: 0">
+						<a href="#/linea/{{idLinea}}/{{d.l}}">
+							<p ng-bind-html="d.n" style="text-align: center; font-size: 12px; padding: 10px;"></p>
+						</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div ng-if="verItinerario" ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px;">
+			<div class="card trayecto">
+				<div class="item item-text-wrap" >
+					<div ng-repeat="parada in paradas" class="detalle-parada" style="position: relative;">
+						<span class="lineaNegra"></span>
+						<span class="numero">{{parada.id}}</span>
+						<p class="nombre" style="position: absolute; top: -10px; left: 55px;">{{parada.nombre}}</p>
+						<p class="lineas" style="position: absolute; top: 15px; left: 53px;"><span ng-repeat="linea in parada.otras" ng-if="linea !== idLinea" class="lineas" style="background-color: {{color(linea)}};">{{linea}}</span></p>
+						<div style="clear:both; position: absolute; right: 0;">
+							<a href="#/parada/{{parada.id}}" class="button button-small button-light" ><i class="icon ion-navigate"></i> Consultar</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="tab == 1" style="margin-bottom: 20px;">
+			<div class="card informacion" style="margin-top: 20px;">
+				<div class="item item-text-wrap">
+
+					<h2><i class="icon ion-android-clock"></i> Horarios {{itinerario.nombre | lowercase}}</h2>
+
+					<p class="header">DIAS LABRORABLES</p>
+					<p>Primera salida de {{itinerario.nombre | lowercase}} a las {{itinerario.primero}}<br />
+					Última salida de {{itinerario.nombre | lowercase}} a las {{itinerario.ultimo}}<br />
+					Frecuencia media {{itinerario.frecuencia}} minutos</p>
+					<p class="header">SÁBADOS</p>
+					<p>Primera salida de {{itinerario.nombre | lowercase}} a las {{itinerario.primeroSab}}<br />
+					Última salida de {{itinerario.nombre | lowercase}} a las {{itinerario.ultimoSab}}<br />
+					Frecuencia media {{itinerario.frecuenciaSab}} minutos</p>
+					<p class="header">FESTIVOS</p>
+					<p>Primera salida de {{itinerario.nombre | lowercase}} a las {{itinerario.primeroFest}}<br />
+					Última salida de {{itinerario.nombre | lowercase}} a las {{itinerario.ultimoFest}}<br />
+					Frecuencia media {{itinerario.frecuenciaFest}} minutos</p>
+
+				</div>
+			</div>
+
+		</div>
+
+		<div class="card about" style="margin-bottom: 40px; display:none;">
+			<div class="item item-text-wrap">
+				<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">¿HAY ALGUN ERROR?</p>
+				<p>Si crees que hay algún error toca aquí para ponerte en contacto.</p>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>
