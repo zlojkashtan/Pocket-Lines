@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('PL.controllers')
 
 //=================================================
 // TIB tren/metro

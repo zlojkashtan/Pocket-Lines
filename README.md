@@ -1,4 +1,4 @@
-Pocket-Lines
+Pocket Lines
 ============
 
 Pocket Lines App
