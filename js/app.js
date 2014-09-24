@@ -161,6 +161,7 @@ angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
 		document.addEventListener("offline", $rootScope.onOffline, false);
 		document.addEventListener("online", $rootScope.onOnline, false);
 
+
 		if(window.cordova && window.cordova.plugins.Keyboard) {
        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -169,7 +170,7 @@ angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
+		
     // Google Maps Dynamic
     // ----------------------
     var script = document.createElement('script');

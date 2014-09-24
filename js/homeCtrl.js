@@ -51,9 +51,6 @@ angular.module('PL.controllers')
 
 	var today = new Date();
 
-
-	//$ionicNavBarDelegate.showBackButton(false);
-
 	// Aplicar clicks guardados a JSON de paradas
 	//=================================================
 	angular.forEach($scope.top, function(item){
@@ -81,6 +78,7 @@ angular.module('PL.controllers')
 
 	elTiempo.getTiempo();
 
+/*
 	if(!confirmPopup){
 		// Check de votar (cada 17 días)
 		//=================================================
@@ -151,7 +149,7 @@ angular.module('PL.controllers')
 			}
 
 		}
-	}
+	}*/
 
 	// Function buscarParada
 	// Muestra la información de una parada tras
@@ -210,12 +208,12 @@ angular.module('PL.controllers')
 				$rootScope.top = FavTop.incrementar(idParada, $scope.top, $scope.buscar.texto);
 				localstorage.setObject('top',$rootScope.top);
 
-				if(item){
-					/*
-					console.log("el item en cuestion: ", item);
-					console.log("Parada Index: ", EMT.paradas.indexOf(item));
-					console.log("Parada Object: ", EMT.paradas[EMT.paradas.indexOf(item)]);
-					*/
+				if(item && item.clicks){
+					
+					//console.log("el item en cuestion: ", item);
+					//console.log("Parada Index: ", EMT.paradas.indexOf(item));
+					//console.log("Parada Object: ", EMT.paradas[EMT.paradas.indexOf(item)]);
+					
 					EMT.paradas[EMT.paradas.indexOf(item)].clicks++;
 				}
 
@@ -272,7 +270,7 @@ angular.module('PL.controllers')
 
 		// Bind Back button a una función
 		//=================================================
-		$scope.backButton_resetBusqueda = $ionicPlatform.registerBackButtonAction( function () { console.log("ADD BACK BUTTON EVENT RESET");resetB(); }, 110 );
+		$scope.backButton_resetBusqueda = $ionicPlatform.registerBackButtonAction( function () { resetB(); }, 110 );
 		//$scope.$on('$destroy', backButton_resetBusqueda);
 
 	};
@@ -308,7 +306,6 @@ angular.module('PL.controllers')
 	};
 
 	function resetB(){
-		console.log("Reseteando!!");
 		$scope.resetBusqueda('cross',true);
 		$scope.backButton_resetBusqueda();
 	}
@@ -359,6 +356,10 @@ angular.module('PL.controllers')
 		}
 	};
 
+	$scope.verAvisos = function(idLinea){
+
+	};
+/*
 	$ionicModal.fromTemplateUrl('modal.html', function(modal) {
 		$scope.modal = modal;
 	}, {
@@ -374,7 +375,7 @@ angular.module('PL.controllers')
 	//Cleanup the modal when we're done with it!
 	$scope.$on('$destroy', function() {
 		$scope.modal.remove();
-	});
+	});*/
 
 	$scope.mostrarMapa = function(){
 		$scope.verMapa = !$scope.verMapa;
@@ -455,8 +456,6 @@ angular.module('PL.controllers')
 	};
 
 }])
-
-
 
 
 //=================================================

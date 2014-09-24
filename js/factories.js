@@ -1780,9 +1780,9 @@ angular.module('PL.factories', [])
 
 		last = 0; // <- Puntero necesario en caso de que no haya bucle
 		//Cálculo del siguiente tren desde el primero hasta llegar al último
-		console.log("primero",d);
-		console.log("now",today);
-		console.log("last",dLast);
+		//console.log("primero",d);
+		//console.log("now",today);
+		//console.log("last",dLast);
 
 		for (i = d; ((i <= today)&&(today<=dLast)); i.setMinutes(i.getMinutes() + frecuencia)) {
 			last = i;

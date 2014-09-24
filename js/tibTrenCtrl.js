@@ -13,6 +13,7 @@ angular.module('PL.controllers')
 	//=================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+			console.log("TIBTRENBACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
@@ -43,6 +44,7 @@ angular.module('PL.controllers')
 	//=================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+			console.log("TIBTRENLINEABACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );

@@ -203,6 +203,9 @@ angular.module('PL.services', [])
     },
     recientes: function(ultima, recientes){
 
+      //Break if corrupt
+      if(!ultima.nombre){return recientes;}
+
       angular.forEach(recientes, function(item){
         if(item.id === ultima.id){
           recientes.splice(recientes.indexOf(item),1);

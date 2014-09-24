@@ -25,6 +25,7 @@ angular.module('PL.controllers')
 	//=================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+			console.log("MAPABACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );

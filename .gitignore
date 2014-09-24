@@ -1,9 +1,12 @@
 *.keystore
 *.sw*
 platforms/^.*
+
 sftp-config.json
 Thumbs.db
 Icon
+
+lib_B13/^.*
 
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore

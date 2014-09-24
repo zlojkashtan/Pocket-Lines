@@ -25,6 +25,7 @@ angular.module('PL.controllers')
 	//=================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+			console.log("LINEASBACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
@@ -39,6 +40,7 @@ angular.module('PL.controllers')
 	//=================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+			console.log("LINEABACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
