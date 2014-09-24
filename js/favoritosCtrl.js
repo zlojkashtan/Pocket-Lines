@@ -14,7 +14,7 @@ angular.module('PL.controllers')
 
 //=================================================
 // Favoritos Controller
-// 
+//
 // - Paradas guardadas
 // - Más vistas
 // - Recientes
@@ -22,7 +22,7 @@ angular.module('PL.controllers')
 .controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, FavTop){
 
 	// Backbutton a home
-	//=================================================
+	//==================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
 			$ionicViewService.nextViewOptions({ disableBack: true });
@@ -32,6 +32,8 @@ angular.module('PL.controllers')
 	}
 
 	$scope.tab = 0;
+	$rootScope.tabs = true;
+	$scope.$on('$destroy', function(){$rootScope.tabs = false;});
 
 	$scope.data = {
 		showDelete: false,
@@ -39,9 +41,8 @@ angular.module('PL.controllers')
 	};
 
 	$scope.showPrompt = function(element) {
-		//console.log(index);
 		$ionicPopup.prompt({
-			title: 'Cambiar alias',
+			title: 'Cambiar aliass',
 			subTitle: 'Elije un nombre para esta parada'
 		}).then(function(res) {
 			if((res !== "") && (typeof res !== 'undefined')){

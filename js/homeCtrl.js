@@ -272,7 +272,7 @@ angular.module('PL.controllers')
 
 		// Bind Back button a una función
 		//=================================================
-		$scope.backButton_resetBusqueda = $ionicPlatform.registerBackButtonAction( function () { resetB(); }, 110 );
+		$scope.backButton_resetBusqueda = $ionicPlatform.registerBackButtonAction( function () { console.log("ADD BACK BUTTON EVENT RESET");resetB(); }, 110 );
 		//$scope.$on('$destroy', backButton_resetBusqueda);
 
 	};

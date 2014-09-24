@@ -13,15 +13,26 @@
 
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
 
-	<div class="row tabs-lista">
+	<div class="row tabs-lista" style="display:none;">
 		<div class="col tab" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-star"></i> Guardadas</div>
 		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-heart"></i> Más vistas</div>
 		<div class="col tab" ng-click="tab = 2" ng-class="{'active': tab == 2}"><i class="icon ion-refresh"></i> Recientes</div>
 	</div>
 
+	<div class="tabs-striped tabs-top tabs-background-positive tabs-light">
+    <div class="tabs">
+      <div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
+        <i class="icon ion-android-star"></i> Guardadas </div>
+      <div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
+        <i class="icon ion-heart"></i> Más visitadas </div>
+      <div class="tab-item" ng-click="tab = 2" ng-class="{'active': tab == 2}">
+        <i class="icon ion-refresh"></i> Recientes </div>
+    </div>
+  </div>
+
 	<div ng-show="(tab == 0) || (tab == 10)">
 
-		<ion-list show-delete="data.showDelete" class="lista-favoritos">
+		<ion-list show-delete="data.showDelete" class="lista-favoritos" ng-if="favoritos.length !== 0">
 
 			<ion-item ng-repeat="item in favoritos | orderBy:'alias':false" item="item" class="item-icon-right" ng-class="{favoritoAlias: item.alias || (item.isTIB === true)}">
 				<!-- Link de Parada para favoritos EMT -->
