@@ -20,15 +20,15 @@
 	</div>
 
 	<div class="tabs-striped tabs-top tabs-background-positive tabs-light">
-    <div class="tabs">
-      <div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
-        <i class="icon ion-android-star"></i> Guardadas </div>
-      <div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
-        <i class="icon ion-heart"></i> Más visitadas </div>
-      <div class="tab-item" ng-click="tab = 2" ng-class="{'active': tab == 2}">
-        <i class="icon ion-refresh"></i> Recientes </div>
-    </div>
-  </div>
+		<div class="tabs">
+			<div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
+				<i class="icon ion-android-star"></i> Guardadas </div>
+			<div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
+				<i class="icon ion-heart"></i> Más visitadas </div>
+			<div class="tab-item" ng-click="tab = 2" ng-class="{'active': tab == 2}">
+				<i class="icon ion-refresh"></i> Recientes </div>
+		</div>
+	</div>
 
 	<div ng-show="(tab == 0) || (tab == 10)">
 
@@ -72,7 +72,7 @@
 			<p>Actualmente tienes <strong>{{top.length}} registros</strong> en el listado de paradas vistas. Para evitar que la aplicación se ralentice demasiado, recomendamos que elimines algunas. </p>
 		</div>
 
-		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos">
+		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos" ng-if="top.length !== 0">
 
 			<ion-item ng-repeat="item in top | orderBy:'clicks':true" class="item-icon-right favoritoAlias" item="item">
 				<a class="item-content" href="#/parada/{{item.id}}">

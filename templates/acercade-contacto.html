@@ -14,10 +14,21 @@
 
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
 
-	<div class="row tabs-lista">
+	<div class="row tabs-lista" style="display:none;">
 		<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-contact"></i> Sobre la app</div>
 		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-paper-airplane"></i> Contacto</div>
 		<div class="col tab" ng-click="tab = 2" ng-class="{'active': tab == 2}" style="display:none;"><i class="icon ion-paper-airplane"></i> Publicidad</div>
+	</div>
+
+	<div class="tabs-striped tabs-top tabs-background-positive tabs-light">
+		<div class="tabs">
+			<div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
+				<i class="icon ion-android-contact"></i> Sobre la App </div>
+			<div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
+				<i class="icon ion-paper-airplane"></i> Contacto </div>
+			<div class="tab-item" ng-click="tab = 2" ng-class="{'active': tab == 2}" style="display:none;">
+				<i class="icon ion-refresh"></i> Publicidad </div>
+		</div>
 	</div>
 
 	<div ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px;">
@@ -41,7 +52,7 @@
 			<div class="item item-text-wrap">
 				<p class="header">Horarios y versiones</p>
 				<p>Si la EMT o el TIB cambian el itinerario o los horario de alguna línea, es posible que no se vea reflejado en la aplicación hasta que se actualice mediante la tienda de aplicaciones.</p>
-				<p>Última actualización: 11 Julio 2014<br>Versión actual: 0.8 - Beta</p>
+				<p>Última actualización: 26 de Septiembre 2014<br>Versión actual: 0.8.5 - Beta</p>
 			</div>
 		</div>
 

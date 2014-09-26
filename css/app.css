@@ -157,7 +157,7 @@ text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.71);
 }
 
 /*  Fix Tabs top */
-.has-tabs-top{
+.bar-header.has-tabs-top{
 	background-image: none;
 }
 
@@ -168,6 +168,14 @@ padding-top: 50px;
 .tabs-top > .tabs, .tabs.tabs-top {
 	top: 0;
 	left: 0;
+}
+
+.tabs-top .tabs {
+	height: 45px;
+}
+
+.tab-item .icon {
+	font-size: 20px;
 }
 
 /**************************

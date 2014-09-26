@@ -6,9 +6,18 @@
 
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
 
-	<div class="row tabs-lista">
-				<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-card"></i> Tarifas</div>
+	<div class="row tabs-lista" style="display:none;">
+		<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-card"></i> Tarifas</div>
 		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-clipboard"></i> Normativas</div>
+	</div>
+
+	<div class="tabs-striped tabs-top tabs-background-positive tabs-light">
+		<div class="tabs">
+			<div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
+				<i class="icon ion-bag"></i> Tarifas </div>
+			<div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
+				<i class="icon ion-clipboard"></i> Normativas</div>
+		</div>
 	</div>
 
 	<div ng-show="(tab == 0) || (tab == 10)" style="margin-bottom: 20px;">
@@ -97,7 +106,10 @@
 	</div>
 
 	<div ng-show="tab == 1" style="margin-bottom: 20px;">
-		
+		<div class="msg msg-tarifas">
+			<h3>Work in progress</h3>
+			<p>Próximamente incluiremos un la normativa de uso para el transporte de la EMT</p>
+		</div>
 	</div>
 
 

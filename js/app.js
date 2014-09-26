@@ -16,7 +16,7 @@ angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
-	$rootScope.version = 0.8;
+	$rootScope.version = 0.85;
 	$rootScope.num_taxi = "871962349";
 	$rootScope.app_store = "";
 

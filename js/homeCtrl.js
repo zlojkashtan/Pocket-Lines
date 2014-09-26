@@ -474,6 +474,8 @@ angular.module('PL.controllers')
 	}
 
 	$scope.tab = 0;
+	$rootScope.tabs = true;
+	$scope.$on('$destroy', function(){$rootScope.tabs = false;});
 	
 })
 
@@ -494,6 +496,8 @@ angular.module('PL.controllers')
 	}
 
 	$scope.tab = 0;
+	$rootScope.tabs = true;
+	$scope.$on('$destroy', function(){$rootScope.tabs = false;});
 	if($stateParams.param){ $scope.tab = 1; }
 	$scope.enviado = false;
 
