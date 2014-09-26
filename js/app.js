@@ -10,9 +10,9 @@
 //	http://bonda.es - FROM MALLORCA WITH LOVE
 //=================================================================
 
-angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
+var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
 
-.run(function($rootScope, localstorage, $ionicPlatform, $http){
+.run(function($rootScope, localstorage, $ionicPlatform, $http, $translate){
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
@@ -21,7 +21,7 @@ angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
 	$rootScope.app_store = "";
 
 	$rootScope.user = {
-		idioma: "es",
+		lang: "es",
 		date_votar: Date.now(),
 		date_compartir: Date.now(),
 		ha_votado: false,
@@ -68,13 +68,15 @@ angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers'])
 	//=================================================
 	var user = localstorage.getObject('user');
 
-	if(user.idioma){
+	if(user.lang){
 		user.entradas++;
 		$rootScope.user = user;
 		localstorage.setObject('user', user);
-	}else{
-		localstorage.setObject('user', $rootScope.user);
-	}
+
+	}else{ localstorage.setObject('user', $rootScope.user); }
+
+	$translate.use($rootScope.user.lang);
+	console.log($translate.use());
 
 	// Funciones de conexión de dispositivo
 	//=================================================
