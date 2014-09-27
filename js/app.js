@@ -25,7 +25,11 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		date_votar: Date.now(),
 		date_compartir: Date.now(),
 		ha_votado: false,
-		ha_compartido: false
+		ha_compartido: false,
+
+		EMT: true,
+		TIB: true,
+		elTiempo: true
 	};
 
 	// Get Localstorage de paradas guardadas
@@ -70,14 +74,17 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 	if(user.lang){
 		user.entradas++;
+
+		//Añadir ajustes extra a localstorage
+		if(!user.EMT && user.EMT !== false){ user.EMT = true; user.TIB = true; }
+		if(!user.elTiempo && user.elTiempo !== false){ user.elTiempo = true; }
+
 		$rootScope.user = user;
 		localstorage.setObject('user', user);
 
 	}else{ localstorage.setObject('user', $rootScope.user); }
-
-	$translate.use($rootScope.user.lang);
-	console.log($translate.use());
-
+	$translate.use($rootScope.user.lang); //console.log($translate.use());
+	
 	// Funciones de conexión de dispositivo
 	//=================================================
 	$rootScope.checkConnection = function(){
@@ -313,6 +320,12 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 			url: '/about/:param',
 			templateUrl: 'templates/acercade-contacto.html',
 			controller: 'about'
+		})
+
+		.state('ajustes', {
+			url: '/ajustes',
+			templateUrl: 'templates/ajustes.html',
+			controller: 'Ajustes'
 		})
 
 		.state('publicidad', {

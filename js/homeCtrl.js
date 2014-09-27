@@ -76,7 +76,10 @@ angular.module('PL.controllers')
 		}
 	});
 
-	elTiempo.getTiempo();
+	if($rootScope.user.elTiempo){
+		elTiempo.getTiempo();	
+	}
+	
 
 /*
 	if(!confirmPopup){
@@ -537,6 +540,41 @@ angular.module('PL.controllers')
 			$rootScope.gaPlugin.trackEvent( false, false, "Share App_", "Share App__", "Share App___", 0);
 		}
 	}
+})
+
+//=================================================
+// Ajustes
+//=================================================
+.controller('Ajustes', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, $translate, localstorage){
+
+	$scope.idioma = $rootScope.user.lang;
+
+	// Backbutton a home
+	//---------------------------------------------------
+		if(!$rootScope.$viewHistory.backView){
+			$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+				$ionicViewService.nextViewOptions({ disableBack: true });
+				$state.go('home');
+			}, 105 );
+			$scope.$on('$destroy', $scope.backButton);
+		}
+
+	// Guardar preferencias de ajustes
+	//---------------------------------------------------
+		$scope.guardar = function(){
+			localstorage.setObject('user', $rootScope.user);
+		};
+
+	// Cambiar idioma en ajustes y save en rootscope
+	//---------------------------------------------------
+		$scope.changeLanguage = function (key) {
+			$rootScope.user.lang = key;
+			$translate.use(key);
+
+			$scope.guardar();
+
+		};
+	
 })
 
 //=================================================

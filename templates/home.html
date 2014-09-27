@@ -188,7 +188,7 @@
 				</a>
 			</div>
 
-			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda)">
+			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda) && user.elTiempo">
 				<div class="col temperatura">{{tiempo.list[0].temp.min | number:0}}° C</div>
 				<div class="col" ng-repeat="dia in tiempo.list"><i class="c{{dia.weather[0].icon}}"></i>{{$index | diaSiguiente}}</div>
 			</div>
@@ -208,7 +208,7 @@
 			<p><a href="market://details?id=es.bonda.pocketlines">Toca aquí para conseguir las novedades.</a></p>
 		</div>
 
-		<div style="position: absolute; bottom: 5px; width: auto; right: 5px;" ng-if="!tiempo">
+		<div style="position: absolute; bottom: 5px; width: auto; right: 5px;" ng-if="!tiempo && user.elTiempo">
 			<!-- Cargar google maps, server y el tiempo -->
 			<i class="ion ion-loading-c"></i>
 		</div>

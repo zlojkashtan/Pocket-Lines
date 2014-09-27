@@ -1,0 +1,65 @@
+<ion-view title="{{'AJUSTES_TITLE' | translate}}">
+
+	<ion-nav-buttons side="right">
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-nav-buttons>
+	<!--
+	<ion-header-bar class="bar-positive ion-header-bar">
+		<button class="button icon ion-navicon" menu-toggle="left"></button>
+		<h1 class="title">Paradas guardadas</h1>
+		<a href="#/home" class="button icon ion-home"></a>
+	</ion-header-bar>
+	-->
+
+	<ion-content class="has-header" padding="true" overflow-scroll="true">
+
+
+		<div class="msg msg-tarifas">
+			<h3>{{'IDIOMA_PREDETERMINADO' | translate}}</h3>
+		</div>
+
+		<div class="list">
+
+			<label class="item item-radio" ng-click="changeLanguage('es')">
+				<input type="radio" name="group" ng-model="idioma" value="es">
+				<div class="item-content">Castellano</div>
+				<i class="radio-icon ion-checkmark"></i>
+			</label>
+
+
+			<label class="item item-radio" ng-click="changeLanguage('en')">
+				<input type="radio" name="group" ng-model="idioma" value="en">
+				<div class="item-content">English</div>
+				<i class="radio-icon ion-checkmark"></i>
+			</label>
+
+			<label class="item item-radio" ng-click="changeLanguage('ca')">
+				<input type="radio" name="group" ng-model="idioma" value="ca">
+				<div class="item-content">Català</div>
+				<i class="radio-icon ion-checkmark"></i>
+			</label>
+
+		</div>
+		<p class="nota">Durante el desarrollo las traducciones no serán completas. Si quieres puedes colaborar con las <a href="https://github.com/gsabater/Pocket-Lines" target="_blank">traducciones en GitHub.</a></p>
+
+		<div class="msg msg-tarifas">
+			<h3>{{ 'PREFERENCIAS_BUSQUEDA' | translate}}</h3>
+		</div>
+
+		<div class="list">
+			<ion-toggle ng-model="user.EMT" toggle-class="toggle-balanced" ng-change="guardar()">Transporte EMT</ion-toggle>
+			<ion-toggle ng-model="user.TIB" toggle-class="toggle-balanced" ng-change="guardar()">Transporte TIB</ion-toggle>
+		</div>
+
+		<p class="nota">Los resultados de búsqueda y el menú de la aplicación se verán afectados por esta opción. Siempre puedes volver a cambiar la configuración cuando quieras.</p>
+
+		<div class="msg msg-tarifas">
+			<h3>Extras</h3>
+		</div>
+
+		<div class="list">
+			<ion-toggle ng-model="user.elTiempo" toggle-class="toggle-balanced" ng-change="guardar()">Previsión del tiempo</ion-toggle>
+		</div>
+
+	</ion-content>
+</ion-view>

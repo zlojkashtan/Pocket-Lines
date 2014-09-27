@@ -23,6 +23,10 @@ body, input, h1, h2, h3, h4, h5, .bar-header, .card {
 	font-weight: 300;
 }
 
+a{
+	text-decoration: none;
+}
+
 .overflow-scroll {
 	//overflow-x: hidden;
 	overflow-y: auto;
@@ -350,6 +354,11 @@ i.c50d:before, i.c50n:before{
 	padding: 0px 5px;
 	margin: 0 2px;
 	font-size: 13px;
+}
+
+p.nota{
+	margin: -15px 5px 15px 7px;
+	color: #8D8D8D;
 }
 
 /**************************
