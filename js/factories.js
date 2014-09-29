@@ -1827,7 +1827,7 @@ angular.module('PL.factories', [])
 		};
 	})
 
-.filter('buscar', function(EMT, TIBTREN){
+.filter('buscar', function($rootScope, EMT, TIBTREN){
 
 	function removeAccents(value) {
 		return value
@@ -1867,37 +1867,46 @@ angular.module('PL.factories', [])
 			//=================================================================
 
 			if(isNaN(searchString)){
-				if(searchString.length > 1){
+				if(searchString.length > 0){
 					searchString = searchString.toLowerCase();
 					searchString = removeAccents(searchString);
 
 					//=======
 					// Inyecta EMT en resultados
 					//=======
-					angular.forEach(EMT.paradas, function(item){
+					if($rootScope.user.EMT){
+						angular.forEach(EMT.paradas, function(item){
 
-						var comparador = item.nombre.toLowerCase();
-						comparador = removeAccents(comparador);
+							var comparador = item.nombre.toLowerCase();
+							comparador = removeAccents(comparador);
 
-						if(comparador.indexOf(searchString) !== -1){
-							// item.nombre = comparador; // <-- Para poder leer la transformación
-							result.push(item);
-						}
-					});
+							if(comparador.indexOf(searchString) !== -1){
+								// item.nombre = comparador; // <-- Para poder leer la transformación
+								result.push(item);
+							}
+						});
+					}else{
+
+					}
 
 					//=======
 					// Inyecta TIB en resultados
 					//=======
-					angular.forEach(TIBTREN.paradas, function(item){
+					if($rootScope.user.TIB){
+						angular.forEach(TIBTREN.paradas, function(item){
 
-						var comparador = item.nombre.toLowerCase();
-						comparador = removeAccents(comparador);
+							var comparador = item.nombre.toLowerCase();
+							comparador = removeAccents(comparador);
 
-						if(comparador.indexOf(searchString) !== -1){
-							result.push(item);
-						}
-					});
+							if(comparador.indexOf(searchString) !== -1){
+								result.push(item);
+							}
+						});
+					}
 				}else{
+					//Reset array de resultados si no quiere EMT
+					// Nota: desactivado a causa de if(searchString.length > 0){
+					arr = [];
 					result = arr;
 				}
 
@@ -1908,20 +1917,24 @@ angular.module('PL.factories', [])
 				//=======
 				// Inyecta EMT en resultados
 				//=======
-				angular.forEach(EMT.paradas, function(item){
-					if(item.id === searchString){
-						result.push(item);
-					}
-				});
+				if($rootScope.user.EMT){
+					angular.forEach(EMT.paradas, function(item){
+						if(item.id === searchString){
+							result.push(item);
+						}
+					});
+				}
 
 				//=======
 				// Inyecta TIB en resultados
 				//=======
-				angular.forEach(TIBTREN.paradas, function(item){
-					if(item.id === searchString){
-						result.push(item);
-					}
-				});
+				if($rootScope.user.TIB){
+					angular.forEach(TIBTREN.paradas, function(item){
+						if(item.id === searchString){
+							result.push(item);
+						}
+					});
+				}
 			}
 
 			return result;

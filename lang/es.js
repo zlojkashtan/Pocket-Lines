@@ -37,41 +37,4 @@ PL.config(function ($translateProvider) {
 
 	});
 
-
-	$translateProvider.translations('en', {
-
-		// GENERALES
-		//---------------------------------------------------
-		CARGANDO: 'Loading...',
-		ESPERA: 'Wait',
-		MI_VALOR: 'My Evaluation',
-		VER_MAS: 'See More',
-
-		// Ajustes
-		//---------------------------------------------------
-		AJUSTES_TITLE: 'Settings',
-		IDIOMA_PREDETERMINADO: 'Preferred language',
-		PREFERENCIAS_BUSQUEDA: 'Search settings',
-
-	});
-
-
-	$translateProvider.translations('ca', {
-
-		// GENERALES
-		//---------------------------------------------------
-		CARGANDO: 'Loading...',
-		ESPERA: 'Wait',
-		MI_VALOR: 'My Evaluation',
-		VER_MAS: 'See More',
-
-		// Ajustes
-		//---------------------------------------------------
-		AJUSTES_TITLE: 'Configuració',
-		IDIOMA_PREDETERMINADO: 'Idioma predeterminat',
-		PREFERENCIAS_BUSQUEDA: 'Preferències de búsqueda',
-
-	});
-
-	$translateProvider.preferredLanguage('es');
 });
