@@ -30,6 +30,7 @@
 		<script src="lang/ca.js"></script>
 
 		<!-- Cordova -->
+		<script src="lib/js/ng-cordova.min.js"></script>
 		<script src="cordova.js"></script>
 
 	</head>
@@ -122,18 +123,18 @@
 						</ion-item>
 
 						<div class="item item-divider">
-							ACERCA DE Y AJUSTES
+							AJUSTES Y ACERCA DE
 						</div>
-
-						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/about" ng-class="{active: isItemActive('/about')}">
-							<i class="icon ion-grid"></i>
-							Acerca de la app
-						</ion-item>
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/ajustes" ng-class="{active: isItemActive('/ajustes')}">
 							<i class="icon ion-gear-a"></i>
 							Ajustes
 						</ion-item>
+
+						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/about" ng-class="{active: isItemActive('/about')}">
+							<i class="icon ion-grid"></i>
+							Acerca de la app
+						</ion-item>						
 
 					</ion-list>
 

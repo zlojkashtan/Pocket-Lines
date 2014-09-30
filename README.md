@@ -12,6 +12,7 @@ We first focus in Android, but the project can be exported to iOS or other mobil
 * Multi-language, content translated with [Angular Translate](https://github.com/angular-translate/angular-translate)
 * Map of nearby bus stations
 * Check bus ticket prices
+* Set alarms to remind you the next bus arrival for a specific time
 
 ## Get it from [Google Play](https://play.google.com/store/apps/details?id=es.bonda.pocketlines)
 
