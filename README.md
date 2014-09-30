@@ -21,6 +21,7 @@ We first focus in Android, but the project can be exported to iOS or other mobil
 * Feel free to use the app and report any bugs.
 * Feel free to contribute with new code.
 * Feel free to suggest improvements with your own ideas.
+* Feel free to translate the app to any language by forking and changing /lang/anylang.js
 
 ## Community
 * Like [Pocket Lines on Facebook](https://www.facebook.com/PocketLines).
@@ -30,3 +31,24 @@ We first focus in Android, but the project can be exported to iOS or other mobil
 
 **Gaspar Sabater**
 + <http://bonda.es>
+
+## Technical features
+
+App made with Cordova and Ionic Framework
+
+* Cordova specific
+	* Android building and deploying
+	* Cordova Google Analytics "Gaplugin"
+	* Cordova SQLite
+	* Cordova Ionic Keyboard
+	* Cordova Local notifications
+	* Cordova Social Sharing
+	* Cordova device
+	* Cordova Geolocation
+	* Cordova InAppBrowser
+	* Cordova Network Information
+	* Cordova Statusbar
+
+* AngularJS / Javascript specific
+	* Localstorage
+	* Backend API

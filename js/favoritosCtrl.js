@@ -19,7 +19,7 @@ angular.module('PL.controllers')
 // - Más vistas
 // - Recientes
 //=================================================
-.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, FavTop){
+.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, $cordovaSQLite, localstorage, FavTop){
 
 	// Backbutton a home
 	//==================================================
@@ -85,4 +85,5 @@ angular.module('PL.controllers')
 			$scope.data.cambios = false;
 		}
 	};
+
 });

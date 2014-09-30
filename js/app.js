@@ -10,15 +10,31 @@
 //	http://bonda.es - FROM MALLORCA WITH LOVE
 //=================================================================
 
-var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate', 'ngCordova'])
+var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
 
-.run(function($rootScope, localstorage, $ionicPlatform, $http, $translate){
+.constant('DB_CONFIG', {
+	name: 'pl',
+	tables: [{
+		name: 'emt',
+		columns: [
+			{name: 'id', type: 'integer primary key'},
+			{name: 'nombre', type: 'text'},
+			{name: 'lat', type: 'real'},
+			{name: 'lng', type: 'real'},
+			{name: 'otras', type: 'text'},
+			{name: 'clicks', type: 'integer'}
+		]
+	}]
+})
+
+.run(function($rootScope, localstorage, DB, UpdateDB, $ionicPlatform, $http, $translate){
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
 	$rootScope.version = 0.86;
 	$rootScope.num_taxi = "871962349";
 	$rootScope.app_store = "";
+	$rootScope.platform = "pc";
 
 	$rootScope.user = {
 		lang: "es",
@@ -69,6 +85,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	//console.log($rootScope.top);
 
 	// Get Localstorage de usuario
+	// Set object con defaults if not exists
 	//=================================================
 	var user = localstorage.getObject('user');
 
@@ -131,10 +148,14 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		console.log("+ App: Analytics Start");
 		if(window.cordova){
 			$rootScope.gaPlugin = window.plugins.gaPlugin;
-	    $rootScope.gaPlugin.init($rootScope.GA_success, $rootScope.GA_error, "UA-52218616-1", 30);
-  	}
+			$rootScope.gaPlugin.init($rootScope.GA_success, $rootScope.GA_error, "UA-52218616-1", 30);
+		}
 	};
 
+
+	// Get server API
+	// - Apply to rootscope.server
+	//=================================================
 	$rootScope.loadServer = function(){
 		// Get información del server
 		//=================================================
@@ -148,6 +169,10 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					console.log("+ JSON: server");
 					console.log(data);
 					$rootScope.server = data;
+
+					console.log("+ App: Updating DB stops");
+					console.log(UpdateDB.updateAPI());
+
 					$rootScope.analytics();
 				}).
 				error(function(data, status, headers, config){
@@ -157,47 +182,48 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		}
 	};
 
+
 	// Funciones eventlistener de deviceready
 	//=================================================
 	$ionicPlatform.ready(function() {
 		console.log("+ app: DeviceReady");
 
 		//ionic.Platform.isFullScreen = true;
-
+		DB.init();
 		$rootScope.loadServer();
 		$rootScope.checkConnection();
 
 		document.addEventListener("offline", $rootScope.onOffline, false);
 		document.addEventListener("online", $rootScope.onOnline, false);
 
-
 		if(window.cordova && window.cordova.plugins.Keyboard) {
-       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
+			 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+		}
 
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-		
-    // Google Maps Dynamic
-    // ----------------------
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI&sensor=true' + '&libraries=places&'+'callback=initialize';
-    document.body.appendChild(script);
-    //http://stackoverflow.com/questions/23354358/how-do-i-load-google-maps-external-javascript-after-page-loads
+		if(window.StatusBar) {
+			// org.apache.cordova.statusbar required
+			StatusBar.styleDefault(); //iOS
+		}
+
+		// Google Maps Dynamic
+		// ----------------------
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI&sensor=true' + '&libraries=places&'+'callback=initialize';
+		document.body.appendChild(script);
+		//http://stackoverflow.com/questions/23354358/how-do-i-load-google-maps-external-javascript-after-page-loads
 
 	});
 
 	if ($ionicPlatform.is('android')) {
 		console.log("+ App platform: android");
+		$rootScope.platform = "android";
 	} else if ($ionicPlatform.is('ios')) {
 		console.log("+ App platform: ios");
+		$rootScope.platform = "ios";
 	} else {
 		console.log("+ App platform: pc");
-		// LoadServer, comentado en app
-		//$rootScope.loadServer();
+		$rootScope.platform = "pc";
 	}
 
 
