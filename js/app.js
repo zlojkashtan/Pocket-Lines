@@ -27,7 +27,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	}]
 })
 
-.run(function($rootScope, localstorage, DB, UpdateDB, $ionicPlatform, $http, $translate){
+.run(function($rootScope, localstorage, DB, UpdateDB, API, $ionicPlatform, $http, $translate){
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
@@ -164,14 +164,20 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 				$rootScope.server = true; //Para evitar que cargue dos veces antes de recoger los datos.
 
-				$http({method: 'GET', url: 'http://gasparsabater.com/api/EMT'}).
+				$http({method: 'GET', url: 'http://gasparsabater.com/api/PL'}).
 				success(function(data, status, headers, config) {
 					console.log("+ JSON: server");
 					console.log(data);
 					$rootScope.server = data;
 
-					console.log("+ App: Updating DB stops");
-					console.log(UpdateDB.updateAPI());
+					API.getEMT().then(function (respuesta){
+						console.log("GETEMT",respuesta);
+					}, function(err) {
+						console.log("GETEMTERROR",err);
+					});
+
+					console.log("+ App: Updating DB stops - RECORDAR ELIMINAR DROP TABLE DE SERVICES -");
+					UpdateDB.updateAPI();
 
 					$rootScope.analytics();
 				}).

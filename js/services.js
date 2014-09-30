@@ -12,6 +12,21 @@ angular.module('PL.services', [])
 	};
 }])
 
+//=================================================
+// API CALLS
+// http://gasparsabater.com/api/
+//=================================================
+.factory('API',['$http', '$rootScope',function($http, $rootScope){
+	return {
+		getPL : function(){
+			return $http.get('http://www.emtpalma.es/EMTPalma/Front/pasoporparada.es.svr?p=' + id + '&callback=JSON_CALLBACK');
+		},
+		getEMT : function(){
+			return $http.get('http://gasparsabater.com/api/getEMT');
+		}
+	};
+}])
+
 
 //=================================================
 // InfoItinerario
@@ -454,6 +469,9 @@ angular.module('PL.services', [])
 			columns.push(column.name + ' ' + column.type);
 		});
 
+		var query = 'DROP TABLE emt';
+		self.query(query);
+
 		var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
 		self.query(query);
 		console.log('+ App: Table ' + table.name + ' initialized');
@@ -493,11 +511,16 @@ angular.module('PL.services', [])
 })
 
 
+//=================================================
+// UpdateDB
+// - updateAPI
+//=================================================
 .factory('UpdateDB', function($rootScope, DB){
 	var self = this;
 	
 	self.updateAPI = function() {
-		return DB.query('INSERT INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,?)',[518, "Es Muntant", 39.59400939941406, 2.653588056564331, ["16","32"], 0])
+		//http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
+		return DB.query('INSERT INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,?)',[518, "Es Muntant", 39.59400939941406, 2.653588056564331, "{16,32}", 0])
 		.then(function(result){
 			return DB.fetchAll(result);
 		});
@@ -513,14 +536,14 @@ angular.module('PL.services', [])
 		self.all = function() {
 				return DB.query('SELECT * FROM documents')
 				.then(function(result){
-						return DB.fetchAll(result);
+					return DB.fetchAll(result);
 				});
 		};
 		
 		self.getById = function(id) {
 				return DB.query('SELECT * FROM documents WHERE id = ?', [id])
 				.then(function(result){
-						return DB.fetch(result);
+					return DB.fetch(result);
 				});
 		};
 		
