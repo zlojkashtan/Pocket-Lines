@@ -171,13 +171,12 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					$rootScope.server = data;
 
 					API.getEMT().then(function (respuesta){
-						console.log("GETEMT",respuesta);
+						console.log("+ App: Get EMT",respuesta);
+
+						UpdateDB.updateAPI(respuesta.data);
 					}, function(err) {
 						console.log("GETEMTERROR",err);
 					});
-
-					console.log("+ App: Updating DB stops - RECORDAR ELIMINAR DROP TABLE DE SERVICES -");
-					UpdateDB.updateAPI();
 
 					$rootScope.analytics();
 				}).
