@@ -73,7 +73,9 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		ha_compartido: false,
 
 		EMT: true,
+		EMTv: 0,
 		TIB: true,
+		TIBv: 0,
 		elTiempo: true
 	};
 
@@ -200,7 +202,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					console.log(data);
 					$rootScope.server = data;
 
-					API.getEMT().then(function (respuesta){
+					API.getEMT($rootScope.user.EMTv).then(function (respuesta){
 						console.log("+ App: Get EMT",respuesta);
 						UpdateDB.EMT(respuesta.data);
 					}, function(err) {
@@ -402,5 +404,5 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	// PLATFORM_BACK_BUTTON_PRIORITY_ACTION_SHEET = 300;
 	// PLATFORM_BACK_BUTTON_PRIORITY_POPUP = 400;
 	// PLATFORM_BACK_BUTTON_PRIORITY_LOADING = 500;
-	
+
  */

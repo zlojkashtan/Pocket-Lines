@@ -1419,7 +1419,12 @@ angular.module('PL.factories', [])
 	{id: '51', nombre: '--'},
 	{id: '52', nombre: 'Tren Turístic', color: '#D04742', itinerarios: [ {i: ['521','522']} ]},
 	];
+/*
+	var paradas = {};
+	var itinerarios = {};
+	var lineas = {};
 
+	*/
 	return{
 		paradas: paradas,
 		itinerarios: itinerarios,

@@ -30,7 +30,7 @@ angular.module('PL.controllers')
 // - Buscar paradas en la EMT
 // - sumar paradas al contador de localstorage
 //=================================================
-.controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', 'contactoEMT', 'elTiempo', 'InfoItinerario', 'Publicidad', '$filter', '$timeout', '$ionicLoading', '$ionicPopup', '$ionicModal', '$ionicPlatform', '$ionicNavBarDelegate', 'localstorage', 'EMT', 'FavTop', 'shareVar' ,function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $timeout, $ionicLoading, $ionicPopup, $ionicModal, $ionicPlatform, $ionicNavBarDelegate, localstorage, EMT, FavTop, shareVar) {
+.controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', 'contactoEMT', 'elTiempo', 'InfoItinerario', 'Publicidad', '$filter', '$timeout', '$ionicLoading', '$ionicPopup', '$ionicModal', '$ionicPlatform', '$ionicNavBarDelegate', 'localstorage', 'EMT', 'EMTdb', 'FavTop' ,function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $timeout, $ionicLoading, $ionicPopup, $ionicModal, $ionicPlatform, $ionicNavBarDelegate, localstorage, EMT, EMTdb, FavTop) {
 	$scope.busqueda = false;
 	$scope.respuesta = false;
 	$scope.error = false;
@@ -38,7 +38,6 @@ angular.module('PL.controllers')
 	$scope.paradaFav = false;
 	$scope.verMapa = false;
 
-	$scope.counter = 1000;
 	$scope.idActual = 0;
 	$scope.parada = {};
 	$scope.isTIB = $stateParams.isTIB;
@@ -47,7 +46,13 @@ angular.module('PL.controllers')
 
 	$scope.publicidad = {home: false, parada: false};
 
-	$scope.paradas = EMT.paradas;
+	$scope.g = function(){
+		EMTdb.getParadas().then(function(paradas){
+			$scope.paradas = paradas;
+		});
+	};
+	
+	$scope._paradas = EMT.paradas;
 
 	var today = new Date();
 
@@ -191,7 +196,6 @@ angular.module('PL.controllers')
 
 			contactoEMT.getParada(idParada).then(function (respuesta) {
 
-				$scope.counter = 0;
 				$scope.error = false;
 
 				$scope.respuesta = respuesta.data;
@@ -295,7 +299,6 @@ angular.module('PL.controllers')
 		$scope.busqueda = false;
 		$scope.respuesta = false;
 		$scope.verMapa = false;
-		$scope.counter = 0;
 		$scope.error = false;
 		$scope.isTIB = false;
 

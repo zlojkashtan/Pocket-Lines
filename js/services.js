@@ -21,8 +21,8 @@ angular.module('PL.services', [])
 		getPL : function(){
 			return $http.get('http://www.emtpalma.es/EMTPalma/Front/pasoporparada.es.svr?p=' + id + '&callback=JSON_CALLBACK');
 		},
-		getEMT : function(){
-			return $http.get('http://gasparsabater.com/api/getEMT');
+		getEMT : function(v){
+			return $http.get('http://gasparsabater.com/api/getEMT/'+v);
 		}
 	};
 }])
@@ -520,59 +520,69 @@ angular.module('PL.services', [])
 // - updateAPI -> Inserts all data to SQL
 // http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 //=================================================
-.factory('UpdateDB', function($rootScope, DB){
+.factory('UpdateDB', function($rootScope, DB, localstorage){
 	var self = this;
 	
 	self.EMT = function(respuesta){
-		
-		angular.forEach(respuesta.paradas, function(item) {
+		if(respuesta.updated !== true){
+			angular.forEach(respuesta.paradas, function(item) {
+				
+				//| Update emt_paradas
+				//+--------------------------------
+				DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
+				.then(function(result){
+					console.log("Insert ok", result);
+					return DB.fetchAll(result);
+				}, function(err){ console.log(err); });
+
+			});
+
+			angular.forEach(respuesta.lineas, function(item) {
+
+				//| Update emt_lineas
+				//+--------------------------------
+				DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
+				.then(function(result){
+					console.log("Insert ok", result);
+					return DB.fetchAll(result);
+				}, function(err){ console.log(err); });
 			
-			//| Update emt_paradas
-			//+--------------------------------
-			DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
-			.then(function(result){
-				console.log("Insert ok", result);
-				return DB.fetchAll(result);
-			}, function(err){ console.log(err); });
+			});
 
-		});
-
-		angular.forEach(respuesta.lineas, function(item) {
-
-			//| Update emt_lineas
-			//+--------------------------------
-			DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
-			.then(function(result){
-				console.log("Insert ok", result);
-				return DB.fetchAll(result);
-			}, function(err){ console.log(err); });
-		
-		});
+			$rootScope.user.EMTv = respuesta.version;
+			localstorage.setObject('user', $rootScope.user);
+		}else{
+			console.log("+ App: db-EMT updated");
+		}
 		
 	};
 	
 	return self;
 })
 
-// Resource service example
-.factory('Document', function(DB) {
-		var self = this;
-		
-		self.all = function() {
-				return DB.query('SELECT * FROM documents')
-				.then(function(result){
-					return DB.fetchAll(result);
-				});
-		};
-		
-		self.getById = function(id) {
-				return DB.query('SELECT * FROM documents WHERE id = ?', [id])
-				.then(function(result){
-					return DB.fetch(result);
-				});
-		};
-		
-		return self;
+//=================================================
+// EMTdb
+// - updateAPI -> Inserts all data to SQL
+// http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
+//=================================================
+.factory('EMTdb', function(DB) {
+	var self = this;
+	
+	self.getParadas = function() {
+		return DB.query('SELECT * FROM emt_paradas')
+		.then(function(result){
+			return DB.fetchAll(result);
+		});
+	};
+	
+	self.getParada = function(id) {
+		return DB.query('SELECT * FROM emt_paradas WHERE id = ?', [id])
+		.then(function(result){
+			return DB.fetch(result);
+		});
+	};
+	
+	return self;
 })
 
 .service('shareVar', function () {

@@ -13,7 +13,7 @@
 	-->
 
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
-		<form name="formQueNoSirveParaNadaMasQueUnNgSubmit" ng-submit="buscarParada(false)">
+		<form name="formQueNoSirveParaNadaMasQueUnNgSubmit" ng-submit="buscarParada(false)" ng-click="g()">
 		<div class="card buscador-header">
 			<div class="item item-text-wrap item-icon-right" ng-class="{offline: appOffline}">
 				<i class="icon ion-search" ng-if="buscar.texto.length === 0"></i>
@@ -185,7 +185,13 @@
 					<h6 style="display: inline-block; font-size: 16px; margin: 0;">Beta</h6>
 					<i class="ion ion-settings" style="font-size: 15px;"></i>
 					<p>Ayuda a mejorar la aplicación con tus ideas!</p>
+					
 				</a>
+
+				<div ng-click="g()">
+				DB: {{paradas.length}}
+					s: {{_paradas.length}}
+					</div>
 			</div>
 
 			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda) && user.elTiempo">
