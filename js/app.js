@@ -12,10 +12,14 @@
 
 var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
 
+//=================================================
+// Constant DB_CONFIG
+// SQLite Database Structure
+//=================================================
 .constant('DB_CONFIG', {
 	name: 'pl',
 	tables: [{
-		name: 'emt',
+		name: 'emt_paradas',
 		columns: [
 			{name: 'id', type: 'integer primary key'},
 			{name: 'nombre', type: 'text'},
@@ -24,9 +28,34 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 			{name: 'otras', type: 'text'},
 			{name: 'clicks', type: 'integer'}
 		]
+	},{
+		name: 'emt_itinerarios',
+		columns: [
+			{name: 'id', type: 'integer primary key'},
+			{name: 'nombre', type: 'text'},
+			{name: 'destino', type: 'text'},
+			{name: 'indeterminado', type: 'text'},
+			{name: 'primero', type: 'text'}, 			{name: 'ultimo', type: 'text'}, 		{name: 'frecuencia', type: 'integer'},
+			{name: 'primeroSab', type: 'text'}, 	{name: 'ultimoSab', type: 'text'}, 	{name: 'frecuenciaSab', type: 'integer'},
+			{name: 'primeroFest', type: 'text'}, 	{name: 'ultimoFest', type: 'text'}, {name: 'frecuenciaFest', type: 'integer'},
+			{name: 'paradas', type: 'text'},
+		]
+	},{
+		name: 'emt_lineas',
+		columns: [
+			{name: 'id', type: 'integer primary key'},
+			{name: 'nombre', type: 'text'},
+			{name: 'color', type: 'text'},
+			{name: 'itinerarios', type: 'text'},
+		]
 	}]
 })
 
+//=================================================
+// .run()
+// First call where set $rootScope vars and 
+// do api calls
+//=================================================
 .run(function($rootScope, localstorage, DB, UpdateDB, API, $ionicPlatform, $http, $translate){
 	console.log("+ App start");
 
@@ -173,8 +202,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 					API.getEMT().then(function (respuesta){
 						console.log("+ App: Get EMT",respuesta);
-
-						UpdateDB.updateAPI(respuesta.data);
+						UpdateDB.EMT(respuesta.data);
 					}, function(err) {
 						console.log("GETEMTERROR",err);
 					});
@@ -232,19 +260,11 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		$rootScope.platform = "pc";
 	}
 
-
-	//
-	// Back Button behaviour
-	// - 100 Exit app
-	// - 110 -> resetBusqueda
-	//
-	// PLATFORM_BACK_BUTTON_PRIORITY_VIEW = 100;
-	// PLATFORM_BACK_BUTTON_PRIORITY_SIDE_MENU = 150;
-	// PLATFORM_BACK_BUTTON_PRIORITY_ACTION_SHEET = 300;
-	// PLATFORM_BACK_BUTTON_PRIORITY_POPUP = 400;
-	// PLATFORM_BACK_BUTTON_PRIORITY_LOADING = 500;
-
 })
+
+//=================================================
+// Routes
+//=================================================
 .config(function($stateProvider, $urlRouterProvider) {
 
 	$stateProvider
@@ -370,3 +390,17 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	$urlRouterProvider.otherwise('/home');
 
 });
+
+/*
+	//
+	// Back Button behaviour
+	// - 100 Exit app
+	// - 110 -> resetBusqueda
+	//
+	// PLATFORM_BACK_BUTTON_PRIORITY_VIEW = 100;
+	// PLATFORM_BACK_BUTTON_PRIORITY_SIDE_MENU = 150;
+	// PLATFORM_BACK_BUTTON_PRIORITY_ACTION_SHEET = 300;
+	// PLATFORM_BACK_BUTTON_PRIORITY_POPUP = 400;
+	// PLATFORM_BACK_BUTTON_PRIORITY_LOADING = 500;
+	
+ */

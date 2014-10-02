@@ -52,3 +52,6 @@ App made with Cordova and Ionic Framework
 * AngularJS / Javascript specific
 	* Localstorage
 	* Backend API
+
+## Screenshots
+![Gallery](https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/1546395_10152718539273164_1218720485955718359_n.jpg)

@@ -462,22 +462,24 @@ angular.module('PL.services', [])
 			self.db = window.sqlitePlugin.openDatabase({name: DB_CONFIG.name, bgType: 1 });
 		}
 
-		angular.forEach(DB_CONFIG.tables, function(table) {
-		var columns = [];
-
-		angular.forEach(table.columns, function(column) {
-			columns.push(column.name + ' ' + column.type);
-		});
-
 		/*
 		var query = 'DROP TABLE emt';
 		self.query(query);
 		*/
+		
+		angular.forEach(DB_CONFIG.tables, function(table) {
+			var columns = [];
 
-		var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
-		self.query(query);
-		console.log('+ App: Table ' + table.name + ' initialized');
+			angular.forEach(table.columns, function(column) {
+				columns.push(column.name + ' ' + column.type);
+			});
+
+			var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
+			self.query(query);
+
+			console.log('+ App: Table ' + table.name + ' initialized');
 		});
+
 	};
 
 	self.query = function(query, bindings) {
@@ -515,27 +517,37 @@ angular.module('PL.services', [])
 
 //=================================================
 // UpdateDB
-// - updateAPI
+// - updateAPI -> Inserts all data to SQL
+// http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 //=================================================
 .factory('UpdateDB', function($rootScope, DB){
 	var self = this;
 	
-	self.updateAPI = function(respuesta) {
-		//http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
+	self.EMT = function(respuesta){
+		
 		angular.forEach(respuesta.paradas, function(item) {
 			
-			DB.query('INSERT OR REPLACE INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
+			//| Update emt_paradas
+			//+--------------------------------
+			DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
 			.then(function(result){
+				console.log("Insert ok", result);
 				return DB.fetchAll(result);
-			});
+			}, function(err){ console.log(err); });
+
+		});
+
+		angular.forEach(respuesta.lineas, function(item) {
+
+			//| Update emt_lineas
+			//+--------------------------------
+			DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
+			.then(function(result){
+				console.log("Insert ok", result);
+				return DB.fetchAll(result);
+			}, function(err){ console.log(err); });
 		
 		});
-			/*
-			DB.query('INSERT INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,?)',[518, "Es Muntant", 39.59400939941406, 2.653588056564331, "{16,32}", 0])
-			.then(function(result){
-				return DB.fetchAll(result);
-			});
-			*/
 		
 	};
 	
