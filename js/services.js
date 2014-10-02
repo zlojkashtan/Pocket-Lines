@@ -523,7 +523,12 @@ angular.module('PL.services', [])
 	self.updateAPI = function(respuesta) {
 		//http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 		angular.forEach(respuesta.paradas, function(item) {
-			console.log(item);
+			
+			DB.query('INSERT OR REPLACE INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
+			.then(function(result){
+				return DB.fetchAll(result);
+			});
+		
 		});
 			/*
 			DB.query('INSERT INTO emt (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,?)',[518, "Es Muntant", 39.59400939941406, 2.653588056564331, "{16,32}", 0])

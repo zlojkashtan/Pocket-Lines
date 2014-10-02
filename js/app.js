@@ -157,6 +157,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	// - Apply to rootscope.server
 	//=================================================
 	$rootScope.loadServer = function(){
+
 		// Get información del server
 		//=================================================
 		if(!$rootScope.server){
