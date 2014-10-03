@@ -1,7 +1,7 @@
 Pocket Lines
 ============
 
-Pocket Lines is a Transports App built using AngularJS, Cordova and the Ionic Framework.-
+Pocket Lines is a Transports App built using AngularJS, Cordova and the Ionic Framework.
 
 We first focus in Android, but the project can be exported to iOS or other mobile platforms using Cordova. This repo is for the Ionic fraction of the project.
 
