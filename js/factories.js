@@ -502,7 +502,7 @@ angular.module('PL.factories', [])
 	{id:746, nombre:"Son Espases, 19", lat:39.61076736450195, lng:2.644745111465454, otras:["9"], clicks:0},
 	{id:687, nombre:"Balneari, 5", lat:39.513893127441406, lng:2.7466790676116943, otras:["52"], clicks:0},
 	{id:514, nombre:"Establiments", lat:39.62699508666992, lng:2.621299982070923, otras:["16"], clicks:0},
-	{id:518, nombre:"Es Muntant", lat:39.63697814941406, lng:2.6160829067230225, otras:["16"], clicks:0},
+	//{id:518, nombre:"Es Muntant", lat:39.63697814941406, lng:2.6160829067230225, otras:["16"], clicks:0},
 	{id:567, nombre:"Rotonda de Can Moreno", lat:39.616844177246094, lng:2.646204948425293, otras:["19"], clicks:0},
 	{id:563, nombre:"Cra. Manacor", lat:39.571075439453125, lng:2.7430479526519775, otras:["14"], clicks:0},
 	{id:621, nombre:"Centre comercial", lat:39.594200134277344, lng:2.643256902694702, otras:["16","29"], clicks:0},
@@ -1832,7 +1832,7 @@ angular.module('PL.factories', [])
 		};
 	})
 
-.filter('buscar', function($rootScope, EMT, TIBTREN){
+.filter('buscar', function($rootScope, EMT, EMTdb, TIBTREN){
 
 	function removeAccents(value) {
 		return value
@@ -1880,7 +1880,7 @@ angular.module('PL.factories', [])
 					// Inyecta EMT en resultados
 					//=======
 					if($rootScope.user.EMT){
-						angular.forEach(EMT.paradas, function(item){
+						angular.forEach(EMTdb.getParadas(), function(item){
 
 							var comparador = item.nombre.toLowerCase();
 							comparador = removeAccents(comparador);

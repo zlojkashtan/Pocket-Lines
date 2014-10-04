@@ -508,7 +508,7 @@ angular.module('PL.services', [])
 	};
 
 	self.fetch = function(result) {
-			return result.rows.item(0);
+		return result.rows.item(0);
 	};
 
 	return self;
@@ -520,22 +520,13 @@ angular.module('PL.services', [])
 // - updateAPI -> Inserts all data to SQL
 // http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 //=================================================
-.factory('UpdateDB', function($rootScope, DB, localstorage){
+.factory('UpdateDB', function($rootScope, DB, EMTdb, localstorage){
 	var self = this;
 	
 	self.EMT = function(respuesta){
+		EMTdb.prepareParadas();
 		if(respuesta.updated !== true){
-			angular.forEach(respuesta.paradas, function(item) {
-				
-				//| Update emt_paradas
-				//+--------------------------------
-				DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
-				.then(function(result){
-					console.log("Insert ok", result);
-					return DB.fetchAll(result);
-				}, function(err){ console.log(err); });
-
-			});
+			var updateParadas = respuesta.paradas.length;
 
 			angular.forEach(respuesta.lineas, function(item) {
 
@@ -544,13 +535,32 @@ angular.module('PL.services', [])
 				DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
 				.then(function(result){
 					console.log("Insert ok", result);
-					return DB.fetchAll(result);
+					//return DB.fetchAll(result);
 				}, function(err){ console.log(err); });
 			
 			});
 
+			angular.forEach(respuesta.paradas, function(item) {
+				
+				//| Update emt_paradas
+				//+--------------------------------
+				DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
+				.then(function(result){
+					console.log("Insert ok", result);
+					updateParadas--;
+					//return DB.fetchAll(result);
+					if(updateParadas == 0){ 
+						//console.log("SYNC FINALIZADO");
+						$rootScope.sync = false;
+						EMTdb.prepareParadas(); }
+				}, function(err){ console.log(err); });
+
+				
+			});
+
 			$rootScope.user.EMTv = respuesta.version;
 			localstorage.setObject('user', $rootScope.user);
+			
 		}else{
 			console.log("+ App: db-EMT updated");
 		}
@@ -565,16 +575,24 @@ angular.module('PL.services', [])
 // - updateAPI -> Inserts all data to SQL
 // http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 //=================================================
-.factory('EMTdb', function(DB) {
+.factory('EMTdb', function($rootScope, DB) {
+	var paradas = false, wrap = false;
 	var self = this;
 	
-	self.getParadas = function() {
-		return DB.query('SELECT * FROM emt_paradas')
+	self.prepareParadas = function() {
+	 console.log("+ App: Buffer paradas");
+	 $rootScope.sync = true;
+	 DB.query('SELECT * FROM emt_paradas')
 		.then(function(result){
-			return DB.fetchAll(result);
+			paradas = DB.fetchAll(result);
+			$rootScope.sync = false;
 		});
 	};
 	
+	self.getParadas = function() {
+		return paradas;
+	};
+
 	self.getParada = function(id) {
 		return DB.query('SELECT * FROM emt_paradas WHERE id = ?', [id])
 		.then(function(result){
@@ -585,7 +603,7 @@ angular.module('PL.services', [])
 	return self;
 })
 
-.service('shareVar', function () {
+.service('shareVar', function (){
 	var property = 'First';
 
 	return {

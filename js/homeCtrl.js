@@ -41,23 +41,18 @@ angular.module('PL.controllers')
 	$scope.idActual = 0;
 	$scope.parada = {};
 	$scope.isTIB = $stateParams.isTIB;
-
 	$scope.buscar = {texto: ""};
 
 	$scope.publicidad = {home: false, parada: false};
 
-	$scope.g = function(){
-		EMTdb.getParadas().then(function(paradas){
-			$scope.paradas = paradas;
-		});
-	};
-	
-	$scope._paradas = EMT.paradas;
-
 	var today = new Date();
+
+	// No necesario ya que las paradas se cogen mediante el filter del ng-repeat
+	//$scope.paradas = EMTdb.getParadas();
 
 	// Aplicar clicks guardados a JSON de paradas
 	//=================================================
+	/*
 	angular.forEach($scope.top, function(item){
 		keepGoing = true;
 		angular.forEach($scope.paradas, function(parada){
@@ -69,6 +64,7 @@ angular.module('PL.controllers')
 			}
 		});
 	});
+	*/
 
 	// Check de publicidad inicial
 	//=================================================

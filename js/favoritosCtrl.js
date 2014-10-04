@@ -19,7 +19,7 @@ angular.module('PL.controllers')
 // - Más vistas
 // - Recientes
 //=================================================
-.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, $cordovaSQLite, localstorage, FavTop){
+.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, FavTop){
 
 	// Backbutton a home
 	//==================================================
