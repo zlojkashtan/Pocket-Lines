@@ -51,4 +51,5 @@ App made with Cordova and Ionic Framework
 
 * AngularJS / Javascript specific
 	* Localstorage
-	* Backend API
+	* WebSQL
+	* Backend REST API Calls
