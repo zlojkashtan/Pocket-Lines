@@ -65,6 +65,24 @@
 				</div>
 			</div>
 
+			<div class="card extras" ng-if="update" style="margin-top: -2px; margin-top: 10px;" ng-click="update()">
+				<div class="item item-text-wrap row">
+
+					<div class="col extra-num-parada">
+						<i class="icon ion-location"></i>
+						<span class="num-parada">Actualización disponible</span>
+					</div>
+
+					<div style="background-color: #efefef; margin-right: 2px; text-align: center; padding: 7px;">
+						<i class="icon ion-map"></i>
+					</div>
+
+				</div>
+			</div>
+			<div class="nav-title-slide-ios7" style="width: 100%; height: 100%; background-color: #efefef; position: absolute; top: 0; z-index: 999;right: 0;" ng-if="doUpdate">
+			asdasd
+			</div>
+
 			<div class="card extras" ng-if="busqueda && respuesta" style="margin-top: -2px; margin-top: 10px;">
 				<div class="item item-text-wrap row">
 
@@ -180,19 +198,13 @@
 				</div>
 			</div>
 
-			<div ng-if="(buscar.texto.length <= 0) && (!busqueda)" class="msg msg-feedback" style="text-align: left; padding-top: 20px;">
+			<!-- <div ng-if="(buscar.texto.length <= 0) && (!busqueda)" class="msg msg-feedback" style="text-align: left; padding-top: 20px;">
 				<a href="#/about/contacto">
 					<h6 style="display: inline-block; font-size: 16px; margin: 0;">Beta</h6>
 					<i class="ion ion-settings" style="font-size: 15px;"></i>
-					<p>Ayuda a mejorar la aplicación con tus ideas!</p>
-					
+					<p>Ayuda a mejorar la aplicación con tus ideas!</p>					
 				</a>
-
-				<div ng-click="g()">
-				DB: {{paradas.length}}
-					s: {{_paradas.length}}
-					</div>
-			</div>
+			</div> -->
 
 			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda) && user.elTiempo">
 				<div class="col temperatura">{{tiempo.list[0].temp.min | number:0}}° C</div>

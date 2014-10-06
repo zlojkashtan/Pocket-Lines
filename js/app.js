@@ -202,11 +202,10 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					console.log(data);
 					$rootScope.server = data;
 
-					API.getEMT($rootScope.user.EMTv).then(function (respuesta){
+					API.getEMT($rootScope.user.EMTv).then(function (respuesta){ 
 						console.log("+ App: Get EMT",respuesta);
-						UpdateDB.EMT(respuesta.data);
-					}, function(err) {
-						console.log("GETEMTERROR",err);
+						//UpdateDB.EMT(respuesta.data);
+						if(respuesta.data.updated !== true){ $rootScope.update = true;	}						
 					});
 
 					$rootScope.analytics();
