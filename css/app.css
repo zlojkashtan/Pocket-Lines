@@ -91,6 +91,14 @@ ion-side-menu.menu i{
 	margin-left: 10px !important;
 }
 
+.buttons.left-buttons button, .buttons.left-buttons button:hover{
+	color: black;
+}
+
+.buttons.left-buttons button.activated{
+	color: white;
+}
+
 .buttons.right-buttons{
 	margin-right: 10px !important;
 }
@@ -360,6 +368,16 @@ p.nota{
 	margin: -15px 5px 15px 7px;
 	color: #8D8D8D;
 }
+
+.msg.msg-update{
+	margin: 0;
+}
+
+.msg.msg-update i{
+	font-size: 20px;
+	color: #797979;
+}
+
 
 /**************************
 /** BUSCADOR HEADER

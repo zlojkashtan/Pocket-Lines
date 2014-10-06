@@ -1881,7 +1881,6 @@ angular.module('PL.factories', [])
 					//=======
 					if($rootScope.user.EMT){
 						angular.forEach(EMTdb.getParadas(), function(item){
-
 							var comparador = item.nombre.toLowerCase();
 							comparador = removeAccents(comparador);
 
@@ -1923,7 +1922,7 @@ angular.module('PL.factories', [])
 				// Inyecta EMT en resultados
 				//=======
 				if($rootScope.user.EMT){
-					angular.forEach(EMT.paradas, function(item){
+					angular.forEach(EMTdb.getParadas(), function(item){
 						if(item.id === searchString){
 							result.push(item);
 						}

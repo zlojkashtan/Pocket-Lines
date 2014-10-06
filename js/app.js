@@ -26,6 +26,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 			{name: 'lat', type: 'real'},
 			{name: 'lng', type: 'real'},
 			{name: 'otras', type: 'text'},
+			{name: 'fav', type: 'integer'},
 			{name: 'clicks', type: 'integer'}
 		]
 	},{
@@ -56,7 +57,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 // First call where set $rootScope vars and 
 // do api calls
 //=================================================
-.run(function($rootScope, localstorage, DB, UpdateDB, API, $ionicPlatform, $http, $translate){
+.run(function($rootScope, localstorage, DB, UpdateDB, EMTdb, API, $ionicPlatform, $http, $translate){
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
@@ -125,6 +126,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 		//Añadir ajustes extra a localstorage
 		if(!user.EMT && user.EMT !== false){ user.EMT = true; user.TIB = true; }
+		if(!user.EMTv){ user.EMTv = 0; user.TIBv = 0; }
 		if(!user.elTiempo && user.elTiempo !== false){ user.elTiempo = true; }
 
 		$rootScope.user = user;
@@ -203,9 +205,14 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					$rootScope.server = data;
 
 					API.getEMT($rootScope.user.EMTv).then(function (respuesta){ 
-						console.log("+ App: Get EMT",respuesta);
-						//UpdateDB.EMT(respuesta.data);
-						if(respuesta.data.updated !== true){ $rootScope.update = true;	}						
+						console.log("+ App: Get EMT",respuesta);	
+
+						// If hay actualizaciones de paradas					
+						$rootScope.UpdatedbEMT = function(){ UpdateDB.EMT(respuesta.data); };
+						if(respuesta.data.updated !== true){ 
+							$rootScope.updateExists = true;
+							$rootScope.updateProgress = 10; //10 para evitar un show
+						}						
 					});
 
 					$rootScope.analytics();
@@ -225,6 +232,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 		//ionic.Platform.isFullScreen = true;
 		DB.init();
+		EMTdb.prepareParadas();
 		$rootScope.loadServer();
 		$rootScope.checkConnection();
 

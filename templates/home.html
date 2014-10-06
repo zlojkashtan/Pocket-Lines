@@ -4,21 +4,13 @@
 		<a href="#/favoritos" class="button icon ion-android-star"></a>
 	</ion-nav-buttons>
 
-	<!--
-	<ion-header-bar class="bar-positive ion-header-bar">
-		<button class="button icon ion-navicon" menu-toggle="left"></button>
-		<h1 class="title">EMT Palma</h1>
-		<a href="#/favoritos" class="button icon ion-android-star"></a>
-	</ion-header-bar>
-	-->
-
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
 		<form name="formQueNoSirveParaNadaMasQueUnNgSubmit" ng-submit="buscarParada(false)">
 		<div class="card buscador-header">
 			<div class="item item-text-wrap item-icon-right" ng-class="{offline: appOffline}">
 				<i class="icon ion-search" ng-if="buscar.texto.length === 0"></i>
-				<input id="inputBusqueda" type="text" placeholder="Buscar número o nombre de parada" ng-model="buscar.texto" ng-change="resetBusqueda('input')" ng-if="!appOffline" />
-				<span ng-if="appOffline">No tienes internet</span>
+				<input id="inputBusqueda" type="text" placeholder="{{ 'INPUT_INTRODUCE' | translate }}" ng-model="buscar.texto" ng-change="resetBusqueda('input')" ng-if="!appOffline" />
+				<span ng-if="appOffline">{{ 'INPUT_OFFLINE' | translate}}</span>
 				<i class="icon ion-close-round" ng-if="buscar.texto.length > 0" ng-click="resetBusqueda('cross')"></i>
 			</div>
 		</div>
@@ -28,7 +20,7 @@
 			<div class="card buscador-sugerencias" ng-hide="busqueda">
 				<div class="item item-text-wrap">
 
-					<ul ng-hide="buscar.texto.length > 0">
+					<ul ng-if="buscar.texto.length === 0">
 
 						<li ng-repeat="reciente in recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}', reciente);" ng-class="{paradaVistas: (reciente.isTIB === true)}">
 							<i class="icon ion-location"></i>
@@ -38,12 +30,12 @@
 						</li>
 
 						<li ng-if="recientes.length === 0" class="aviso">
-							<span>Empieza a buscar una parada escribiendo el nombre de la calle en la que se encuentra</span>
-						</li>
+							<span>{{ 'MSG_START' | translate}}</span>
+						</li> 
 
 					</ul>
 
-					<ul ng-hide="buscar.texto.length === 0">
+					<ul ng-if="buscar.texto.length > 0">
 						<li class="item-icon-right" style="position:relative;" ng-repeat="parada in paradas | buscar:buscar.texto | orderBy:'clicks':true | limitTo: 7" ng-click="buscarParada('{{parada.id}}', parada);" ng-class="{paradaVistas: ((parada.clicks >= 1) || parada.isTIB === true)}">
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{parada.id}}</span>
@@ -65,22 +57,38 @@
 				</div>
 			</div>
 
-			<div class="card extras" ng-if="update" style="margin-top: -2px; margin-top: 10px;" ng-click="update()">
+			<div class="card extras" ng-if="(updateExists) && (buscar.texto.length === 0) && !busqueda" style="margin-top: -2px; margin-top: 10px;" ng-click="update()">
 				<div class="item item-text-wrap row">
 
-					<div class="col extra-num-parada">
-						<i class="icon ion-location"></i>
-						<span class="num-parada">Actualización disponible</span>
-					</div>
-
-					<div style="background-color: #efefef; margin-right: 2px; text-align: center; padding: 7px;">
-						<i class="icon ion-map"></i>
+					<div class="col" style="background-color: #efefef; margin-right: 2px; text-align: center; padding: 7px;">
+						<i class="icon ion-refresh"></i>
+						<span class="num-parada" style="font-weight: 400;">Actualización de paradas disponible</span>
 					</div>
 
 				</div>
 			</div>
-			<div class="nav-title-slide-ios7" style="width: 100%; height: 100%; background-color: #efefef; position: absolute; top: 0; z-index: 999;right: 0;" ng-if="doUpdate">
-			asdasd
+
+
+			<div class="nav-title-slide-ios7 msg msg-update" style="width: 100%; height: 100%; background-color: #efefef; position: absolute; top: 0; z-index: 999;right: 0; padding: 20px;" ng-if="showUpdate">
+				<div ng-if="!updating">
+					<h1>Actualización disponible</h1>
+					<p>Hay una actualización disponible para las paradas y los horarios de los autobuses de la EMT y del TIB.</p>
+					<p>Puedes actualizar las paradas cuando quieras, pero ten en cuenta que este proceso puede durar entre 15 y 45 segundos, según tu terminal.</p>
+					<p style="margin-top: 45px;"><button class="button button-block button-balanced" style="width: 85%; margin: auto;" ng-click="doUpdate()">Actualizar paradas</button></p>
+					<p style="margin-top: 20px;"><button class="button button-block button-assertive" style="width: 50%; margin: auto;" ng-click="cancelUpdate()">Ahora no</button></p>
+				</div>
+				<div ng-if="(updating) && (updateProgress > 0)">
+					<h1>Actualizando</h1>
+					<p>Actualizando la base de datos de paradas. Espera unos segundos, y no cierres la app mientras dura el proceso.</p>
+					<i class="ion ion-loading-c"></i>
+					<p>{{updateProgress}}</p>
+				</div>
+				<div ng-if="updateProgress == 0">
+					<h1>Actualizado</h1>
+					<p>La aplicación se ha actualizado a la última versión.</p>
+					<p style="margin-top: 20px;"><button class="button button-block button-balanced" style="width: 85%; margin: auto;" ng-click="cancelUpdate()">Aceptar</button></p>
+				</div>
+
 			</div>
 
 			<div class="card extras" ng-if="busqueda && respuesta" style="margin-top: -2px; margin-top: 10px;">
@@ -215,8 +223,8 @@
 
 		<div ng-if="appOffline" class="msg msg-offline">
 			<i class="ion ion-code-download"></i>
-			<h1>No estás conectado</h1>
-			<p>Activa internet en tu teléfono para poder consultar las paradas</p>
+			<h1>{{ 'MSG_OFFLINE_H1' | translate }}</h1>
+			<p>{{ 'MSG_OFFLINE_P' | translate }}</p>
 		</div>
 
 		<div ng-if="version < server.version && buscar.texto.length <= 0" class="msg msg-offline">

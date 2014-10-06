@@ -21,6 +21,7 @@
 PL.config(function ($translateProvider) {
 
 	$translateProvider.translations('es', {
+		
 
 		// GENERALES
 		//---------------------------------------------------
@@ -28,6 +29,14 @@ PL.config(function ($translateProvider) {
 		ESPERA: 'Espera',
 		MI_VALOR: 'Mi valoración',
 		VER_MAS: 'Ver más',
+
+		// Home
+		//---------------------------------------------------
+		INPUT_INTRODUCE: 'Buscar número o nombre de parada',
+		INPUT_OFFLINE: 'No tienes internet',
+		MSG_OFFLINE_H1: 'No estás conectado',
+		MSG_OFFLINE_P: 'Activa internet en tu teléfono para poder consultar las paradas',
+		MSG_START: 'Empieza a buscar una parada escribiendo el nombre de la calle en la que se encuentra',
 
 		// Ajustes
 		//---------------------------------------------------

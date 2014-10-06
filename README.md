@@ -52,4 +52,6 @@ App made with Cordova and Ionic Framework
 * AngularJS / Javascript specific
 	* Localstorage
 	* WebSQL
-	* Backend REST API Calls
+	* Backend REST API Calls ($http)
+	* Google Maps Javascript API v3 integration
+	* Google Maps Image API integration

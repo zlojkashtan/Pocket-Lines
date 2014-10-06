@@ -80,7 +80,6 @@ angular.module('PL.controllers')
 	if($rootScope.user.elTiempo){
 		elTiempo.getTiempo();	
 	}
-	
 
 /*
 	if(!confirmPopup){
@@ -185,9 +184,8 @@ angular.module('PL.controllers')
 
 		if(item && item.isTIB){ $scope.isTIB = true; }
 		if(!$scope.isTIB){
-
 			$ionicLoading.show({
-				template: 'Consultando EMT...'
+				template: '<i class="ion ion-loading-c"></i>'
 			});
 
 			contactoEMT.getParada(idParada).then(function (respuesta) {
@@ -207,26 +205,31 @@ angular.module('PL.controllers')
 
 				// Incremento el contador de clicks de la parada
 				// para scope y rootscope
+				// SQLite
 				//=================================================
+				EMTdb.clicks(idParada);
+				/*
 				$rootScope.top = FavTop.incrementar(idParada, $scope.top, $scope.buscar.texto);
 				localstorage.setObject('top',$rootScope.top);
 
-				if(item && item.clicks){
-					
+				if(item && item.clicks){					
 					//console.log("el item en cuestion: ", item);
 					//console.log("Parada Index: ", EMT.paradas.indexOf(item));
 					//console.log("Parada Object: ", EMT.paradas[EMT.paradas.indexOf(item)]);
 					
 					EMT.paradas[EMT.paradas.indexOf(item)].clicks++;
 				}
+				*/
 
 				// Compruebo el favorito de esta parada
 				//=================================================
 				$scope.paradaFav = FavTop.checkFavorito(idParada);
 
 				// Get información de la parada (para el mapa)
+				// EMTdb.getParadas()
 				//=================================================
 				$scope.infoParada = InfoItinerario.getParada(idParada);
+				console.log(EMTdb.getParada(idParada));
 
 				// Get Publicidad de esa parada
 				//=================================================
@@ -239,7 +242,7 @@ angular.module('PL.controllers')
 				//=================================================
 				$rootScope.gaPlugin.trackEvent( false, false, "Buscar Parada_", idParada, "Buscar Parada___", 0);
 
-			}, function(err) {
+			}, function(err) {				
 				$ionicLoading.hide();
 				$scope.error = true;
 				// An error occured. Show a message to the user
@@ -402,7 +405,7 @@ angular.module('PL.controllers')
 	};
 
 	// Function alarma
-	// Activa una alarma Dados X minnutos
+	// Activa una alarma Dados X minutos
 	//=================================================
 	$scope.alarma = function(){
 		$ionicPopup.prompt({
@@ -456,6 +459,21 @@ angular.module('PL.controllers')
 			}
 		});
 	};
+
+
+	// Update paradas
+	// Update DB
+	//=================================================
+	$scope.update = function(){
+		$scope.showUpdate = true;
+	}
+	$scope.cancelUpdate = function(){
+		$scope.showUpdate = false;
+	}
+	$scope.doUpdate = function(){
+		$scope.updating = true;
+		$rootScope.UpdatedbEMT();
+	}
 
 }])
 

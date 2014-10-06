@@ -522,12 +522,14 @@ angular.module('PL.services', [])
 //=================================================
 .factory('UpdateDB', function($rootScope, DB, EMTdb, localstorage){
 	var self = this;
+	var updateProgress = 1;
 	
 	self.EMT = function(respuesta){
-		EMTdb.prepareParadas();
-		if(respuesta.updated !== true){
-			var updateParadas = respuesta.paradas.length;
 
+		EMTdb.prepareParadas();
+		updateProgress = updateProgress + respuesta.paradas.length + respuesta.lineas.length;
+
+		if(respuesta.updated !== true){
 			angular.forEach(respuesta.lineas, function(item) {
 
 				//| Update emt_lineas
@@ -535,10 +537,14 @@ angular.module('PL.services', [])
 				DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
 				.then(function(result){
 					console.log("Insert ok", result);
+					updateProgress--;
+					$rootScope.updateProgress = updateProgress;
 					//return DB.fetchAll(result);
 				}, function(err){ console.log(err); });
 			
 			});
+
+			updateProgress--;
 
 			angular.forEach(respuesta.paradas, function(item) {
 				
@@ -547,12 +553,14 @@ angular.module('PL.services', [])
 				DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
 				.then(function(result){
 					console.log("Insert ok", result);
-					updateParadas--;
+					updateProgress--;
+					$rootScope.updateProgress = updateProgress;
 					//return DB.fetchAll(result);
-					if(updateParadas == 0){ 
+					if(updateProgress == 0){ 
 						//console.log("SYNC FINALIZADO");
-						$rootScope.sync = false;
-						EMTdb.prepareParadas(); }
+						$rootScope.updateExists = false;
+						EMTdb.prepareParadas(); 
+					}
 				}, function(err){ console.log(err); });
 
 				
@@ -581,11 +589,9 @@ angular.module('PL.services', [])
 	
 	self.prepareParadas = function() {
 	 console.log("+ App: Buffer paradas");
-	 $rootScope.sync = true;
 	 DB.query('SELECT * FROM emt_paradas')
 		.then(function(result){
 			paradas = DB.fetchAll(result);
-			$rootScope.sync = false;
 		});
 	};
 	
@@ -597,6 +603,13 @@ angular.module('PL.services', [])
 		return DB.query('SELECT * FROM emt_paradas WHERE id = ?', [id])
 		.then(function(result){
 			return DB.fetch(result);
+		});
+	};
+
+	self.clicks = function(id) {
+		return DB.query('UPDATE emt_paradas SET clicks=clicks+1 WHERE id = ?', [id])
+		.then(function(result){
+			self.prepareParadas();
 		});
 	};
 	
