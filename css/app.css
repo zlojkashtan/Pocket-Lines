@@ -73,6 +73,10 @@ a{
 	margin-left: -125px !important;
 }
 
+.loading i{
+	font-size: 32px;
+}
+
 /**************************
 /** Menu
 /*************************/

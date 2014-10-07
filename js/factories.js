@@ -946,9 +946,9 @@ angular.module('PL.factories', [])
 	{id:404, nombre:"Plaça d'Espanya", lat:39.5752067565918, lng:2.6552069187164307, otras:["14","15","23","30"], clicks:0},
 	{id:559, nombre:"Eusebi Estada, 1 (Estació tren de Sóller)", lat:39.57685470581055, lng:2.654197931289673, otras:["14","23","30","33"], clicks:0},
 	{id:1135, nombre:"Àrea Serveis Aeroport", lat:39.54325485229492, lng:2.717150926589966, otras:["1"], clicks:0},
-	{id:1136, nombre:"Àrea Serveis Aeroport", lat:39.543758392333984, lng:2.716870069503784, otras:["1"], clicks:0},
-	{id:1137, nombre:"Cases Noves, 40", lat:0, lng:0, otras:["9"], clicks:0},
-	{id:1138, nombre:"Josep Antoni de Cabanyes, 38", lat:0, lng:0, otras:["6"], clicks:0}
+	//{id:1136, nombre:"Àrea Serveis Aeroport", lat:39.543758392333984, lng:2.716870069503784, otras:["1"], clicks:0},
+	//{id:1137, nombre:"Cases Noves, 40", lat:0, lng:0, otras:["9"], clicks:0},
+	//{id:1138, nombre:"Josep Antoni de Cabanyes, 38", lat:0, lng:0, otras:["6"], clicks:0}
 	];
 
 	var itinerarios = [
@@ -1741,6 +1741,30 @@ angular.module('PL.factories', [])
 	};
 })
 
+.filter('infoItinerario', function($rootScope){
+	return function(itinerario){
+
+		var today = new Date();
+		
+		if(!itinerario || itinerario.indeterminado === '1'){
+			return "Debido a variaciones en la trayectoria de esta línea, para más información consulta su itinerario.";
+		}else{
+			//Determino si el día es feiner, sabado o festivo.
+			//Habrá que hacer un script que cuente los días festivos 100% por fecha
+			//Con una bateria de dias festivos
+			if(today.getDay() === 6){
+				return "Los sábados, el bus está en servicio desde las "+ itinerario.primeroSab + " hasta las " + itinerario.ultimoSab + " con una frecuencia media de " + itinerario.frecuenciaSab + " minutos";
+			}else{
+				if((today.getDay() === 0) || ($rootScope.server.es_festivo === 1)){
+					return "Los domingos y festivos, el bus está en servicio desde las "+ itinerario.primeroFest + " hasta las " + itinerario.ultimoFest + " con una frecuencia media de " + itinerario.frecuenciaFest + " minutos";
+				}else{
+					return "Bus en servicio desde las "+ itinerario.primero + " hasta las " + itinerario.ultimo + " con una frecuencia media de " + itinerario.frecuencia + " minutos";
+				}
+			}
+		}
+	};
+	
+})
 
 .filter('estimacionTIB', function($rootScope){
 	return function(text){
@@ -1810,27 +1834,19 @@ angular.module('PL.factories', [])
 	};
 })
 
-.filter('version', function(){
-	return function(text){
-			var v = 1.0;
-			text = "Última actualización";
-			return text;
-		};
-	})
-
 .filter('htmlToPlaintext', function() {
-		return function(text) {
-			return String(text).replace(/<[^>]+>/gm, '');
-		};
-	})
+	return function(text) {
+		return String(text).replace(/<[^>]+>/gm, '');
+	};
+})
 
 .filter('sharear', function() {
-		return function(text) {
-			text = String(text).replace(/<[^>]+>/gm, '');
-			text = text.substring(0,110) +"...";
-			return text;
-		};
-	})
+	return function(text) {
+		text = String(text).replace(/<[^>]+>/gm, '');
+		text = text.substring(0,110) +"...";
+		return text;
+	};
+})
 
 .filter('buscar', function($rootScope, EMT, EMTdb, TIBTREN){
 

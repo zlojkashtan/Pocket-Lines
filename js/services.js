@@ -527,7 +527,7 @@ angular.module('PL.services', [])
 	self.EMT = function(respuesta){
 
 		EMTdb.prepareParadas();
-		updateProgress = updateProgress + respuesta.paradas.length + respuesta.lineas.length;
+		updateProgress = respuesta.paradas.length + respuesta.lineas.length + respuesta.itinerarios.length;
 
 		if(respuesta.updated !== true){
 			angular.forEach(respuesta.lineas, function(item) {
@@ -544,7 +544,20 @@ angular.module('PL.services', [])
 			
 			});
 
-			updateProgress--;
+			angular.forEach(respuesta.itinerarios, function(item) {
+
+				//| Update emt_lineas
+				//+--------------------------------
+				DB.query('INSERT OR REPLACE INTO emt_itinerarios (id, nombre, destino, indeterminado, primero, ultimo, frecuencia, primeroSab, ultimoSab, frecuenciaSab, primeroFest, ultimoFest, frecuenciaFest, paradas) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+					[item.id, item.nombre, item.destino, item.indeterminado, item.primero, item.ultimo, item.frecuencia, item.primeroSab, item.ultimoSab, item.frecuenciaSab, item.primeroFest, item.ultimoFest, item.frecuenciaFest, item.paradas])
+				.then(function(result){
+					console.log("Insert ok", result);
+					updateProgress--;
+					$rootScope.updateProgress = updateProgress;
+					//return DB.fetchAll(result);
+				}, function(err){ console.log(err); });
+			
+			});
 
 			angular.forEach(respuesta.paradas, function(item) {
 				
@@ -610,6 +623,13 @@ angular.module('PL.services', [])
 		return DB.query('UPDATE emt_paradas SET clicks=clicks+1 WHERE id = ?', [id])
 		.then(function(result){
 			self.prepareParadas();
+		});
+	};
+
+	self.getItinerarioByNombre = function(nombre){
+		return DB.query('SELECT * from emt_itinerarios where destino = ?', [nombre])
+		.then(function(result){
+			return DB.fetch(result);
 		});
 	};
 	

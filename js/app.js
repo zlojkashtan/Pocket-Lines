@@ -26,7 +26,6 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 			{name: 'lat', type: 'real'},
 			{name: 'lng', type: 'real'},
 			{name: 'otras', type: 'text'},
-			{name: 'fav', type: 'integer'},
 			{name: 'clicks', type: 'integer'}
 		]
 	},{

@@ -7,6 +7,8 @@ Thumbs.db
 Icon
 
 lib_B13/^.*
+docs/
+docs/^.*
 
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore

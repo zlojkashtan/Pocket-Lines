@@ -30,41 +30,29 @@ angular.module('PL.controllers')
 // - Buscar paradas en la EMT
 // - sumar paradas al contador de localstorage
 //=================================================
-.controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', 'contactoEMT', 'elTiempo', 'InfoItinerario', 'Publicidad', '$filter', '$timeout', '$ionicLoading', '$ionicPopup', '$ionicModal', '$ionicPlatform', '$ionicNavBarDelegate', 'localstorage', 'EMT', 'EMTdb', 'FavTop' ,function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $timeout, $ionicLoading, $ionicPopup, $ionicModal, $ionicPlatform, $ionicNavBarDelegate, localstorage, EMT, EMTdb, FavTop) {
+//.controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', 'contactoEMT', 'elTiempo', 'InfoItinerario', 'Publicidad', '$filter', '$ionicLoading', '$ionicPopup', '$ionicPlatform', 'localstorage', 'EMTdb', 'FavTop' ,function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $ionicLoading, $ionicPopup, $ionicPlatform, localstorage, EMTdb, FavTop) {
+.controller('HomeCtrl', function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $ionicLoading, $ionicPopup, $ionicPlatform, localstorage, EMTdb, FavTop) {
+	
 	$scope.busqueda = false;
 	$scope.respuesta = false;
 	$scope.error = false;
 	$scope.detalles = false;
 	$scope.paradaFav = false;
-	$scope.verMapa = false;
 
 	$scope.idActual = 0;
 	$scope.parada = {};
 	$scope.isTIB = $stateParams.isTIB;
 	$scope.buscar = {texto: ""};
 
-	$scope.publicidad = {home: false, parada: false};
+	$scope.publicidad = {
+		home: false, 
+		parada: false
+	};
 
-	var today = new Date();
-
-	// No necesario ya que las paradas se cogen mediante el filter del ng-repeat
-	//$scope.paradas = EMTdb.getParadas();
-
-	// Aplicar clicks guardados a JSON de paradas
-	//=================================================
-	/*
-	angular.forEach($scope.top, function(item){
-		keepGoing = true;
-		angular.forEach($scope.paradas, function(parada){
-			if(keepGoing){
-				if(parseInt(parada.id) === parseInt(item.id)){
-					parada.clicks = item.clicks;
-					keepGoing = false;
-				}
-			}
-		});
-	});
-	*/
+	//$scope.verMapa = false;
+	$scope.actions = {
+		mapa: false
+	}
 
 	// Check de publicidad inicial
 	//=================================================
@@ -72,8 +60,6 @@ angular.module('PL.controllers')
 		if(typeof newValue === "object"){
 			$scope.publicidad.home = Publicidad.getTipo("home");
 			console.log("publicidad",$scope.publicidad.home);
-
-			//elTiempo.getTiempo();
 		}
 	});
 
@@ -180,7 +166,8 @@ angular.module('PL.controllers')
 		// Reset estados
 		$scope.busqueda = true;
 		$scope.respuesta = false;
-		$scope.verMapa = false;
+		//$scope.verMapa = false;
+		$scope.actions.mapa = false;
 
 		if(item && item.isTIB){ $scope.isTIB = true; }
 		if(!$scope.isTIB){
@@ -204,22 +191,9 @@ angular.module('PL.controllers')
 				localstorage.setObject('recientes', $rootScope.recientes);
 
 				// Incremento el contador de clicks de la parada
-				// para scope y rootscope
 				// SQLite
 				//=================================================
 				EMTdb.clicks(idParada);
-				/*
-				$rootScope.top = FavTop.incrementar(idParada, $scope.top, $scope.buscar.texto);
-				localstorage.setObject('top',$rootScope.top);
-
-				if(item && item.clicks){					
-					//console.log("el item en cuestion: ", item);
-					//console.log("Parada Index: ", EMT.paradas.indexOf(item));
-					//console.log("Parada Object: ", EMT.paradas[EMT.paradas.indexOf(item)]);
-					
-					EMT.paradas[EMT.paradas.indexOf(item)].clicks++;
-				}
-				*/
 
 				// Compruebo el favorito de esta parada
 				//=================================================
@@ -228,14 +202,14 @@ angular.module('PL.controllers')
 				// Get información de la parada (para el mapa)
 				// EMTdb.getParadas()
 				//=================================================
-				$scope.infoParada = InfoItinerario.getParada(idParada);
-				console.log(EMTdb.getParada(idParada));
+				EMTdb.getParada(idParada).then(function(data){ $scope.infoParada = data; });
+				//console.log($scope.infoParada);
 
 				// Get Publicidad de esa parada
 				//=================================================
 				if(typeof $rootScope.server === "object"){
 					$scope.publicidad.parada = Publicidad.getParada(idParada);
-					console.log("publicidad parada",$scope.publicidad.parada);
+					console.log("publicidad parada", $scope.publicidad.parada);
 				}
 
 				// Guardar evento en Analytics
@@ -246,9 +220,10 @@ angular.module('PL.controllers')
 				$ionicLoading.hide();
 				$scope.error = true;
 				// An error occured. Show a message to the user
-				console.log("error",err);
+				// console.log("error",err);
 			});
-		}else{
+
+		}else{ // Else -> is tib
 
 			$scope.respuesta = true;
 
@@ -297,7 +272,8 @@ angular.module('PL.controllers')
 
 		$scope.busqueda = false;
 		$scope.respuesta = false;
-		$scope.verMapa = false;
+		//$scope.verMapa = false;
+		$scope.actions.mapa = false;
 		$scope.error = false;
 		$scope.isTIB = false;
 
@@ -317,35 +293,20 @@ angular.module('PL.controllers')
 
 	// Function detalles
 	// Al hacer click busca información sobre esa linea
-	// y informa de los horarios
+	// e informa de los horarios
 	//=================================================
-	$scope.detalles = function(nombreItinerario, idLinea){
+	$scope.detalles = function(nombreItinerario){
+
+		var that = this;
 
 		if(this.detalls === true){this.detalls = false;}else{
 			this.detalls = true;
 
-			$scope.itinerario = InfoItinerario.getInfo(nombreItinerario);
-			console.log($scope.itinerario);
-
-			if(!$scope.itinerario || $scope.itinerario.indeterminado === '1'){
-				this.infoLinea = "Debido a variaciones en la trayectoria de esta línea, para más información consulta su itinerario.";
-			}else{
-				//Determino si el día es feiner, sabado o festivo.
-				//Habrá que hacer un script que cuente los días festivos 100% por fecha
-				//Con una bateria de dias festivos
-				if(today.getDay() === 6){
-					$scope.dia = "sabado";
-					this.infoLinea = "Los sábados, el bus está en servicio desde las "+ $scope.itinerario.primeroSab + " hasta las " + $scope.itinerario.ultimoSab + " con una frecuencia media de " + $scope.itinerario.frecuenciaSab + " minutos";
-				}else{
-					if((today.getDay() === 0) || ($rootScope.server.es_festivo === 1)){
-						$scope.dia = "domingo";
-						this.infoLinea = "Los domingos y festivos, el bus está en servicio desde las "+ $scope.itinerario.primeroFest + " hasta las " + $scope.itinerario.ultimoFest + " con una frecuencia media de " + $scope.itinerario.frecuenciaFest + " minutos";
-					}else{
-						$scope.dia = "feiner";
-						this.infoLinea = "Bus en servicio desde las "+ $scope.itinerario.primero + " hasta las " + $scope.itinerario.ultimo + " con una frecuencia media de " + $scope.itinerario.frecuencia + " minutos";
-					}
-				}
-			}
+			EMTdb.getItinerarioByNombre(nombreItinerario).then(function(data){ 
+				that.infoLinea = $filter('infoItinerario')(data);
+			}, function(err){ 
+				console.log(err);
+			});
 		}
 
 	};
@@ -382,10 +343,6 @@ angular.module('PL.controllers')
 		$scope.modal.remove();
 	});*/
 
-	$scope.mostrarMapa = function(){
-		$scope.verMapa = !$scope.verMapa;
-	};
-
 	// Function addFavorito
 	// Añade una parada al rootscope y localstorage
 	//=================================================
@@ -394,12 +351,9 @@ angular.module('PL.controllers')
 
 		// Añado la parada en favoritos o la elimino
 		//=================================================
-		if($scope.isTIB){
-			$scope.parada = {id: $scope.idActual, nombre: $scope.buscar.texto, isTIB: true};
-		}else{
-			$scope.parada = {id: $scope.idActual, nombre: $scope.buscar.texto};
-		}
-		//console.log($scope.parada);
+		$scope.parada = {id: $scope.idActual, nombre: $scope.buscar.texto};
+		if($scope.isTIB){ $scope.parada.isTIB = true; }
+		
 		$rootScope.favoritos = FavTop.toggleFavorito($scope.parada, $rootScope.favoritos);
 		localstorage.setObject('favoritos', $rootScope.favoritos);
 	};
@@ -418,7 +372,7 @@ angular.module('PL.controllers')
 				if(isNaN(minutos)){
 					$ionicPopup.alert({
 						title: 'Error',
-						template: 'Escribe un número'
+						template: 'No se ha podido activar un alarma'
 					});
 				}else{
 					$ionicPopup.alert({
@@ -443,7 +397,7 @@ angular.module('PL.controllers')
 					id: "EMT",
 					date: minutos,
 					message: "El bus va a llegar!",
-					title: "Pocket Lines: EMT",
+					title: "Pocket Lines",
 					//sound: '/www/res/raw/tone.mp3',
 					autoCancel: true
 				});
@@ -475,7 +429,8 @@ angular.module('PL.controllers')
 		$rootScope.UpdatedbEMT();
 	}
 
-}])
+//}])
+})
 
 
 //=================================================
