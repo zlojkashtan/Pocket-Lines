@@ -590,6 +590,14 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	font-size: 18px;
 }
 
+.buscador-resultados .flecha-down-icon{
+	position: absolute;
+	top: 56px;
+	right: 4px;
+	color: #CFCFCF;
+	font-size: 18px;
+}
+
 .buscador-resultados .itinerario-linea{
 	border-top: 1px solid #efefef;
 	padding-top: 5px;

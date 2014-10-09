@@ -19,13 +19,12 @@ angular.module('PL.controllers')
 // - Más vistas
 // - Recientes
 //=================================================
-.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, FavTop){
+.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, EMTdb){
 
 	// Backbutton a home
 	//==================================================
 	if(!$rootScope.$viewHistory.backView){
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			console.log("FAVORITOSBACK");
 			$ionicViewService.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
@@ -43,7 +42,7 @@ angular.module('PL.controllers')
 
 	$scope.showPrompt = function(element) {
 		$ionicPopup.prompt({
-			title: 'Cambiar aliass',
+			title: 'Cambiar alias',
 			subTitle: 'Elije un nombre para esta parada'
 		}).then(function(res) {
 			if((res !== "") && (typeof res !== 'undefined')){
@@ -55,6 +54,8 @@ angular.module('PL.controllers')
 		});
 	};
 
+	$scope.top = EMTdb.getTop();
+
 	$scope.borrarParada = function(element, tipo){
 		if(tipo === "favoritos"){
 			$scope.index = $rootScope.favoritos.indexOf(element);
@@ -63,9 +64,10 @@ angular.module('PL.controllers')
 		}
 
 		if(tipo === "top"){
-			$scope.index = $rootScope.top.indexOf(element);
-			$rootScope.top.splice($scope.index, 1);
-			$scope.data.cambios = true;
+			$scope.index = $scope.top.indexOf(element);
+			$scope.top.splice($scope.index, 1);
+			console.log(element);
+			EMTdb.resetClicks(element.id);
 		}
 
 		if(tipo === "recientes"){
@@ -81,7 +83,6 @@ angular.module('PL.controllers')
 		if($scope.data.cambios === true){
 			localstorage.setObject('favoritos', $rootScope.favoritos);
 			localstorage.setObject('recientes', $rootScope.recientes);
-			localstorage.setObject('top', $rootScope.top);
 			$scope.data.cambios = false;
 		}
 	};

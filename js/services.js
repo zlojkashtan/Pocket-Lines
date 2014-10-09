@@ -597,15 +597,25 @@ angular.module('PL.services', [])
 // http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace/4330694#4330694
 //=================================================
 .factory('EMTdb', function($rootScope, DB) {
-	var paradas = false, wrap = false;
+	var paradas = false, top = false, searchTop = false, wrap = false, rand = 0;
 	var self = this;
 	
 	self.prepareParadas = function() {
-	 console.log("+ App: Buffer paradas");
-	 DB.query('SELECT * FROM emt_paradas')
-		.then(function(result){
-			paradas = DB.fetchAll(result);
+		console.log("+ App: Buffer paradas");
+		DB.query('SELECT * FROM emt_paradas').then(function(result){ paradas = DB.fetchAll(result); });
+		DB.query('SELECT * FROM emt_paradas WHERE clicks >= ?', ['2']).then(function(result){ 
+			top = DB.fetchAll(result);
+			searchTop = DB.fetchAll(result);
+			if(top.length <= 5){ 
+				rand = Math.floor(Math.random() * (paradas.length - 200)) + 5;
+				for (var i = (5-top.length); i >= 0; i--) {
+					searchTop.push(paradas[(rand + (i*7))]);
+				};  
+			} 
+			console.log(searchTop);
+			console.log("top",top);
 		});
+	 
 	};
 	
 	self.getParadas = function() {
@@ -619,8 +629,18 @@ angular.module('PL.services', [])
 		});
 	};
 
+	self.getTop = function() { return top; };
+	self.searchTop = function() { return searchTop; };
+
 	self.clicks = function(id) {
 		return DB.query('UPDATE emt_paradas SET clicks=clicks+1 WHERE id = ?', [id])
+		.then(function(result){
+			self.prepareParadas();
+		});
+	};
+
+	self.resetClicks = function(id) {
+		return DB.query('UPDATE emt_paradas SET clicks=0 WHERE id = ?', [id])
 		.then(function(result){
 			self.prepareParadas();
 		});

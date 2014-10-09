@@ -1888,7 +1888,7 @@ angular.module('PL.factories', [])
 			//=================================================================
 
 			if(isNaN(searchString)){
-				if(searchString.length > 0){
+				if(searchString.length > 1){
 					searchString = searchString.toLowerCase();
 					searchString = removeAccents(searchString);
 
@@ -1906,7 +1906,7 @@ angular.module('PL.factories', [])
 							}
 						});
 					}else{
-
+						//Reset array de resultados si no quiere EMT
 					}
 
 					//=======
@@ -1925,8 +1925,7 @@ angular.module('PL.factories', [])
 					}
 				}else{
 					//Reset array de resultados si no quiere EMT
-					// Nota: desactivado a causa de if(searchString.length > 0){
-					arr = [];
+					arr = EMTdb.searchTop();
 					result = arr;
 				}
 

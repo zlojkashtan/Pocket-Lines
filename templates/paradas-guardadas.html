@@ -77,7 +77,7 @@
 			<ion-item ng-repeat="item in top | orderBy:'clicks':true" class="item-icon-right favoritoAlias" item="item">
 				<a class="item-content" href="#/parada/{{item.id}}">
 					<span class="nombre-parada">{{item.nombre}}</span>
-					<span class="vistas-parada">Parada vista {{item.clicks}} veces</span>
+					<span class="vistas-parada">{{ 'FLAG_PARADAS_VISTAS' | translate:'{clicks: item.clicks}' }}</span>
 				</a>
 				<ion-delete-button class="ion-minus-circled" ng-click="borrarParada(item, 'top')"></ion-delete-button>
 				<i class="icon ion-chevron-right"></i>

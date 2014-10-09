@@ -26,7 +26,7 @@
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{reciente.id}}</span>
 							<p class="nombre-parada">{{reciente.nombre}}</p>
-							<span class="vistas-parada" ng-if="reciente.isTIB" style="color: #A55050;">Transporte TIB</span>
+							<span class="vistas-parada" ng-if="reciente.isTIB" style="color: #A55050;">{{ 'FLAG_TIB' | translate }}</span>
 						</li>
 
 						<li ng-if="recientes.length === 0" class="aviso">
@@ -40,8 +40,8 @@
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{parada.id}}</span>
 							<p class="nombre-parada">{{parada.nombre}}</p>
-							<span class="vistas-parada" ng-if="parada.clicks >= 1">Parada vista {{parada.clicks}} veces</span>
-							<span class="vistas-parada" ng-if="parada.isTIB" style="color: #A55050;">Transporte TIB</span>
+							<span class="vistas-parada" ng-if="parada.clicks >= 1">{{ 'FLAG_PARADAS_VISTAS' | translate:'{clicks: parada.clicks}' }}</span>
+							<span class="vistas-parada" ng-if="parada.isTIB" style="color: #A55050;">{{ 'FLAG_TIB' | translate }}</span>
 						</li>
 					</ul>
 
@@ -121,10 +121,10 @@
 				</div>
 			</div>
 
-			<div class="card extra-mapa" ng-if="verMapa">
+			<div class="card extra-mapa" ng-if="actions.mapa">
 				<div class="item item-text-wrap">
 					<i class="icon ion-loading-c"></i>
-					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">Situación en el mapa</p>
+					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">{{ 'HEADER_MAPA' | translate}}</p>
 					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{infoParada.lat}},{{infoParada.lng}}&markers=color:blue%7Clabel:*%7C{{infoParada.lat}},{{infoParada.lng}}&zoom=16&sensor=true&size=600x300&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI" />
 				</div>
 			</div>
@@ -147,7 +147,8 @@
 						<li class="item-icon-right" style="position:relative;" ng-click="detalles(linea.vh_first.destino)">
 							<div class="num-linea" style="background-color: #{{linea.color}}; ">{{linea.line}}</div>
 							<h2>{{linea.vh_first.destino}}</h2>
-							<i class="ion ion-flag avisos-linea-icon" ng-hide="numIncidencias(linea.line) <= 0"></i>
+							<!--<i class="ion ion-flag avisos-linea-icon" ng-hide="numIncidencias(linea.line) <= 0"></i>-->
+							<i class="ion ion-arrow-down-b flecha-down-icon"></i>
 						</li>
 						<li class="item-icon-right" ng-click="detalles(linea.vh_first.destino)">
 							<span class="primer-bus" ng-class="{llegando: (linea.vh_first.seconds < 60 )}">Próximo: {{linea.vh_first.seconds | tiempoParada}} </span>
@@ -156,9 +157,11 @@
 						<li class="detalles-linea" ng-if="detalls===true" ng-click="detalles(linea.vh_first.destino)">
 							<i class="icon ion-clock"></i> {{infoLinea}}
 						</li>
+						<!-- 
 						<li class="avisos-linea" ng-if="detalls===true && numIncidencias(linea.line) > 0" ng-click="verAvisos(linea.line)">
 							<i class="icon ion-alert"></i> Esta línea tiene {{numIncidencias(linea.line)}} avisos abiertos.
 						</li>
+						-->
 						<li class="itinerario-linea" ng-if="detalls===true">
 							<a href="#/linea/{{linea.line}}"><i class="icon ion-map"></i> Ver itinerario línea {{linea.line}}</a>
 						</li>
@@ -213,40 +216,6 @@
 					<p>Ayuda a mejorar la aplicación con tus ideas!</p>					
 				</a>
 			</div> -->
-
-
-			<div class="card buscador-resultados">
-				<div class="item item-text-wrap">
-					<ul>
-						<li class="item-icon-right" style="position:relative;" ng-click="detalles('ESTABLIMENTS')">
-							<div class="num-linea" style="background-color: #{{linea.color}}; ">{{linea.line}}</div>
-							<h2>{{'ESTABLIMENTS'}}</h2>
-							<i class="ion ion-flag avisos-linea-icon" ng-hide="numIncidencias(linea.line) <= 0"></i>
-						</li>
-						<li class="item-icon-right" ng-click="detalles('ESTABLIMENTS')">
-							<span class="primer-bus" ng-class="{llegando: (linea.vh_first.seconds < 60 )}">Próximo: {{linea.vh_first.seconds | tiempoParada}} </span>
-							<span class="segundo-bus">Siguiente: {{linea.vh_second.seconds | tiempoParada}} </span>
-						</li>
-						<li class="detalles-linea" ng-if="detalls===true" ng-click="detalles('ESTABLIMENTS')">
-							<i class="icon ion-clock"></i> {{infoLinea}}
-						</li>
-						<li class="avisos-linea" ng-if="detalls===true && numIncidencias(linea.line) > 0" ng-click="verAvisos(linea.line)">
-							<i class="icon ion-alert"></i> Esta línea tiene {{numIncidencias(linea.line)}} avisos abiertos.
-						</li>
-						<li class="itinerario-linea" ng-if="detalls===true">
-							<a href="#/linea/{{linea.line}}"><i class="icon ion-map"></i> Ver itinerario línea {{linea.line}}</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="card extra-mapa" ng-if="actions.mapa">
-				<div class="item item-text-wrap">
-					<i class="icon ion-loading-c"></i>
-					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">{{ 'HEADER_MAPA' | translate}}</p>
-					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{infoParada.lat}},{{infoParada.lng}}&markers=color:blue%7Clabel:*%7C{{infoParada.lat}},{{infoParada.lng}}&zoom=16&sensor=true&size=600x300&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI" />
-				</div>
-			</div>
 
 			<div class="row elTiempo" ng-if="tiempo && (buscar.texto.length <= 0) && (!busqueda) && user.elTiempo">
 				<div class="col temperatura">{{tiempo.list[0].temp.min | number:0}}° C</div>

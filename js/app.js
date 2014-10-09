@@ -105,12 +105,13 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 	// Get Localstorage de clicks en paradas top
 	//=================================================
+	/*
 	var topParadas = localstorage.getObject('top');
 	if(topParadas.length > 0){
 		$rootScope.top = topParadas;
 	}else{
 		$rootScope.top = [];
-	}
+	}*/
 
 	//console.log("+ localstorage: top");
 	//console.log($rootScope.top);

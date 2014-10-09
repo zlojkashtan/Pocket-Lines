@@ -29,6 +29,7 @@ PL.config(function ($translateProvider) {
 		ESPERA: 'Espera',
 		MI_VALOR: 'Mi valoración',
 		VER_MAS: 'Ver más',
+		FLAG_TIB: 'Transporte TIB',
 
 		// Home
 		//---------------------------------------------------
@@ -38,6 +39,7 @@ PL.config(function ($translateProvider) {
 		MSG_OFFLINE_P: 'Activa internet en tu teléfono para poder consultar las paradas',
 		MSG_START: 'Empieza a buscar una parada escribiendo el nombre de la calle en la que se encuentra',
 		HEADER_MAPA: 'Situación en el mapa',
+		FLAG_PARADAS_VISTAS: 'Parada vista {{clicks}} veces',
 
 		// Ajustes
 		//---------------------------------------------------
