@@ -40,7 +40,7 @@
 		<ion-side-menus>
 			<!-- Center content -->
 			<ion-pane ion-side-menu-content edge-drag-threshold="40" style="background-color: #efefef;" ng-class="{'tabs-top': tabs }">
-				<ion-nav-bar class="bar-positive" ng-class="{'has-tabs-top': tabs }"> <!-- nav-title-slide-ios7 animation="fade-in" align-title="left"-->
+				<ion-nav-bar class="bar-positive" animation="no-animation" align-title="left" ng-class="{'has-tabs-top': tabs }"> <!-- nav-title-slide-ios7 animation="fade-in" align-title="left"-->
 					<ion-nav-back-button class="button-icon ion-arrow-left-c"></ion-nav-back-button>
 				</ion-nav-bar>
 				<ion-nav-buttons side="left">
@@ -60,12 +60,12 @@
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/home" ng-class="{active: isItemActive('/home')}">
 							<i class="icon ion-location" style="font-size: 17px; margin-left: 3px;"></i>
-							Buscar paradas
+							{{ 'MENU_HOME' | translate}}
 						</ion-item>
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/favoritos" ng-class="{active: isItemActive('/favoritos')}">
 							<i class="icon ion-heart"></i>
-							Paradas guardadas
+							{{ 'MENU_FAVORITOS' | translate}}
 						</ion-item>
 
 						<div ng-if="user.EMT">
@@ -74,24 +74,29 @@
 								EMT PALMA
 							</div>
 
-							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/cercanas" ng-class="{active: isItemActive('/cercanas')}">
+							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/llegar" ng-class="{active: isItemActive('/llegar')}">
 								<i class="icon ion-navigate"></i>
-								Paradas cercanas
+								{{ 'MENU_LLEGAR' | translate}}
+							</ion-item>
+
+							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/cercanas" ng-class="{active: isItemActive('/cercanas')}">
+								<i class="icon ion-map"></i>
+								{{ 'MENU_CERCANAS' | translate}}
 							</ion-item>
 
 							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/lineas" ng-class="{active: isItemActive('/lineas')}">
 								<i class="icon ion-network"></i>
-								Informacion de líneas
+								{{ 'MENU_LINEAS' | translate}}
 							</ion-item>
 
 							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/tarifas">
 								<i class="icon ion-card"></i>
-								Tarifas y normativas
+								{{ 'MENU_TARIFAS' | translate}}
 							</ion-item>
 
 							<ion-item item-type="item-icon-left" nav-clear menu-close href="#/avisos" ng-class="{active: isItemActive('/avisos')}">
 								<i class="icon ion-flag"></i>
-								Avisos
+								{{ 'MENU_AVISOS' | translate}}
 								<span class="badge badge-assertive">{{server.avisos}}</span>
 							</ion-item>
 
@@ -121,21 +126,21 @@
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/taxis" ng-class="{active: isItemActive('/taxis')}">
 							<i class="icon ion-location"></i>
-							taxis
+							Taxis
 						</ion-item>
 
 						<div class="item item-divider">
-							AJUSTES Y ACERCA DE
+							{{ 'MENU_AJUSTES_DIVIDER' | translate}}
 						</div>
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/ajustes" ng-class="{active: isItemActive('/ajustes')}">
 							<i class="icon ion-gear-a"></i>
-							Ajustes
+							{{ 'MENU_AJUSTES' | translate}}
 						</ion-item>
 
 						<ion-item item-type="item-icon-left" nav-clear menu-close href="#/about" ng-class="{active: isItemActive('/about')}">
 							<i class="icon ion-grid"></i>
-							Acerca de la app
+							{{ 'MENU_ABOUT' | translate}}
 						</ion-item>						
 
 					</ion-list>

@@ -31,6 +31,19 @@ PL.config(function ($translateProvider) {
 		VER_MAS: 'Ver más',
 		FLAG_TIB: 'Transporte TIB',
 
+		// MENU
+		//---------------------------------------------------
+		MENU_HOME: 'Buscar paradas',
+		MENU_FAVORITOS: 'Paradas guardadas',
+		MENU_LLEGAR: 'Como llegar a...',
+		MENU_CERCANAS: 'Paradas cercanas',
+		MENU_LINEAS: 'Información de líneas',
+		MENU_TARIFAS: 'Tarifas y normativas',
+		MENU_AVISOS: 'Avisos',
+		MENU_AJUSTES_DIVIDER: 'AJUSTES Y ACERCA DE',
+		MENU_AJUSTES: 'Ajustes',
+		MENU_ABOUT: 'Acerca de la app',
+
 		// Home
 		//---------------------------------------------------
 		INPUT_INTRODUCE: 'Buscar número o nombre de parada',

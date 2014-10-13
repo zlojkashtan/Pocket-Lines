@@ -16,7 +16,6 @@
 }
 
 
-
 body, input, h1, h2, h3, h4, h5, .bar-header, .card {
 	/*font-family: 'Open Sans', sans-serif !important;*/
 	font-family: 'Roboto', sans-serif !important;
@@ -28,9 +27,10 @@ a{
 }
 
 .overflow-scroll {
-	//overflow-x: hidden;
+	/*overflow-x: hidden;*/
 	overflow-y: auto;
 }
+
 .pane{
 	background-color: #efefef;
 }
@@ -77,6 +77,33 @@ a{
 	font-size: 32px;
 }
 
+.bar.bar-positive{
+	background-color: #3F51B5;
+	background-image: none;
+	border: none;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.bar.bar-positive.has-tabs-top{
+	box-shadow: none;
+}
+
+.bar-positive .button {
+	border-color: transparent;
+	background-color: transparent;
+	color: #fff;
+}
+
+.tabs-striped.tabs-background-positive .tabs {
+	background-color: #3F51B5;
+}
+
+.button.button-positive {
+	border-color: none;
+	background-color: #3F51B5;
+	color: #fff;
+}
+
 /**************************
 /** Menu
 /*************************/
@@ -92,11 +119,11 @@ ion-side-menu.menu i{
 /*************************/
 
 .buttons.left-buttons{
-	margin-left: 10px !important;
+	/*margin-left: 10px !important;*/
 }
 
 .buttons.left-buttons button, .buttons.left-buttons button:hover{
-	color: black;
+	color: white;
 }
 
 .buttons.left-buttons button.activated{
