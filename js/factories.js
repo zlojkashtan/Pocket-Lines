@@ -1912,6 +1912,7 @@ angular.module('PL.factories', [])
 					//=======
 					// Inyecta TIB en resultados
 					//=======
+					/*
 					if($rootScope.user.TIB){
 						angular.forEach(TIBTREN.paradas, function(item){
 
@@ -1923,6 +1924,7 @@ angular.module('PL.factories', [])
 							}
 						});
 					}
+					*/
 				}else{
 					//Reset array de resultados si no quiere EMT
 					arr = EMTdb.searchTop();
@@ -1947,6 +1949,7 @@ angular.module('PL.factories', [])
 				//=======
 				// Inyecta TIB en resultados
 				//=======
+				/*
 				if($rootScope.user.TIB){
 					angular.forEach(TIBTREN.paradas, function(item){
 						if(item.id === searchString){
@@ -1954,6 +1957,7 @@ angular.module('PL.factories', [])
 						}
 					});
 				}
+				*/
 			}
 
 			return result;
