@@ -77,6 +77,10 @@ a{
 	font-size: 32px;
 }
 
+.bar.bar-positive .title{
+	left: 60px !important;
+}
+
 .bar.bar-positive{
 	background-color: #3F51B5;
 	background-image: none;

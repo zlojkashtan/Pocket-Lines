@@ -310,6 +310,12 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 			controller: 'paradasMap'
 		})
 
+		.state('llegar', {
+			url: '/llegar',
+			templateUrl: 'templates/como-llegar.html',
+			controller: 'LlegarCtrl'
+		})
+
 		.state('lineas', {
 			url: '/lineas',
 			templateUrl: 'templates/lineas.html',
