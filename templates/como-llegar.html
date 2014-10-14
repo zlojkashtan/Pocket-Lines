@@ -19,11 +19,26 @@
 		<div class="card about-contact">
 			<div class="item item-text-wrap">
 				<h2 style="font-size: 20px; margin-bottom: 15px; ">Calcular trayecto</h2>
-				Origen: <i class="icon ion-location" style="padding: 0 5px;"></i><span style="font-weight: 500;">Francesc Fiol i Juan, 2</span><br>
-				<input type="text" style="border-bottom: 1px solid #efefef" placeholder="Buscar destino">
-			</div>
+				Origen: <i class="icon ion-location" style="padding: 0 5px;"></i><span style="font-weight: 500;">Mi posición</span><br>({{userPositionName}})<br>
+				<input type="text" style="border-bottom: 1px solid #efefef" placeholder="Buscar destino" g-places-autocomplete options="autocompleteOptions" ng-model="place" />
+				<input type="text"  />
+
+        <pre>{{place | json}}</pre>
+		</div>
 		</div>
 
+		
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<h2 style="font-size: 20px; margin-bottom: 15px; ">Paradas cercanas a ti</h2>
+					<ul>
+						<li ng-repeat="item in nearestClient">{{item.nombre}}</li>
+					</ul>
+		</div>
+		</div>
+
+		<img ng-if="userPosition" 
+		src="http://maps.googleapis.com/maps/api/staticmap?center={{userPosition.coords.latitude}},{{userPosition.coords.longitude}}&markers=color:blue%7Clabel:A%7C{{userPosition.coords.latitude}},{{userPosition.coords.longitude}}&zoom=16&sensor=true&size=400x300&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI&scale=2" style="max-width: 100%;" />
 
 
 	</ion-content>

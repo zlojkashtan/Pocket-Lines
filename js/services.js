@@ -338,6 +338,28 @@ angular.module('PL.services', [])
 	};
 }])
 
+
+//=================================================
+// Google Maps
+// - getLocation
+//=================================================
+.factory('gMaps', function($rootScope, $q){
+	return{
+		getLocation: function(){
+			var pos = false;
+			var deferred = $q.defer();
+		
+			navigator.geolocation.getCurrentPosition(function(pos) {
+				deferred.resolve(pos);
+			}, function(error) {
+				deferred.reject(error);
+			},{maximumAge: 900000, timeout:5000, enableHighAccuracy: true}); //age, milisenconds
+
+			return deferred.promise;
+		}
+	};
+})
+
 //=================================================
 // Publicidad
 // - getTipo (tipoPublicidad)
@@ -618,10 +640,6 @@ angular.module('PL.services', [])
 	 
 	};
 	
-	self.getParadas = function() {
-		return paradas;
-	};
-
 	self.getParada = function(id) {
 		return DB.query('SELECT * FROM emt_paradas WHERE id = ?', [id])
 		.then(function(result){
@@ -629,6 +647,7 @@ angular.module('PL.services', [])
 		});
 	};
 
+	self.getParadas = function() { return paradas; };
 	self.getTop = function() { return top; };
 	self.searchTop = function() { return searchTop; };
 
@@ -650,6 +669,16 @@ angular.module('PL.services', [])
 		return DB.query('SELECT * from emt_itinerarios where destino = ?', [nombre])
 		.then(function(result){
 			return DB.fetch(result);
+		});
+	};
+
+	self.getNearest = function(lat,lng,rad){
+		var latPlus = lat + 0.003,latMinus = lat - 0.003;
+		var lngPlus = lng + 0.003,lngMinus = lng - 0.003;
+
+		return DB.query('SELECT * from emt_paradas where (lat BETWEEN '+latMinus+' AND '+latPlus+') AND (lng BETWEEN '+lngMinus+' AND '+lngPlus+')', [])
+		.then(function(result){
+			return DB.fetchAll(result);
 		});
 	};
 	

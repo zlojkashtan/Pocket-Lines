@@ -10,7 +10,7 @@
 //	http://bonda.es - FROM MALLORCA WITH LOVE
 //=================================================================
 
-var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
+var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate', 'google.places'])
 
 //=================================================
 // Constant DB_CONFIG
