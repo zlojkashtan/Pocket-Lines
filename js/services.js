@@ -673,8 +673,8 @@ angular.module('PL.services', [])
 	};
 
 	self.getNearest = function(lat,lng,rad){
-		var latPlus = lat + 0.003,latMinus = lat - 0.003;
-		var lngPlus = lng + 0.003,lngMinus = lng - 0.003;
+		var latPlus = lat + 0.0025,latMinus = lat - 0.0025;
+		var lngPlus = lng + 0.0025,lngMinus = lng - 0.0025;
 
 		return DB.query('SELECT * from emt_paradas where (lat BETWEEN '+latMinus+' AND '+latPlus+') AND (lng BETWEEN '+lngMinus+' AND '+lngPlus+')', [])
 		.then(function(result){
