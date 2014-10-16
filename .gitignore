@@ -6,6 +6,11 @@ sftp-config.json
 Thumbs.db
 Icon
 
+lib_B13/
+lib_B13/^.*
+
+lib_/
+lib_/^.*
 
 docs/
 docs/^.*

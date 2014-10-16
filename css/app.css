@@ -1427,3 +1427,21 @@ vertical-align: middle;
   resize: none;
   height: 70px;
 }
+
+
+/**************************
+/** Como llegar
+/*************************/
+.pac-container {
+	width: calc(100% - 32px) !important;
+  border: 0;
+  border-radius: 2px;
+  padding: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  margin: 29px -16px;
+}
+.pac-item{
+	border-top: 0;
+	padding-top: 5px;
+	margin-right: 20px;
+}

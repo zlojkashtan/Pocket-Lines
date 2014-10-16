@@ -270,7 +270,7 @@ angular.module('PL.controllers')
 			//alert("nav geo fail");
 		}
 		navigator.geolocation.getCurrentPosition(function(pos) {
-console.log(pos);
+		console.log(pos);
 			var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
 				map: $scope.map,
