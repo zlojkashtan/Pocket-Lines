@@ -16,15 +16,12 @@ angular.module('PL.controllers')
 // Como llegar
 // https://developers.google.com/maps/documentation/staticmaps/index
 // http://stackoverflow.com/questions/7893857/how-do-you-style-the-dropdown-on-google-places-autocomplete-api
+// http://stackoverflow.com/questions/11810810/google-places-autocomplete-location-and-radius-not-working
 //=================================================
 .controller('LlegarCtrl', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, $timeout, gMaps, EMTdb){
 
 	$scope.details = "";
-	$scope.verMapa = 0;
-	$scope.options = {
-		types: [],
-		componentRestrictions: {}
-	};
+	$scope.verMapa = 100;
 
 	$scope.OrigenDestino = {
 		orLat: false,
@@ -34,10 +31,19 @@ angular.module('PL.controllers')
 		zoom: 13
 	}
 
+	var palma = new google.maps.LatLng(39.573793,2.6406497);
 	var neighborhoods = [];
-	var flightPlanCoordinates = [];
 	var markers = [];
 	var iterator = 0;
+
+	$scope.options = {
+		location: palma,
+		radius: 30000,
+    types: ['geocode'],
+		componentRestrictions: {
+			country: 'es'
+		}
+	};
 
 	// Backbutton a home
 	//=================================================
@@ -91,8 +97,23 @@ angular.module('PL.controllers')
 	// Google places autocomplete & events
 	//=================================================
 	$scope.gPlace = new google.maps.places.Autocomplete(document.getElementById('type-selector'), $scope.options);
+
+	$timeout(function() {
+		//console.log("hey");
+    // Find google places div
+    //_.findIndex(angular.element(document.querySelectorAll('.pac-container')), function(container) {
+      // disable ionic data tab
+      //container.setAttribute('data-tap-disabled', 'true');
+      // leave input field if google-address-entry is selected
+      //container.onclick = function() {
+        //document.getElementById('autocomplete').blur();
+      //};
+    //});
+  },500);
+
 	google.maps.event.addListener($scope.gPlace, 'place_changed', function() {
 		$scope.$apply(function() {
+			
 			$scope.details = $scope.gPlace.getPlace();
 			console.log($scope.details);    
 
@@ -106,18 +127,17 @@ angular.module('PL.controllers')
 			  new google.maps.LatLng($scope.OrigenDestino.deLat, $scope.OrigenDestino.deLon),
 			];
 
-			flightPlanCoordinates = [
-			  new google.maps.LatLng($scope.OrigenDestino.orLat, $scope.OrigenDestino.orLon),
-			  new google.maps.LatLng($scope.OrigenDestino.deLat, $scope.OrigenDestino.deLon),
-			];
-
 			drop();
 
+			EMTdb.getNearest($scope.OrigenDestino.deLat,$scope.OrigenDestino.deLon).then(function(data){ 
+				console.log("Nearest paradas destino",data); 
+				$scope.nearestDestination = data; 
+			});
 
+			/*
 			var a = Math.abs($scope.OrigenDestino.orLat - $scope.OrigenDestino.deLat);
 			var b = Math.abs($scope.OrigenDestino.orLon - $scope.OrigenDestino.deLon);
 
-			
 			if((a > 0.03)||(b > 0.03)){
 				$scope.OrigenDestino.zoom = 11;
 			}else{
@@ -130,6 +150,7 @@ angular.module('PL.controllers')
 			}
 
 			console.log("a",a,b);
+			*/
 
 		});
 	});
@@ -148,8 +169,6 @@ angular.module('PL.controllers')
 			elementType: "labels",
 			stylers: [{visibility: "off" }]
 		}];
-
-		var palma = new google.maps.LatLng(39.573793,2.6406497);
 
 		var mapOptions = {
 			center: palma,
@@ -171,7 +190,6 @@ angular.module('PL.controllers')
 	      addMarker();
 	    }, i * 200);
 	  }
-	  crearLinea($scope.map);
 	  $scope.map.panTo(new google.maps.LatLng($scope.OrigenDestino.deLat, $scope.OrigenDestino.deLon));
 	}
 
@@ -200,19 +218,6 @@ angular.module('PL.controllers')
 
 	function clearMarkers() {
 	  setAllMap(null);
-	  crearLinea(null);
-	}
-
-	function crearLinea(map){
-	  var flightPath = new google.maps.Polyline({
-	    path: flightPlanCoordinates,
-	    geodesic: true,
-	    strokeColor: '#FF0000',
-	    strokeOpacity: 1.0,
-	    strokeWeight: 2
-	  });
-
-	  flightPath.setMap(map);
 	}
 
 	$scope.toggleMapa = function(){

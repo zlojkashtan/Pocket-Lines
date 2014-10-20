@@ -558,7 +558,7 @@ angular.module('PL.services', [])
 				//+--------------------------------
 				DB.query('INSERT OR REPLACE INTO emt_lineas (id, nombre, color, itinerarios) VALUES (?,?,?,?)',[item.id, item.nombre, item.color, item.itinerarios])
 				.then(function(result){
-					console.log("Insert ok", result);
+					//console.log("Insert ok", result);
 					updateProgress--;
 					$rootScope.updateProgress = updateProgress;
 					//return DB.fetchAll(result);
@@ -634,8 +634,8 @@ angular.module('PL.services', [])
 					searchTop.push(paradas[(rand + (i*7))]);
 				};  
 			} 
-			console.log(searchTop);
-			console.log("top",top);
+			//console.log(searchTop);
+			//console.log("top",top);
 		});
 	 
 	};

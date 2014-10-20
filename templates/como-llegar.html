@@ -21,7 +21,26 @@
 				<h2 style="font-size: 20px; margin-bottom: 15px; ">Calcular trayecto</h2>
 				Origen: <i class="icon ion-location" style="padding: 0 5px;"></i><span style="font-weight: 500;">Mi ubicación</span><!--<br>({{userPositionName}})<br>-->
 				<!--<input type="text" style="border-bottom: 1px solid #efefef" placeholder="Buscar destino" g-places-autocomplete options="autocompleteOptions" ng-model="place" ng-change="arf(place)" />-->
-				<input id="type-selector" type="text" ng-model="chosenPlace" style="border-bottom: 1px solid #efefef; font-size: 15px;" placeholder="Buscar destino" /> <!-- details="chosenPlaceDetails" googleplace -->
+				<input id="type-selector" type="text" ng-model="chosenPlace" style="border-bottom: 1px solid #efefef; font-size: 15px;" placeholder="Buscar destino" disabletap /> <!-- details="chosenPlaceDetails" googleplace -->
+				<i class="icon ion-close-round" ng-if="chosenPlace.length > 0" ng-click="resetBusqueda('cross')" style="position: absolute;  right: 20px; margin-top: -23px;"></i>
+			</div>
+		</div>
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<h2 style="font-size: 20px; margin-bottom: 15px; ">Paradas cercanas a ti</h2>
+					<ul>
+						<li ng-repeat="item in nearestClient">{{item.nombre}}</li>
+					</ul>
+			</div>
+		</div>
+
+		<div class="card about-contact">
+			<div class="item item-text-wrap">
+				<h2 style="font-size: 20px; margin-bottom: 15px; ">Paradas cercanas al destino</h2>
+					<ul>
+						<li ng-repeat="item in nearestDestination">{{item.nombre}}</li>
+					</ul>
 			</div>
 		</div>
 
