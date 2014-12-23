@@ -12,7 +12,7 @@
 	</ion-header-bar>
 	-->
 
-	<ion-content class="has-header" padding="true" overflow-scroll="true">
+	<ion-content class="has-header has-tabs-on-top" padding="true" overflow-scroll="true">
 
 	<div class="row tabs-lista" style="display:none;">
 		<div class="col tab" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-star"></i> Guardadas</div>
@@ -73,12 +73,12 @@
 			<p>Actualmente tienes <strong>{{top.length}} registros</strong> en el listado de paradas vistas. Para evitar que la aplicación se ralentice demasiado, recomendamos que elimines algunas. </p>
 		</div>
 
-		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos" ng-if="top.length !== 0">
+		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos" ng-if="top.length > 0">
 
 			<ion-item ng-repeat="item in top | orderBy:'clicks':true" class="item-icon-right favoritoAlias" item="item">
 				<a class="item-content" href="#/parada/{{item.id}}">
 					<span class="nombre-parada">{{item.nombre}}</span>
-					<span class="vistas-parada">{{ 'FLAG_PARADAS_VISTAS' | translate:'{clicks: item.clicks}' }}</span>
+					<span class="vistas-parada">{{ 'FLAG_PARADAS_VISTAS' | translate:{clicks: item.clicks} }}</span>
 				</a>
 				<ion-delete-button class="ion-minus-circled" ng-click="borrarParada(item, 'top')"></ion-delete-button>
 				<i class="icon ion-chevron-right"></i>
@@ -94,7 +94,7 @@
 	</div>
 
 	<div ng-show="tab == 2">
-		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos">
+		<ion-list show-delete="data.showDelete" show-reorder="data.showReorder" class="lista-favoritos" ng-if="recientes.length > 0">
 
 			<ion-item ng-repeat="item in recientes" class="item-icon-right" item="item">
 				<a class="item-content" href="#/parada/{{item.id}}">
@@ -114,6 +114,9 @@
 	</div>
 
 	<div class="card herramientas" ng-click="editarGuardar()">
+		<!--
+			Justin' case quiera eliminar el botón
+			ng-if="(tab == 0 && favoritos.length !== 0)||(tab == 1 && top.length !== 0)||(tab == 2 && recientes.length !== 0)"> -->
 		<div class="item item-text-wrap" style="text-align: center;">
 			<i class="icon ion-gear-a"></i> Toca para eliminar paradas
 			<span ng-show="data.showDelete"><i class="icon ion-looping"></i> Guardar cambios</span>

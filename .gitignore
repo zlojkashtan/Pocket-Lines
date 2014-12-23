@@ -2,6 +2,7 @@
 *.sw*
 platforms/^.*
 
+.remote-sync.json
 sftp-config.json
 Thumbs.db
 Icon

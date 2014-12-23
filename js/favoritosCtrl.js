@@ -24,14 +24,11 @@ angular.module('PL.controllers')
 	// Backbutton a home
 	//==================================================
 	if(!$ionicHistory.backView()){
-		console.log("no", $ionicHistory.backView());
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
 			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
-	}else{
-		console.log("si", $ionicHistory.backView());
+		$scope.$on('$destroy',backButton);
 	}
 
 	$scope.tab = 0;

@@ -10,7 +10,6 @@
 //	http://bonda.es - FROM MALLORCA WITH LOVE
 //=================================================================
 
-alert("hola");
 var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
 
 //=================================================
@@ -79,10 +78,6 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		TIBv: 0,
 		elTiempo: true
 	};
-
-// FIXME: PLATFORM_BACK_BUTTON_PRIORITY_SIDE_MENU
-// xxx: asddas
-// XXX: asdasd
 
 	// Get Localstorage de paradas guardadas
 	//=================================================
@@ -285,7 +280,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	// http://ionicframework.com/docs/nightly/api/provider/%24ionicConfigProvider/
 	//=================================================
 	$ionicConfigProvider.views.maxCache(5);
-	$ionicConfigProvider.views.transition('android');
+	$ionicConfigProvider.views.transition('none');
 
 	$stateProvider
 
@@ -311,7 +306,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 		.state('favoritos', {
 			url: '/favoritos',
-			templateUrl: 'templates/paradas-guardadas.html',
+			templateUrl: 'templates/favoritos.html',
 			controller: 'Favoritos'
 		})
 

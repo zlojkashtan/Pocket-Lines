@@ -1,7 +1,7 @@
 <ion-view view-title="Pocket Lines">
 
 	<ion-nav-buttons side="right">
-		<a href="#/favoritos" class="button icon ion-android-star"></a>
+		<a href="#/favoritos" class="button icon ion-bookmark"></a>
 	</ion-nav-buttons>
 
 	<ion-content class="has-header" padding="true" overflow-scroll="true">
@@ -22,7 +22,7 @@
 
 					<ul ng-if="buscar.texto.length === 0">
 
-						<li ng-repeat="reciente in recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}', reciente);" ng-class="{paradaVistas: (reciente.isTIB === true)}">
+						<li ng-repeat="reciente in ::recientes | limitTo: 3 track by reciente.id" class="item-icon-right" style="position:relative;" ng-click="buscarParada('{{reciente.id}}', reciente);" ng-class="{paradaVistas: (reciente.isTIB === true)}">
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{reciente.id}}</span>
 							<p class="nombre-parada">{{reciente.nombre}}</p>
@@ -31,7 +31,7 @@
 
 						<li ng-if="recientes.length === 0" class="aviso">
 							<span>{{ 'MSG_START' | translate}}</span>
-						</li> 
+						</li>
 
 					</ul>
 
@@ -40,7 +40,7 @@
 							<i class="icon ion-location"></i>
 							<span class="num-parada">{{parada.id}}</span>
 							<p class="nombre-parada">{{parada.nombre}}</p>
-							<span class="vistas-parada" ng-if="parada.clicks >= 1">{{ 'FLAG_PARADAS_VISTAS' | translate:'{clicks: parada.clicks}' }}</span>
+							<span class="vistas-parada" ng-if="parada.clicks >= 1">{{ 'FLAG_PARADAS_VISTAS' | translate:{clicks: parada.clicks} }}</span>
 							<span class="vistas-parada" ng-if="parada.isTIB" style="color: #A55050;">{{ 'FLAG_TIB' | translate }}</span>
 						</li>
 					</ul>
@@ -157,7 +157,7 @@
 						<li class="detalles-linea" ng-if="detalls===true" ng-click="detalles(linea.vh_first.destino)">
 							<i class="icon ion-clock"></i> {{infoLinea}}
 						</li>
-						<!-- 
+						<!--
 						<li class="avisos-linea" ng-if="detalls===true && numIncidencias(linea.line) > 0" ng-click="verAvisos(linea.line)">
 							<i class="icon ion-alert"></i> Esta línea tiene {{numIncidencias(linea.line)}} avisos abiertos.
 						</li>
@@ -213,7 +213,7 @@
 				<a href="#/about/contacto">
 					<h6 style="display: inline-block; font-size: 16px; margin: 0;">Beta</h6>
 					<i class="ion ion-settings" style="font-size: 15px;"></i>
-					<p>Ayuda a mejorar la aplicación con tus ideas!</p>					
+					<p>Ayuda a mejorar la aplicación con tus ideas!</p>
 				</a>
 			</div> -->
 
