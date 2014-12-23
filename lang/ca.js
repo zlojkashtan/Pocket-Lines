@@ -36,5 +36,5 @@ PL.config(function ($translateProvider) {
 		PREFERENCIAS_BUSQUEDA: 'Preferències de búsqueda',
 
 	});
-	
+
 });

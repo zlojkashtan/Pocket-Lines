@@ -3,7 +3,7 @@ Pocket Lines
 
 Pocket Lines is a Transports App built using AngularJS, Cordova and the Ionic Framework.
 
-We first focus in Android, but the project can be exported to iOS or other mobile platforms using Cordova. This repo is for the Ionic fraction of the project.
+We first focus in Android, but the project can be exported to iOS or other mobile platforms using Cordova. This repo is for the Ionic fraction of the project..
 
 ## Features
 * Check for the Bus and Train arrivals and departures in real time in Palma de Mallorca (Spain)

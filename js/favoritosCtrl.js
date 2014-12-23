@@ -19,16 +19,19 @@ angular.module('PL.controllers')
 // - Más vistas
 // - Recientes
 //=================================================
-.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicViewService, localstorage, EMTdb){
+.controller('Favoritos', function($scope, $rootScope, $ionicPopup, $ionicPlatform, $state, $ionicHistory, localstorage, EMTdb){
 
 	// Backbutton a home
 	//==================================================
-	if(!$rootScope.$viewHistory.backView){
+	if(!$ionicHistory.backView()){
+		console.log("no", $ionicHistory.backView());
 		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			$ionicViewService.nextViewOptions({ disableBack: true });
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
 		$scope.$on('$destroy', $scope.backButton);
+	}else{
+		console.log("si", $ionicHistory.backView());
 	}
 
 	$scope.tab = 0;

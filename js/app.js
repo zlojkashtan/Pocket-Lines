@@ -10,6 +10,7 @@
 //	http://bonda.es - FROM MALLORCA WITH LOVE
 //=================================================================
 
+alert("hola");
 var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.controllers', 'pascalprecht.translate'])
 
 //=================================================
@@ -53,7 +54,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 //=================================================
 // .run()
-// First call where set $rootScope vars and 
+// First call where set $rootScope vars and
 // do api calls
 //=================================================
 .run(function($rootScope, localstorage, DB, UpdateDB, EMTdb, API, $ionicPlatform, $http, $translate){
@@ -78,6 +79,10 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 		TIBv: 0,
 		elTiempo: true
 	};
+
+// FIXME: PLATFORM_BACK_BUTTON_PRIORITY_SIDE_MENU
+// xxx: asddas
+// XXX: asdasd
 
 	// Get Localstorage de paradas guardadas
 	//=================================================
@@ -134,7 +139,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 
 	}else{ localstorage.setObject('user', $rootScope.user); }
 	$translate.use($rootScope.user.lang); //console.log($translate.use());
-	
+
 	// Funciones de conexión de dispositivo
 	//=================================================
 	$rootScope.checkConnection = function(){
@@ -204,15 +209,15 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 					console.log(data);
 					$rootScope.server = data;
 
-					API.getEMT($rootScope.user.EMTv).then(function (respuesta){ 
-						console.log("+ App: Get EMT",respuesta);	
+					API.getEMT($rootScope.user.EMTv).then(function (respuesta){
+						console.log("+ App: Get EMT",respuesta);
 
-						// If hay actualizaciones de paradas					
+						// If hay actualizaciones de paradas
 						$rootScope.UpdatedbEMT = function(){ UpdateDB.EMT(respuesta.data); };
-						if(respuesta.data.updated !== true){ 
+						if(respuesta.data.updated !== true){
 							$rootScope.updateExists = true;
 							$rootScope.updateProgress = 10; //10 para evitar un show
-						}						
+						}
 					});
 
 					$rootScope.analytics();
@@ -274,7 +279,13 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 //=================================================
 // Routes
 //=================================================
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+	// Ionic config
+	// http://ionicframework.com/docs/nightly/api/provider/%24ionicConfigProvider/
+	//=================================================
+	$ionicConfigProvider.views.maxCache(5);
+	$ionicConfigProvider.views.transition('android');
 
 	$stateProvider
 
