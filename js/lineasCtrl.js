@@ -17,34 +17,32 @@ angular.module('PL.controllers')
 // Muestra un listado de todas las lineas de la EMT
 // y muestra el itinerario e info de la linea on click
 //=================================================
-.controller('Lineas', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, EMT){
+.controller('Lineas', function($scope, $rootScope, $ionicPlatform, $state, $ionicHistory, EMT){
 	$scope.lineas = EMT.lineas;
 	$scope.empresa = "emt";
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			console.log("LINEASBACK");
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 })
 
-.controller('Linea', function($scope, $rootScope, $stateParams, $ionicPlatform, $state, $ionicViewService, EMT, InfoItinerario){
+.controller('Linea', function($scope, $rootScope, $stateParams, $ionicPlatform, $state, $ionicHistory, EMT, InfoItinerario){
 
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			console.log("LINEABACK");
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 
 	$scope.tab = 0;
