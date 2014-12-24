@@ -32,7 +32,7 @@ angular.module('PL.controllers')
 //=================================================
 //.controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', 'contactoEMT', 'elTiempo', 'InfoItinerario', 'Publicidad', '$filter', '$ionicLoading', '$ionicPopup', '$ionicPlatform', 'localstorage', 'EMTdb', 'FavTop' ,function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $ionicLoading, $ionicPopup, $ionicPlatform, localstorage, EMTdb, FavTop) {
 .controller('HomeCtrl', function($scope, $rootScope, $stateParams, contactoEMT, elTiempo, InfoItinerario, Publicidad, $filter, $ionicLoading, $ionicPopup, $ionicPlatform, localstorage, EMTdb, FavTop) {
-	
+
 	$scope.busqueda = false;
 	$scope.respuesta = false;
 	$scope.error = false;
@@ -45,14 +45,14 @@ angular.module('PL.controllers')
 	$scope.buscar = {texto: ""};
 
 	$scope.publicidad = {
-		home: false, 
+		home: false,
 		parada: false
 	};
 
 	//$scope.verMapa = false;
 	$scope.actions = {
 		mapa: false
-	}
+	};
 
 	// Check de publicidad inicial
 	//=================================================
@@ -64,7 +64,7 @@ angular.module('PL.controllers')
 	});
 
 	if($rootScope.user.elTiempo){
-		elTiempo.getTiempo();	
+		elTiempo.getTiempo();
 	}
 
 /*
@@ -216,7 +216,7 @@ angular.module('PL.controllers')
 				//=================================================
 				$rootScope.gaPlugin.trackEvent( false, false, "Buscar Parada_", idParada, "Buscar Parada___", 0);
 
-			}, function(err) {				
+			}, function(err) {
 				$ionicLoading.hide();
 				$scope.error = true;
 				// An error occured. Show a message to the user
@@ -302,9 +302,9 @@ angular.module('PL.controllers')
 		if(this.detalls === true){this.detalls = false;}else{
 			this.detalls = true;
 
-			EMTdb.getItinerarioByNombre(nombreItinerario).then(function(data){ 
+			EMTdb.getItinerarioByNombre(nombreItinerario).then(function(data){
 				that.infoLinea = $filter('infoItinerario')(data);
-			}, function(err){ 
+			}, function(err){
 				console.log(err);
 			});
 		}
@@ -353,7 +353,7 @@ angular.module('PL.controllers')
 		//=================================================
 		$scope.parada = {id: $scope.idActual, nombre: $scope.buscar.texto};
 		if($scope.isTIB){ $scope.parada.isTIB = true; }
-		
+
 		$rootScope.favoritos = FavTop.toggleFavorito($scope.parada, $rootScope.favoritos);
 		localstorage.setObject('favoritos', $rootScope.favoritos);
 	};
@@ -420,14 +420,16 @@ angular.module('PL.controllers')
 	//=================================================
 	$scope.update = function(){
 		$scope.showUpdate = true;
-	}
+	};
+
 	$scope.cancelUpdate = function(){
 		$scope.showUpdate = false;
-	}
+	};
+
 	$scope.doUpdate = function(){
 		$scope.updating = true;
 		$rootScope.UpdatedbEMT();
-	}
+	};
 
 //}])
 })
@@ -451,7 +453,7 @@ angular.module('PL.controllers')
 	$scope.tab = 0;
 	$rootScope.tabs = true;
 	$scope.$on('$destroy', function(){$rootScope.tabs = false;});
-	
+
 })
 
 //=================================================
@@ -511,25 +513,26 @@ angular.module('PL.controllers')
 		if($rootScope.gaPlugin){
 			$rootScope.gaPlugin.trackEvent( false, false, "Share App_", "Share App__", "Share App___", 0);
 		}
-	}
+	};
+
 })
 
 //=================================================
 // Ajustes
 //=================================================
-.controller('Ajustes', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, $translate, localstorage){
+.controller('Ajustes', function($scope, $rootScope, $ionicPlatform, $ionicHistory, $state, $translate, localstorage){
 
 	$scope.idioma = $rootScope.user.lang;
 
 	// Backbutton a home
-	//---------------------------------------------------
-		if(!$rootScope.$viewHistory.backView){
-			$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-				$ionicViewService.nextViewOptions({ disableBack: true });
-				$state.go('home');
-			}, 105 );
-			$scope.$on('$destroy', $scope.backButton);
-		}
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
+			$state.go('home');
+		}, 105 );
+		$scope.$on('$destroy',backButton);
+	}
 
 	// Guardar preferencias de ajustes
 	//---------------------------------------------------
@@ -546,7 +549,7 @@ angular.module('PL.controllers')
 			$scope.guardar();
 
 		};
-	
+
 })
 
 //=================================================
