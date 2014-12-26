@@ -1,5 +1,5 @@
-<ion-view title="Acerca de la app">
-	
+<ion-view view-title="Acerca de la app">
+
 	<!--
 	<ion-nav-buttons side="right">
 		<a href="#/home" class="button icon ion-home"></a>
@@ -14,20 +14,14 @@
 	</ion-header-bar>
 	-->
 
-	<ion-content class="has-header" padding="true" overflow-scroll="true">
-
-	<div class="row tabs-lista" style="display:none;">
-		<div class="col tab active" ng-click="tab = 0" ng-class="{'active': tab == 0}"><i class="icon ion-android-contact"></i> Sobre la app</div>
-		<div class="col tab" ng-click="tab = 1" ng-class="{'active': tab == 1}"><i class="icon ion-paper-airplane"></i> Contacto</div>
-		<div class="col tab" ng-click="tab = 2" ng-class="{'active': tab == 2}" style="display:none;"><i class="icon ion-paper-airplane"></i> Publicidad</div>
-	</div>
+	<ion-content class="has-header has-tabs-on-top" padding="true" overflow-scroll="true">
 
 	<div class="tabs-striped tabs-top tabs-background-positive tabs-light">
 		<div class="tabs">
 			<div class="tab-item active" ng-click="tab = 0" ng-class="{'active': tab == 0}">
-				<i class="icon ion-android-contact"></i> Sobre la App </div>
+				<i class="icon ion-ios-people"></i> Sobre la App </div>
 			<div class="tab-item" ng-click="tab = 1" ng-class="{'active': tab == 1}">
-				<i class="icon ion-paper-airplane"></i> Contacto </div>
+				<i class="icon ion-ios-chatbubble"></i> Contacto </div>
 			<div class="tab-item" ng-click="tab = 2" ng-class="{'active': tab == 2}" style="display:none;">
 				<i class="icon ion-refresh"></i> Publicidad </div>
 		</div>
@@ -38,8 +32,8 @@
 		<div class="card about-contact">
 			<div class="item item-text-wrap">
 				<p class="header">Acerca de Pocket Lines</p>
-				<p>Esta aplicación independiente se ha desarrollado con el objetivo de facilitar a los residentes y visitantes de Palma de Mallorca el transporte por la isla.</p>
-				<p>La aplicación se encuentra actualmente en fase Beta, y algunos de los cambios programados son la publicación en iOS, traducción a diferentes idiomas y mejoras en los sistemas actuales.</p>
+				<p>Pocket Lines es una aplicación independiente desarrollada por Bonda Estudio, con el objetivo de facilitar el transporte en Mallorca.</p>
+				<!--<p>La aplicación se encuentra actualmente en fase Beta, por lo tanto, agradecemos cualquier es posible que haya algún error o  ay algunos de los cambios programados son la publicación en iOS, traducción a diferentes idiomas y mejoras en los sistemas actuales.</p>-->
 			</div>
 		</div>
 
@@ -53,15 +47,16 @@
 		<div class="card about-contact">
 			<div class="item item-text-wrap">
 				<p class="header">Horarios y versiones</p>
-				<p>Si la EMT o el TIB cambian el itinerario o los horario de alguna línea, es posible que no se vea reflejado en la aplicación hasta que se actualice mediante la tienda de aplicaciones.</p>
-				<p>Última actualización: 26 de Septiembre 2014<br>Versión actual: 0.8.5 - Beta</p>
+				<p>Si las empresas de transporte cambian el itinerario o los horario de alguna de sus líneas, es posible que no se vea reflejado en la aplicación hasta que se actualice mediante la tienda de aplicaciones.</p>
+				<hr />
+				<p>Última actualización: 28 de Nov 2014<br>Versión actual: 0.9.1 - Beta</p>
 			</div>
 		</div>
 
 		<div class="card about-contact">
 			<div class="item item-text-wrap">
 				<p class="header">Compartir</p>
-				<p>Si te gusta Pocket Lines y crees que la app puede ser útil para un amigo o familiar tuyo, comparte la aplicación con esta persona.</p>
+				<p>Si te gusta Pocket Lines y crees que la app puede ser útil para alguien que conozcas, comparte la aplicación con esta persona.</p>
 				<p style="text-align: center;"><button class="button button-small button-positive" style="height: 35px; width: 50%; font-size: 15px;" ng-click="compartir()"><i class="icon ion-android-share" style="padding-right: 5px;"></i> Compartir</button></p>
 			</div>
 		</div>
@@ -89,7 +84,7 @@
 			</div>
 
 			<button ng-if="!enviando" ng-disabled="formContacto.$invalid" ng-click="contacto(nombre,email,comentario)" class="button button-block button-positive enviar-contacto" style="width: 97%;">Enviar</button>
-			<i ng-if="enviando" class="ion icon ion-loading-c" style=" position: absolute; right: 50%; margin-top: 10px; font-size: 17px;"></i>
+			<i ng-if="enviando" class="ion icon ion-load-c loading-infinite" style=" position: absolute; right: 50%; margin-top: 10px; font-size: 17px;"></i>
 		</div>
 
 		<div ng-if="enviado" class="msg">

@@ -14,19 +14,19 @@ angular.module('PL.controllers')
 
 //=================================================
 // Avisos Controller
-// Gestiona la llamada de API para mostrar los 
+// Gestiona la llamada de API para mostrar los
 // avisos de la EMT en tiempo real
 //=================================================
-.controller('Avisos', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, InfoItinerario){
+.controller('Avisos', function($scope, $rootScope, $ionicPlatform, $state, $ionicHistory, InfoItinerario){
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 
 	// Watch en AvisosLinea
@@ -42,7 +42,7 @@ angular.module('PL.controllers')
 	});
 
 	$scope.verEMT = function(){
-		window.open('http://www.emtpalma.es/EMTPalma/Front/incidencias.es.svr', '_system', 'location=yes');	
-	}
-	
+		window.open('http://www.emtpalma.es/EMTPalma/Front/incidencias.es.svr', '_system', 'location=yes');
+	};
+
 });

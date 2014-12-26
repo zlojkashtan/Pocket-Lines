@@ -14,22 +14,21 @@ angular.module('PL.controllers')
 
 //=================================================
 // paradasMap
-// 
-// Controller de google maps para mostrar todas 
+//
+// Controller de google maps para mostrar todas
 // las paradas cercanas al usuario en el mapa
 // https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
 //=================================================
-.controller('paradasMap', function($scope, $rootScope, $ionicLoading, $ionicPlatform, $state, $ionicViewService, EMT, $timeout) {
+.controller('paradasMap', function($scope, $rootScope, $ionicLoading, $ionicPlatform, $state, $ionicHistory, EMT, $timeout) {
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			console.log("MAPABACK");
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 
 	var markers = []; //Guardo los markers para poder actuar posteriormente
@@ -43,81 +42,9 @@ angular.module('PL.controllers')
 		noGeo:false
 	};
 
-	$scope.colores = {
-		1: "#44743F",
-		2: "#B78DBA",
-		3: "#F45BA4",
-		4:"-",
-		5: "#72C0D8",
-		6: "#4F6D5E",
-		7: "#499C75",
-		8: "#4E43B1",
-		9: "#AB478F",
-		10: "#623E5A",
-		11: "#F3DB78",
-		12: "#F1B543",
-		13:"-",
-		14: "#6173C7",
-		15: "#2474CC",
-		16: "#5496AF",
-		17:"-",
-		18: "#716240",
-		19: "#5EA532",
-		20: "#de544e",
-		21: "#6c0007",
-		22:"-",
-		23: "#B39633",
-		24: "#605677",
-		25: "#666666",
-		26:"-",
-		27:"-",
-		28: "#E9A0C8",
-		29: "#C4A695",
-		30: "#A04541",
-		31: "#d3dd7d",
-		32:"-",
-		33: "#687981",
-		34: "#969691",
-		35:"-",
-		36:"-",
-		37:"-",
-		38:"-",
-		39:"-",
-		40:"-",
-		41: "#F58E49",
-		42:"-",
-		43:"-",
-		44:"-",
-		45:"-",
-		46: "#EEAA60",
-		47:"-",
-		48:"-",
-		49:"-",
-		50: "#E84F4A",
-		51:"-",
-		52: "#D04742",
-	};
-
-	$scope.color = function(idLinea){
-		var encontrado = false;
-		var colorFound = "";
-
-		angular.forEach($scope.colores, function(item, $index){
-			if(!encontrado){
-				if($index === idLinea){
-					colorFound = item;
-					encontrado = true;
-				}
-			}
-		});
-
-		return colorFound;
-
-	};
-
 	function initialize() {
-		//Inicializa google maps con opciones de centrado en palma
-		//y zoom 13 para ver la periferia. Tipo de mapa: calles
+		// Inicializa google maps con opciones de centrado en palma
+		// y zoom 13 para ver la periferia. Tipo de mapa: calles
 		// http://stackoverflow.com/questions/8406636/how-to-remove-all-from-google-map
 		//
 		// Polyline: https://developers.google.com/maps/documentation/javascript/examples/polyline-remove
@@ -149,7 +76,8 @@ angular.module('PL.controllers')
 
 		setMarkers(map, EMT.paradas);
 
-		google.maps.event.addListener(map, 'zoom_changed', function() {
+		//Listener de zoom
+		google.maps.event.addListener(map, 'zoom_changed', function(){
 			var zoomLevel = map.getZoom();
 
 			if(zoomLevel < 15){
@@ -165,6 +93,11 @@ angular.module('PL.controllers')
 			$scope.$apply();
 		});
 
+		//Listener de movimiento
+		google.maps.event.addListener(map, 'dragend', function() {
+			showMarkers();
+		});
+
 		$scope.map = map;
 
 		$scope.centerOnMe();
@@ -172,8 +105,14 @@ angular.module('PL.controllers')
 
 
 	function setAllMap(map) {
+		var bounds = $scope.map.getBounds();
+
 		for (var i = 0; i < markers.length; i++) {
-			markers[i].setMap(map);
+			if( bounds.contains(markers[i].getPosition())){
+				markers[i].setMap(map);
+			}else{
+				markers[i].setMap(null);
+			}
 		}
 	}
 
@@ -197,12 +136,9 @@ angular.module('PL.controllers')
 		// the Y direction down.
 		var image = {
 			url: 'img/busstop.png',
-			// This marker is 20 pixels wide by 32 pixels tall.
 			size: new google.maps.Size(32, 37),
-			// The origin for this image is 0,0.
 			origin: new google.maps.Point(0,0),
-			// The anchor for this image is the base of the flagpole at 0,32.
-			anchor: new google.maps.Point(0, 0)
+			anchor: new google.maps.Point(0,0)
 		};
 		// Shapes define the clickable region of the icon.
 		// The type defines an HTML &lt;area&gt; element 'poly' which
@@ -219,7 +155,8 @@ angular.module('PL.controllers')
 			var myLatLng = new google.maps.LatLng(beach.lat, beach.lng);
 			var marker = new google.maps.Marker({
 					position: myLatLng,
-					map: map,
+					//map: map,
+					map: null,
 					icon: image,
 					//shape: shape,
 					title: beach.nombre,
@@ -237,12 +174,6 @@ angular.module('PL.controllers')
 					$scope.detalles.nombreParada = this.title;
 					$scope.detalles.abierto = true;
 					$scope.detalles.lineas = this.parada.otras;
-					/*
-
-		nombreParada: '',
-		numeroParada: 0,
-		lineas: false
-		*/
 				}else{
 					$scope.detalles.abierto = !$scope.detalles.abierto;
 				}
@@ -257,20 +188,23 @@ angular.module('PL.controllers')
 	// para localizar al usuario en el mapa
 	// https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
 	//=================================================
-	$scope.centerOnMe = function() {
+	$scope.centerOnMe = function(){
 		if(!$scope.map) {
 			return;
 		}
 
 		$ionicLoading.show({
-			template: 'Localizando tu punto en el mapa...'
+			template: '<i class="ion ion-ios-location"></i> Buscándote...'
 		});
 
 		if(!navigator.geolocation){
 			//alert("nav geo fail");
 		}
+
 		navigator.geolocation.getCurrentPosition(function(pos) {
-		console.log(pos);
+
+		console.log("User en:",pos);
+
 			var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
 				map: $scope.map,
@@ -281,6 +215,8 @@ angular.module('PL.controllers')
 			$ionicLoading.hide();
 			$scope.detalles.noGeo = false;
 
+			showMarkers();
+
 		}, function(error) {
 
 			$ionicLoading.hide();
@@ -290,9 +226,9 @@ angular.module('PL.controllers')
 
 	};
 
-	// Inicializa el mapa
+	// Inicializa el mapa tras medio segundo
 	//=================================================
 	$scope.cargarMapa = function(){ initialize(); };
-	$timeout( $scope.cargarMapa ,600);
+	$timeout( $scope.cargarMapa ,500);
 
 });

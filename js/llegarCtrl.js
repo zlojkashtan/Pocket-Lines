@@ -18,7 +18,17 @@ angular.module('PL.controllers')
 // http://stackoverflow.com/questions/7893857/how-do-you-style-the-dropdown-on-google-places-autocomplete-api
 // http://stackoverflow.com/questions/11810810/google-places-autocomplete-location-and-radius-not-working
 //=================================================
-.controller('LlegarCtrl', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService, $timeout, gMaps, EMTdb){
+.controller('LlegarCtrl', function($scope, $rootScope, $ionicPlatform, $state, $ionicHistory, $timeout, gMaps, EMTdb){
+
+	// Backbutton a home
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
+			$state.go('home');
+		}, 105 );
+		$scope.$on('$destroy',backButton);
+	}
 
 	$scope.details = "";
 	$scope.verMapa = 100;
@@ -29,7 +39,7 @@ angular.module('PL.controllers')
 		deLat: false,
 		deLon: false,
 		zoom: 13
-	}
+	};
 
 	var palma = new google.maps.LatLng(39.573793,2.6406497);
 	var neighborhoods = [];
@@ -44,16 +54,6 @@ angular.module('PL.controllers')
 			country: 'es'
 		}
 	};
-
-	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			$ionicViewService.nextViewOptions({ disableBack: true });
-			$state.go('home');
-		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
-	}
 
 	// Get coordenadas de usuario
 	//=================================================
@@ -93,7 +93,7 @@ angular.module('PL.controllers')
 	}, function(reason) {
 		alert('Failed: ' + reason);
 	});
-	
+
 	// Google places autocomplete & events
 	//=================================================
 	$scope.gPlace = new google.maps.places.Autocomplete(document.getElementById('type-selector'), $scope.options);
@@ -113,9 +113,9 @@ angular.module('PL.controllers')
 
 	google.maps.event.addListener($scope.gPlace, 'place_changed', function() {
 		$scope.$apply(function() {
-			
+
 			$scope.details = $scope.gPlace.getPlace();
-			console.log($scope.details);    
+			console.log($scope.details);
 
 			deleteMarkers();
 
@@ -129,9 +129,9 @@ angular.module('PL.controllers')
 
 			drop();
 
-			EMTdb.getNearest($scope.OrigenDestino.deLat,$scope.OrigenDestino.deLon).then(function(data){ 
-				console.log("Nearest paradas destino",data); 
-				$scope.nearestDestination = data; 
+			EMTdb.getNearest($scope.OrigenDestino.deLat,$scope.OrigenDestino.deLon).then(function(data){
+				console.log("Nearest paradas destino",data);
+				$scope.nearestDestination = data;
 			});
 
 			/*
@@ -146,7 +146,7 @@ angular.module('PL.controllers')
 				}else{
 					$scope.OrigenDestino.zoom = 13;
 				}
-				
+
 			}
 
 			console.log("a",a,b);
@@ -181,7 +181,7 @@ angular.module('PL.controllers')
 		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 		$scope.map = map;
 
-	};
+	}
 
 	function drop() {
 		iterator = 0;
@@ -222,7 +222,7 @@ angular.module('PL.controllers')
 
 	$scope.toggleMapa = function(){
 		$scope.verMapa = ($scope.verMapa == 100)?0:100;
-	}
+	};
 
 	// Inicializa el mapa
 	//=================================================

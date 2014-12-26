@@ -80,7 +80,7 @@
 				<div ng-if="(updating) && (updateProgress > 0)">
 					<h1>Actualizando</h1>
 					<p>Actualizando la base de datos de paradas. Espera unos segundos, y no cierres la app mientras dura el proceso.</p>
-					<i class="ion ion-loading-c"></i>
+					<i class="ion ion-log-in"></i>
 					<p>{{updateProgress}}</p>
 				</div>
 				<div ng-if="updateProgress == 0">
@@ -115,7 +115,7 @@
 					</div>
 
 					<div class="col extra-alarma" ng-click="buscarParada()" ng-if="!isTIB">
-						<i class="icon ion-looping"></i>
+						<i class="icon ion-ios-refresh"></i>
 					</div>
 
 				</div>
@@ -123,7 +123,7 @@
 
 			<div class="card extra-mapa" ng-if="actions.mapa">
 				<div class="item item-text-wrap">
-					<i class="icon ion-loading-c"></i>
+					<i class="icon ion-load-c loading-infinite"></i>
 					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px;">{{ 'HEADER_MAPA' | translate}}</p>
 					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{infoParada.lat}},{{infoParada.lng}}&markers=color:blue%7Clabel:*%7C{{infoParada.lat}},{{infoParada.lng}}&zoom=16&sensor=true&size=600x300&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI" />
 				</div>
@@ -136,7 +136,7 @@
 			</div>
 
 			<div ng-if="respuesta.estimaciones.length === 0" class="msg">
-				<i class="ion ion-sad"></i>
+				<i class="ion ion-android-sad"></i>
 				<h1>Aquí no hay nadie</h1>
 				<p>Parece que en este momento no hay ningún bus disponible para esta parada <a class="button button-block button-positive" href="tel:{{num_taxi}}" style="display:none;">Puede que quieras llamar a un Taxi</a></p>
 			</div>
@@ -193,23 +193,26 @@
 				</div>
 			</div>
 
+			<!-- Módulo de publicidad en parada -->
 			<div ng-if="respuesta && publicidad.parada">
 				<div class="card publicidad linea" ng-repeat="publicidad in publicidad.parada">
 					<div class="item item-text-wrap">
-						<i class="icon ion-loading-c"></i>
+						<i class="icon ion-load-c loading-infinite"></i>
 						<a href="#/publicidad/{{publicidad.id}}"><img ng-src="{{publicidad.img}}"></a>
 					</div>
 				</div>
 			</div>
 
+			<!-- Módulo de publicidad en la home -->
 			<div class="card publicidad" ng-if="publicidad.home && (buscar.texto.length <= 0) && (!busqueda) && (version >= server.version)">
 				<div class="item item-text-wrap">
-					<i class="icon ion-loading-c"></i>
+					<i class="icon ion-load-c loading-infinite"></i>
 					<a href="#/publicidad/{{publicidad.home.id}}"><img ng-src="{{publicidad.home.img}}"></a>
 				</div>
 			</div>
 
-			<!-- <div ng-if="(buscar.texto.length <= 0) && (!busqueda)" class="msg msg-feedback" style="text-align: left; padding-top: 20px;">
+			<!-- Módulo de ask for feedback
+			<div ng-if="(buscar.texto.length <= 0) && (!busqueda)" class="msg msg-feedback" style="text-align: left; padding-top: 20px;">
 				<a href="#/about/contacto">
 					<h6 style="display: inline-block; font-size: 16px; margin: 0;">Beta</h6>
 					<i class="ion ion-settings" style="font-size: 15px;"></i>
@@ -239,16 +242,8 @@
 
 		<div style="position: absolute; bottom: 5px; width: auto; right: 5px;" ng-if="!tiempo && user.elTiempo">
 			<!-- Cargar google maps, server y el tiempo -->
-			<i class="ion ion-loading-c"></i>
+			<i class="ion ion-load-c loading-infinite"></i>
 		</div>
 
 	</ion-content>
-	<!--
-	<ion-footer-bar align-title="left" class="barra-aviso bar-positive" ng-show="busqueda" ng-if="!error">
-		<h1 class="title"><i class="icon ion-ios-alarm"></i> Establecer alarma</h1>
-		<div class="buttons" ng-click="doSomething()">
-			<button class="button" ng-click="alarma()">Nueva alarma</button>
-		</div>
-	</ion-footer-bar>
-	-->
 </ion-view>

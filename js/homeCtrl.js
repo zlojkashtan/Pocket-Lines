@@ -172,7 +172,7 @@ angular.module('PL.controllers')
 		if(item && item.isTIB){ $scope.isTIB = true; }
 		if(!$scope.isTIB){
 			$ionicLoading.show({
-				template: '<i class="ion ion-loading-c"></i>'
+				template: '<i class="ion ion-load-c loading-infinite"></i>'
 			});
 
 			contactoEMT.getParada(idParada).then(function (respuesta) {
@@ -438,16 +438,16 @@ angular.module('PL.controllers')
 //=================================================
 // Tarifas de autobús
 //=================================================
-.controller('Tarifas', function($scope, $rootScope, $ionicPlatform, $state, $ionicViewService){
+.controller('Tarifas', function($scope, $rootScope, $ionicPlatform, $state, $ionicHistory){
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 
 	$scope.tab = 0;
@@ -460,16 +460,16 @@ angular.module('PL.controllers')
 // About static Text
 // Y contacto
 //=================================================
-.controller('about', function($scope, $rootScope, $stateParams, $http, $ionicPlatform, $state, $ionicViewService, localstorage){
+.controller('about', function($scope, $rootScope, $stateParams, $http, $ionicPlatform, $state, $ionicHistory, localstorage){
 
 	// Backbutton a home
-	//=================================================
-	if(!$rootScope.$viewHistory.backView){
-		$scope.backButton = $ionicPlatform.registerBackButtonAction( function () {
-			$ionicViewService.nextViewOptions({ disableBack: true });
+	//==================================================
+	if(!$ionicHistory.backView()){
+		var backButton = $ionicPlatform.registerBackButtonAction( function () {
+			$ionicHistory.nextViewOptions({ disableBack: true });
 			$state.go('home');
 		}, 105 );
-		$scope.$on('$destroy', $scope.backButton);
+		$scope.$on('$destroy',backButton);
 	}
 
 	$scope.tab = 0;

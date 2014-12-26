@@ -77,6 +77,19 @@ a{
 	font-size: 32px;
 }
 
+.loading-infinite {
+	-webkit-animation: rotating 0.7s linear infinite;
+}
+
+@-webkit-keyframes rotating {
+	from{
+		-webkit-transform: rotate(0deg);
+	}
+	to{
+		-webkit-transform: rotate(360deg);
+	}
+}
+
 .bar.bar-positive .title{
 	left: 60px !important;
 }
@@ -1117,9 +1130,9 @@ h2.header-itinerario{
 	font-weight: 400;
 	border: 0;
 	border-radius: 5px;
-	padding: 0px 5px;
-	margin: 0 2px;
-	font-size: 13px;
+	padding: 1px 5px;
+	margin: 0px 2px;
+	font-size: 12px;
 }
 
 /**************************

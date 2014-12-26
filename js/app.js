@@ -267,6 +267,11 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	} else {
 		console.log("+ App platform: pc");
 		$rootScope.platform = "pc";
+		//--
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBZTsXko-Ayp6A6zHZvObauktcVe4S64fI&sensor=true' + '&libraries=places&'+'callback=initialize';
+		document.body.appendChild(script);
 	}
 
 })
