@@ -452,6 +452,31 @@ p.nota{
 	color: #797979;
 }
 
+.updateBox{
+	width: 100%;
+	height: 100%;
+	background-color: #efefef;
+	position: absolute;
+	top: 0;
+	z-index: 999;
+	right: 0;
+	padding: 5px 20px;
+}
+
+.updateMatrix{
+	overflow: hidden;
+	text-align: left;
+}
+.updateMatrix p{ margin: 0; white-space: nowrap; }
+.updateMatrix p:nth-last-child(1) { opacity: 0.1; }
+.updateMatrix p:nth-last-child(2) { opacity: 0.2; }
+.updateMatrix p:nth-last-child(3) { opacity: 0.3; }
+.updateMatrix p:nth-last-child(4) { opacity: 0.4; }
+.updateMatrix p:nth-last-child(5) { opacity: 0.5; }
+.updateMatrix p:nth-last-child(6) { opacity: 0.6; }
+.updateMatrix p:nth-last-child(7) { opacity: 0.7; }
+.updateMatrix p:nth-last-child(8) { opacity: 0.8; }
+.updateMatrix p:nth-last-child(9) { opacity: 0.9; }
 
 /**************************
 /** BUSCADOR HEADER

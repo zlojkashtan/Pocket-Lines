@@ -348,7 +348,7 @@ angular.module('PL.services', [])
 		getLocation: function(){
 			var pos = false;
 			var deferred = $q.defer();
-		
+
 			navigator.geolocation.getCurrentPosition(function(pos) {
 				deferred.resolve(pos);
 			}, function(error) {
@@ -488,7 +488,7 @@ angular.module('PL.services', [])
 		var query = 'DROP TABLE emt';
 		self.query(query);
 		*/
-		
+
 		angular.forEach(DB_CONFIG.tables, function(table) {
 			var columns = [];
 
@@ -525,7 +525,7 @@ angular.module('PL.services', [])
 		for (var i = 0; i < result.rows.length; i++) {
 			output.push(result.rows.item(i));
 		}
-			
+
 		return output;
 	};
 
@@ -545,7 +545,7 @@ angular.module('PL.services', [])
 .factory('UpdateDB', function($rootScope, DB, EMTdb, localstorage){
 	var self = this;
 	var updateProgress = 1;
-	
+
 	self.EMT = function(respuesta){
 
 		EMTdb.prepareParadas();
@@ -561,9 +561,10 @@ angular.module('PL.services', [])
 					//console.log("Insert ok", result);
 					updateProgress--;
 					$rootScope.updateProgress = updateProgress;
+					$rootScope.updateMatrix.unshift(item.nombre);
 					//return DB.fetchAll(result);
 				}, function(err){ console.log(err); });
-			
+
 			});
 
 			angular.forEach(respuesta.itinerarios, function(item) {
@@ -576,13 +577,14 @@ angular.module('PL.services', [])
 					console.log("Insert ok", result);
 					updateProgress--;
 					$rootScope.updateProgress = updateProgress;
+					$rootScope.updateMatrix.unshift(item.nombre);
 					//return DB.fetchAll(result);
 				}, function(err){ console.log(err); });
-			
+
 			});
 
 			angular.forEach(respuesta.paradas, function(item) {
-				
+
 				//| Update emt_paradas
 				//+--------------------------------
 				DB.query('INSERT OR REPLACE INTO emt_paradas (id, nombre, lat, lng, otras, clicks) VALUES (?,?,?,?,?,COALESCE((SELECT clicks FROM emt_paradas WHERE id = '+item.id+'), 0))',[item.id, item.nombre, item.lat, item.lng, item.otras])
@@ -590,26 +592,27 @@ angular.module('PL.services', [])
 					console.log("Insert ok", result);
 					updateProgress--;
 					$rootScope.updateProgress = updateProgress;
+					$rootScope.updateMatrix.unshift(item.nombre);
 					//return DB.fetchAll(result);
-					if(updateProgress == 0){ 
+					if(updateProgress == 0){
 						//console.log("SYNC FINALIZADO");
 						$rootScope.updateExists = false;
-						EMTdb.prepareParadas(); 
+						EMTdb.prepareParadas();
 					}
 				}, function(err){ console.log(err); });
 
-				
+
 			});
 
 			$rootScope.user.EMTv = respuesta.version;
 			localstorage.setObject('user', $rootScope.user);
-			
+
 		}else{
 			console.log("+ App: db-EMT updated");
 		}
-		
+
 	};
-	
+
 	return self;
 })
 
@@ -621,25 +624,25 @@ angular.module('PL.services', [])
 .factory('EMTdb', function($rootScope, DB) {
 	var paradas = false, top = false, searchTop = false, wrap = false, rand = 0;
 	var self = this;
-	
+
 	self.prepareParadas = function() {
 		console.log("+ App: Buffer paradas");
 		DB.query('SELECT * FROM emt_paradas').then(function(result){ paradas = DB.fetchAll(result); });
-		DB.query('SELECT * FROM emt_paradas WHERE clicks >= ?', ['2']).then(function(result){ 
+		DB.query('SELECT * FROM emt_paradas WHERE clicks >= ?', ['2']).then(function(result){
 			top = DB.fetchAll(result);
 			searchTop = DB.fetchAll(result);
-			if(top.length <= 5){ 
+			if(top.length <= 5){
 				rand = Math.floor(Math.random() * (paradas.length - 200)) + 5;
 				for (var i = (5-top.length); i >= 0; i--) {
 					searchTop.push(paradas[(rand + (i*7))]);
-				};  
-			} 
+				};
+			}
 			//console.log(searchTop);
 			//console.log("top",top);
 		});
-	 
+
 	};
-	
+
 	self.getParada = function(id) {
 		return DB.query('SELECT * FROM emt_paradas WHERE id = ?', [id])
 		.then(function(result){
@@ -681,7 +684,7 @@ angular.module('PL.services', [])
 			return DB.fetchAll(result);
 		});
 	};
-	
+
 	return self;
 })
 

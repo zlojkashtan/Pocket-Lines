@@ -19,7 +19,7 @@ angular.module('PL.controllers')
 // las paradas cercanas al usuario en el mapa
 // https://github.com/apache/cordova-plugin-geolocation/blob/master/doc/index.md
 //=================================================
-.controller('paradasMap', function($scope, $rootScope, $ionicLoading, $ionicPlatform, $state, $ionicHistory, EMT, $timeout) {
+.controller('paradasMap', function($scope, $rootScope, $ionicLoading, $ionicPlatform, $state, $ionicHistory, EMTdb, $timeout) {
 
 	// Backbutton a home
 	//==================================================
@@ -74,50 +74,46 @@ angular.module('PL.controllers')
 
 		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-		setMarkers(map, EMT.paradas);
+		setMarkers(map, EMTdb.getParadas());
 
 		//Listener de zoom
 		google.maps.event.addListener(map, 'zoom_changed', function(){
-			var zoomLevel = map.getZoom();
-
-			if(zoomLevel < 15){
-				clearMarkers();
-				$scope.detalles.marcadores = true;
-			}else{
-				if($scope.detalles.marcadores){
-					showMarkers();
-					$scope.detalles.marcadores = false;
-				}
-			}
-
-			$scope.$apply();
+			updatePins();
 		});
 
 		//Listener de movimiento
 		google.maps.event.addListener(map, 'dragend', function() {
-			showMarkers();
+			updatePins();
 		});
 
 		$scope.map = map;
-
 		$scope.centerOnMe();
 	}
 
+	function updatePins(){
+		var zoomLevel = $scope.map.getZoom();
 
-	function setAllMap(map) {
+		if(zoomLevel < 15){
+			setAllMap(null, true);
+			$scope.detalles.marcadores = true;
+		}else{
+			showMarkers();
+			$scope.detalles.marcadores = false;
+		}
+
+		$scope.$apply();
+	}
+
+	function setAllMap(map, force){
 		var bounds = $scope.map.getBounds();
 
 		for (var i = 0; i < markers.length; i++) {
 			if( bounds.contains(markers[i].getPosition())){
-				markers[i].setMap(map);
+				if((!markers[i].map)||(force)){ markers[i].setMap(map); }
 			}else{
 				markers[i].setMap(null);
 			}
 		}
-	}
-
-	function clearMarkers() {
-		setAllMap(null);
 	}
 
 	function showMarkers() {
@@ -149,7 +145,7 @@ angular.module('PL.controllers')
 				coord: [1, 1, 1, 20, 18, 20, 18 , 1],
 				type: 'poly'
 		};
-
+		console.log(locations);
 		for (var i = 0; i < locations.length; i++) {
 			var beach = locations[i];
 			var myLatLng = new google.maps.LatLng(beach.lat, beach.lng);
@@ -173,7 +169,7 @@ angular.module('PL.controllers')
 					$scope.detalles.numeroParada = this.parada.id;
 					$scope.detalles.nombreParada = this.title;
 					$scope.detalles.abierto = true;
-					$scope.detalles.lineas = this.parada.otras;
+					$scope.detalles.lineas = JSON.parse(this.parada.otras);
 				}else{
 					$scope.detalles.abierto = !$scope.detalles.abierto;
 				}
@@ -194,7 +190,7 @@ angular.module('PL.controllers')
 		}
 
 		$ionicLoading.show({
-			template: '<i class="ion ion-ios-location"></i> Buscándote...'
+			template: '<i class="ion ion-load-c loading-infinite"></i>'
 		});
 
 		if(!navigator.geolocation){
@@ -228,7 +224,6 @@ angular.module('PL.controllers')
 
 	// Inicializa el mapa tras medio segundo
 	//=================================================
-	$scope.cargarMapa = function(){ initialize(); };
-	$timeout( $scope.cargarMapa ,500);
+	$timeout( function(){ initialize(); } , 2000);
 
 });

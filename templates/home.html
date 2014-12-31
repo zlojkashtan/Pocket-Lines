@@ -9,7 +9,7 @@
 		<div class="card buscador-header">
 			<div class="item item-text-wrap item-icon-right" ng-class="{offline: appOffline}">
 				<i class="icon ion-search" ng-if="buscar.texto.length === 0"></i>
-				<input id="inputBusqueda" type="text" placeholder="{{ 'INPUT_INTRODUCE' | translate }}" ng-model="buscar.texto" ng-change="resetBusqueda('input')" ng-if="!appOffline" />
+				<input id="inputBusqueda" type="text" placeholder="{{ ::'INPUT_INTRODUCE' | translate }}" ng-model="buscar.texto" ng-change="resetBusqueda('input')" ng-if="!appOffline" />
 				<span ng-if="appOffline">{{ 'INPUT_OFFLINE' | translate}}</span>
 				<i class="icon ion-close-round" ng-if="buscar.texto.length > 0" ng-click="resetBusqueda('cross')"></i>
 			</div>
@@ -69,25 +69,74 @@
 			</div>
 
 
-			<div class="nav-title-slide-ios7 msg msg-update" style="width: 100%; height: 100%; background-color: #efefef; position: absolute; top: 0; z-index: 999;right: 0; padding: 20px;" ng-if="showUpdate">
+			<div class="msg msg-update updateBox" ng-if="showUpdate">
+
 				<div ng-if="!updating">
-					<h1>Actualización disponible</h1>
-					<p>Hay una actualización disponible para descargar las paradas y los horarios actualizados de la EMT.</p>
-					<p>Puedes actualizar las paradas cuando quieras, pero ten en cuenta que este proceso puede durar entre 15 y 45 segundos, según tu dispositivo.</p>
-					<p style="margin-top: 45px;"><button class="button button-block button-balanced" style="width: 85%; margin: auto;" ng-click="doUpdate()">Actualizar paradas</button></p>
-					<p style="margin-top: 20px;"><button class="button button-block button-assertive" style="width: 50%; margin: auto;" ng-click="cancelUpdate()">Ahora no</button></p>
+
+					<div class="msg">
+						<h2>Actualizar paradas</h2>
+						<p>Hay una actualización disponible para descargar las paradas y los horarios actualizados de la EMT.<br></p>
+					</div>
+
+					<div class="card">
+						<div class="item item-text-wrap">
+
+							<p>Puedes descargar las paradas cuando quieras, pero ten en cuenta que este proceso puede durar entre 15 y 45 segundos, según tu dispositivo.</p>
+
+							<div class="card extras" style="margin-top: -2px; margin-top: 10px;" ng-click="doUpdate()">
+								<div class="item item-text-wrap row">
+									<div class="col" style="background-color: #efefef; margin-right: 2px; text-align: center; padding: 7px;">
+										<i class="icon ion-fork-repo"></i>
+										<span class="num-parada" style="font-weight: 400;">Actualizar base de datos</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<p ng-click="cancelUpdate()">
+						Ahora no <i class="icon ion-ios-close-empty"></i>
+					</p>
+
 				</div>
+
 				<div ng-if="(updating) && (updateProgress > 0)">
-					<h1>Actualizando</h1>
-					<p>Actualizando la base de datos de paradas. Espera unos segundos, y no cierres la app mientras dura el proceso.</p>
-					<i class="ion ion-log-in"></i>
-					<p>{{updateProgress}}</p>
+
+					<div class="msg">
+						<h2>Actualizando...</h2>
+						<p>Actualizando la base de datos de paradas. Espera unos momentos, y no cierres la app mientras dura el proceso.</p>
+					</div>
+
+					<div class="card">
+						<div class="item item-text-wrap">
+							<p>{{updateProgress}} registros restantes...</p>
+						</div>
+					</div>
+
+					<div class="updateMatrix">
+						<p ng-repeat="x in updateMatrix | limitTo: 20 track by $index">{{x}}</p>
+					</div>
+
 				</div>
+
 				<div ng-if="updateProgress == 0">
-					<h1>Actualizado</h1>
-					<p>La aplicación se ha actualizado a la última versión.</p>
-					<p style="margin-top: 20px;"><button class="button button-block button-balanced" style="width: 85%; margin: auto;" ng-click="cancelUpdate()">Aceptar</button></p>
+					<div class="msg">
+						<h2>Actualizado</h2>
+						<p>La aplicación se ha actualizado a la última versión.</p>
+					</div>
+
+					<div class="card extras" style="margin-top: -2px; margin-top: 10px;" ng-click="cancelUpdate()">
+						<div class="item item-text-wrap row">
+							<div class="col" style="background-color: #efefef; margin-right: 2px; text-align: center; padding: 7px;">
+								<i class="icon ion-checkmark-circled"></i>
+								<span class="num-parada" style="font-weight: 400;">Aceptar</span>
+							</div>
+						</div>
+					</div>
+					
 				</div>
+
 
 			</div>
 
@@ -233,12 +282,14 @@
 			<p>{{ 'MSG_OFFLINE_P' | translate }}</p>
 		</div>
 
+		<!--
 		<div ng-if="version < server.version && buscar.texto.length <= 0" class="msg msg-offline">
 			<i class="ion ion-radio-waves"></i>
 			<h1>¡Buenas noticias!</h1>
 			<p>Hay una nueva versión ({{server.version}}) de la app disponible para descargar.</p>
 			<p><a href="market://details?id=es.bonda.pocketlines">Toca aquí para conseguir las novedades.</a></p>
 		</div>
+		-->
 
 		<div style="position: absolute; bottom: 5px; width: auto; right: 5px;" ng-if="!tiempo && user.elTiempo">
 			<!-- Cargar google maps, server y el tiempo -->

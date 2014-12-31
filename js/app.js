@@ -60,7 +60,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 	console.log("+ App start");
 
 	$rootScope.appOffline = false;
-	$rootScope.version = 0.86;
+	$rootScope.version = 0.91;
 	$rootScope.num_taxi = "871962349";
 	$rootScope.app_store = "";
 	$rootScope.platform = "pc";
@@ -212,6 +212,7 @@ var PL = angular.module('PL', ['ionic', 'PL.factories', 'PL.services', 'PL.contr
 						if(respuesta.data.updated !== true){
 							$rootScope.updateExists = true;
 							$rootScope.updateProgress = 10; //10 para evitar un show
+							$rootScope.updateMatrix = [];
 						}
 					});
 

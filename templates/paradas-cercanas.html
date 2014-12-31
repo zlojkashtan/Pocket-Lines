@@ -1,4 +1,4 @@
-<ion-view title="Paradas cercanas">
+<ion-view view-title="Paradas cercanas">
 
 	<!--
 	<ion-nav-buttons side="right">
@@ -19,7 +19,7 @@
 		<div class="card alerta-zoom" ng-if="detalles.marcadores">
 			<div class="item item-text-wrap item-icon-right">
 				Las paradas se ocultan cuando alejas el mapa, para que puedas ver mejor.
-				<i class="icon ion-qr-scanner"></i>
+				<i class="icon ion-aperture"></i>
 			</div>
 		</div>
 
@@ -45,7 +45,7 @@
 				<div class="item item-text-wrap">
 					<span class="numero">{{detalles.numeroParada}}<i class="icon ion-location"></i></span>
 					<p class="header" style="border-bottom: 1px solid #efefef; padding-bottom: 0px; margin-bottom: 5px; font-size: 18px;">{{detalles.nombreParada}}</p>
-					<p><span ng-repeat="linea in detalles.lineas" style="background-color: {{color(linea)}};" class="linea">{{linea}}</span></p>
+					<p><span ng-repeat="linea in detalles.lineas" style="background-color: {{linea | colorLinea}};" class="linea">{{linea}}</span></p>
 					<div class="row">
 						<div class="col" style="padding-left: 0;"><a href="#/parada/{{detalles.numeroParada}}" class="button button-block button-small button-positive" style="margin-top: 3px;">Consultar parada</a></div>
 						<div class="col" style="padding-rigth: 0;"><button class="button button-block button-small button-dark" ng-click="detalles.abierto = false" style="margin-top: 3px;">Cerrar</button></div>
